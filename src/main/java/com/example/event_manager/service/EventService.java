@@ -1,35 +1,15 @@
 package com.example.event_manager.service;
 
 import com.example.event_manager.model.Event;
-import com.example.event_manager.repo.IEventRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class EventService implements IEventServie {
+public interface EventService {
+  boolean save(Event event);
 
-  @Autowired private IEventRepo eventRepo;
+  void delete(Long id);
 
-  @Override
-  public boolean save(Event event) {
-    Event save = eventRepo.save(event);
-    return save != null;
-  }
+  List<Event> findAll();
 
-  @Override
-  public void delete(Long id) {
-    eventRepo.deleteById(id);
-  }
-
-  @Override
-  public List<Event> findAll() {
-    return eventRepo.findAll();
-  }
-
-  @Override
-  public Event findById(Long id) {
-    return eventRepo.findById(id).get();
-  }
+  Event findById(Long id);
 }

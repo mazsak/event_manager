@@ -5,4 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IEventRepo extends JpaRepository<Event, Long> {}
+public interface EventRepo extends JpaRepository<Event, Long> {}

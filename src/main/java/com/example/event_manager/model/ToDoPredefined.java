@@ -14,11 +14,13 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ToDo {
+public class ToDoPredefined {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long Id;
+
+  private String name;
 
   @ElementCollection
   @CollectionTable(name = "task", joinColumns = @JoinColumn(name = "id"))
@@ -26,5 +28,4 @@ public class ToDo {
   @Singular
   private List<String> tasks = new ArrayList<>();
 
-  private boolean predefined = false;
 }

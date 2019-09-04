@@ -3,14 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Start</title>
+    <link rel="stylesheet" type="text/css" href="navigation.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+<div style="padding: 0; margin: 0" th:replace="/nav :: nav"></div>
 <div style="width: 80%;margin-right: auto; margin-left:auto">
-    <div style="width: fit-content; height: min-content; background: aqua" th:each="event : ${events}">
-        <h1 style="text-align: center;" th:text="${event.topic}"></h1>
+    <div class="row">
+        <div class="column" style="background-color: aqua" th:each="event : ${events}">
+            <div>
+                <h1 style="text-align: center;" th:text="${event.name}"></h1>
+                <p> Topic: <span th:text="${event.topic}"></span></p>
+                <p> Description: <span th:text="${event.description}"></span></p>
+                <p> Place: <span th:text="${event.place}"></span></p>
+                <p> Date: <span th:text="${event.dateTime}"></span></p>
+            </div>
+            <div>
+                <h2>Predefined</h2>
+                <ul class="next_left" th:each="predefined : ${event.predefineds}">
+                    <li th:each="task : ${predefined.tasks}">
+                        <p>
+                            <span style="background-color: #6cf552" th:if="${event.status.get('__${task}__') == 'true'}" th:text="${task}"></span>
+                            <span style="background-color: brown" th:unless="${event.status.get('__${task}__') == 'true'}" th:text="${task}"></span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h2>Adhoc</h2>
+                <ul>
+                    <li th:each="task : ${event.adhoc}">
+                        <p>
+                            <span style="background-color: #6cf552" th:if="${event.status.get('__${task}__')}" th:text="${task}"></span>
+                            <span style="background-color: brown" th:unless="${event.status.get('__${task}__')}" th:text="${task}"></span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
-<!--    <div style="width: 80%;margin-right: auto; margin-left:auto" th:replace="/event.html :: cos" ></div>-->
-
 </body>
 </html>
