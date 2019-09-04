@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Start</title>
+</head>
+<body>
+<div style="width: 80%;margin-right: auto; margin-left:auto">
+    <div style="width: fit-content; height: min-content; background: aqua" th:each="event : ${events}">
+        <h1 style="text-align: center;" th:text="${event.topic}"></h1>
+    </div>
+</div>
+<!--    <div style="width: 80%;margin-right: auto; margin-left:auto" th:replace="/event.html :: cos" ></div>-->
+
+</body>
+</html>
