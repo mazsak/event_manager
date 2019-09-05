@@ -10,24 +10,44 @@ create table if not exists event
 	topic varchar(255)
 );
 
-create table if not exists adhoc
+alter table event owner to manager;
+
+create table if not exists to_do
 (
-	id bigint not null
-		constraint fk75p73iyheipkev7h8nh988s7p
-			references event,
-	name varchar(255)
+	id bigserial not null
+		constraint to_do_pkey
+			primary key,
+	name varchar(255),
+	predefined boolean not null
 );
 
-create table if not exists status
+alter table to_do owner to manager;
+
+create table if not exists event_to_do
 (
-	id bigint not null
-		constraint fk26ee4gd3k994k0e3e7l0mh18m
+	event_id bigint not null
+		constraint fkdqst6glb6bro683akdapyw9at
 			references event,
-	value boolean,
-	key varchar(255) not null,
-	constraint status_pkey
-		primary key (id, key)
+	to_do_id bigint not null
+		constraint fkmwxlqxp6t4pjmrkw55ub4ss16
+			references to_do
 );
+
+alter table event_to_do owner to manager;
+
+create table if not exists task_status
+(
+	id bigserial not null
+		constraint task_status_pkey
+			primary key,
+	name varchar(255),
+	status boolean not null,
+	to_do_id bigint
+		constraint fktcipw68rby7mm59p0yo3wj9bt
+			references to_do
+);
+
+alter table task_status owner to manager;
 
 create table if not exists to_do_predefined
 (
@@ -37,24 +57,18 @@ create table if not exists to_do_predefined
 	name varchar(255)
 );
 
-
-create table if not exists event_predefined
-(
-	event_id bigint not null
-		constraint fktb3qy47d2e0qh0ld1pd65aam6
-			references event,
-	predefined_id bigint not null
-		constraint fkpi8dd2uex0ep1uascyivlen2p
-			references to_do_predefined
-);
-
+alter table to_do_predefined owner to manager;
 
 create table if not exists task
 (
-	id bigint not null
-		constraint fkianbphhujjn3ykeclo52hetif
-			references to_do_predefined,
-	name varchar(255)
+	id bigserial not null
+		constraint task_pkey
+			primary key,
+	name varchar(255),
+	to_do_id bigint
+		constraint fk59wa02mne8bfc1ho8tl557cmo
+			references to_do_predefined
 );
 
+alter table task owner to manager;
 

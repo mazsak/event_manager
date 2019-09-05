@@ -23,6 +23,7 @@ public class EventController {
 
   @GetMapping("/event_add")
   public String add(Model model){
-
+    model.addAttribute("event", new Event());
+    return "event_add";
   }
 }
