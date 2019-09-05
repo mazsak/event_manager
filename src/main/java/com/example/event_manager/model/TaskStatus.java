@@ -3,28 +3,20 @@ package com.example.event_manager.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table
-@Setter
-@Getter
 @ToString
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ToDoPredefined {
-
+public class TaskStatus {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String name;
-
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "to_do_id")
-  @Singular
-  private List<Task> tasks = new ArrayList<>();
-
+  private boolean status;
 }

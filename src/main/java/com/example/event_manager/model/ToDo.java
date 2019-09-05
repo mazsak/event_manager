@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ToDoPredefined {
+public class ToDo {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +22,11 @@ public class ToDoPredefined {
 
   private String name;
 
+  private boolean predefined = false;
+
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "to_do_id")
   @Singular
-  private List<Task> tasks = new ArrayList<>();
+  private List<TaskStatus> tasks = new ArrayList<>();
 
 }
