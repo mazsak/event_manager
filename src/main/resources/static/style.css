@@ -14,3 +14,24 @@
     display: table;
     clear: both;
 }
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+.button {
+    background-color: #333333;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: #111;
+}

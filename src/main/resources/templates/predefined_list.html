@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <title>Predefined</title>
     <link rel="stylesheet" type="text/css" href="navigation.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <div style="padding: 0; margin: 0" th:replace="/nav :: nav"></div>
-<div>
+<div class="left">
     <ul class="nav_left">
         <li class="nav_left_item" th:each="predefined : ${predefineds}" >
             <span th:text="${predefined.name}"></span>
         </li>
     </ul>
+</div>
+<div class="right">
+    <a href="#" th:href="@{/predefined_add}"> cus </a>
 </div>
 </body>
 </html>

@@ -2,16 +2,46 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>TODO</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <title>Add List Predefined</title>
+    <link rel="stylesheet" type="text/css" href="navigation.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
 </head>
 <body>
-<table class="table">
-    <tbody>
-    <tr th:each="task : ${todos.tasks}">
-        <td th:text="${task}">Task</td>
-    </tr>
-    </tbody>
-</table>
+<div style="padding: 0; margin: 0" th:replace="/nav :: nav"></div>
+<div style="width: 80%; margin-right: auto; margin-left:auto">
+    <form action="#" th:action="@{predefined_add}" th:object="${predefined}" method="post">
+        <div>
+            <p> Name: </p>
+            <input type="text" th:field="*{name}"/>
+        </div>
+        <div id="list_task">
+            <div th:each="task, itemStat : ${predefined.tasks}">
+                <input type="text" th:name="|tasks[${itemStat.index}].name|" th:value="${task.getName()}">
+            </div>
+        </div>
+        <div>
+            <button name="action" value="add"> Add new element</button>
+            <a href="#" th:href="@{/predefined}"> Cancel </a>
+            <button name="action" value="save"> Save</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    amount = 0
+
+    function btnClickYes() {
+        var data = $('form').serialize();
+        var textbox = document.createElement('input');
+        textbox.type = 'text';
+        textbox.name = amount;
+        textbox.th
+    :
+        text = "*{tasks.add(}"
+        document.getElementById("list_task").appendChild(textbox);
+        amount += 1;
+    };
+</script>
 </body>
 </html>
