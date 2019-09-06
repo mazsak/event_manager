@@ -36,9 +36,9 @@ public class PredefinedController {
 
   @PostMapping(value = "/predefined_add", params = "action=save")
   public String save(Model model, @ModelAttribute ToDoPredefined predefined) {
-    for(int i = 0 ; i < predefined.getTasks().size(); i++){
-      if (predefined.getTasks().get(i).getName().isEmpty()){
-        predefined.getTasks().remove(i);
+    for(Task task : predefined.getTasks()){
+      if (task.getName().isEmpty()){
+        predefined.getTasks().remove(task);
       }
     }
     toDoPredefinedService.save(predefined);

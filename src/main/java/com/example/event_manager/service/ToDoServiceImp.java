@@ -19,6 +19,11 @@ public class ToDoServiceImp implements ToDoService {
   }
 
   @Override
+  public List<ToDo> saveAllAndGet(List<ToDo> toDos) {
+    return toDoRepo.saveAll(toDos);
+  }
+
+  @Override
   public void delete(Long id) {
     toDoRepo.deleteById(id);
   }

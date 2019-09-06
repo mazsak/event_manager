@@ -27,11 +27,15 @@ public class ToDo {
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "to_do_id")
   @Singular
-  private List<TaskStatus> tasks = new ArrayList<>();
+  private List<TaskStatus> tasks;
 
   public void setTaskToTaskStatus(List<Task> tasks) {
+    List<TaskStatus> taskStatuses = new ArrayList<>();
     for (Task task : tasks) {
-      this.tasks.add(TaskStatus.builder().name(task.getName()).status(false).build());
+      TaskStatus taskStatus = TaskStatus.builder().name(task.getName()).status(false).build();
+      taskStatuses.add(taskStatus);
     }
+
+    this.setTasks(taskStatuses);
   }
 }

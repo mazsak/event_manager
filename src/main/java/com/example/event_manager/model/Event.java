@@ -32,11 +32,10 @@ public class Event {
 
   @ManyToMany
   @JoinTable(
-      name = "event_to_do",
-      joinColumns = @JoinColumn(name = "event_id"),
-      inverseJoinColumns = @JoinColumn(name = "to_do_id"))
+          name = "event_to_do",
+          joinColumns = @JoinColumn(name = "event_id"),
+          inverseJoinColumns = @JoinColumn(name = "to_do_id"))
   @Singular
   private List<ToDo> toDos = new ArrayList<>();
 
-  @Transient private List<ToDoPredefined> toDoPredefineds = new ArrayList<>();
 }
