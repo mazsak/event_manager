@@ -1,9 +1,11 @@
 package com.example.event_manager.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,7 +26,9 @@ public class Event {
   private String description;
   private String topic;
   private String place;
-  private LocalDateTime dateTime;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+  private LocalDateTime dateTime = LocalDateTime.now();
 
   @ManyToMany
   @JoinTable(
@@ -32,5 +36,7 @@ public class Event {
       joinColumns = @JoinColumn(name = "event_id"),
       inverseJoinColumns = @JoinColumn(name = "to_do_id"))
   @Singular
-  private List<ToDo> toDos;
+  private List<ToDo> toDos = new ArrayList<>();
+
+  @Transient private List<ToDoPredefined> toDoPredefineds = new ArrayList<>();
 }

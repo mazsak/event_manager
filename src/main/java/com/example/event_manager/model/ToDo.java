@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "to_do")
 @Setter
 @Getter
 @ToString
@@ -29,4 +29,9 @@ public class ToDo {
   @Singular
   private List<TaskStatus> tasks = new ArrayList<>();
 
+  public void setTaskToTaskStatus(List<Task> tasks) {
+    for (Task task : tasks) {
+      this.tasks.add(TaskStatus.builder().name(task.getName()).status(false).build());
+    }
+  }
 }

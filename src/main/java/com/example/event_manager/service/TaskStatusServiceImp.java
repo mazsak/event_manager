@@ -1,8 +1,6 @@
 package com.example.event_manager.service;
 
-import com.example.event_manager.model.Task;
 import com.example.event_manager.model.TaskStatus;
-import com.example.event_manager.repo.TaskRepo;
 import com.example.event_manager.repo.TaskStatusRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

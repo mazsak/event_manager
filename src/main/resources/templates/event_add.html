@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Predefined</title>
+    <title>Add Event</title>
     <link rel="stylesheet" type="text/css" href="navigation.css">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -36,23 +36,23 @@
                 </td>
             </tr>
             <tr>
-                <td>:</td>
+                <td>Data:</td>
                 <td>
-                    <input type="text" th:field="*{place}"/>
+                    <input type="datetime-local" th:field="*{dateTime}"/>
                 </td>
             </tr>
         </table>
+        <select th:field="*{toDoPredefineds}" multiple>
+            <option th:each="predefined : ${predefineds}" th:value="${predefined.id}" th:text="${predefined.name}"></option>
+        </select>
+<!--        <div id="list_task">-->
+<!--            <div th:each="task, itemStat : ${predefined.tasks}">-->
+<!--                <input type="text" th:name="|tasks[${itemStat.index}].name|" th:value="${task.getName()}">-->
+<!--            </div>-->
+<!--        </div>-->
         <div>
-            <p> Name: </p>
-        </div>
-        <div id="list_task">
-            <div th:each="task, itemStat : ${predefined.tasks}">
-                <input type="text" th:name="|tasks[${itemStat.index}].name|" th:value="${task.getName()}">
-            </div>
-        </div>
-        <div>
-            <button name="action" value="add"> Add new element</button>
-            <a href="#" th:href="@{/predefined}"> Cancel </a>
+<!--            <button name="action" value="add"> Add new element</button>-->
+            <a href="#" th:href="@{/}"> Cancel </a>
             <button name="action" value="save"> Save</button>
         </div>
     </form>

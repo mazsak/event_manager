@@ -1,9 +1,7 @@
 package com.example.event_manager.service;
 
-import com.example.event_manager.model.ToDo;
 import com.example.event_manager.model.ToDoPredefined;
 import com.example.event_manager.repo.ToDoPredefinedRepo;
-import com.example.event_manager.repo.ToDoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

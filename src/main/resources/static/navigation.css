@@ -14,10 +14,6 @@ body {
     float: left;
 }
 
-.next_top {
-    float: top;
-}
-
 .nav_item {
     display: block;
     color: white;

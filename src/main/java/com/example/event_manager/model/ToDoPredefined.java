@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "to_do_predefined")
 @Setter
 @Getter
 @ToString
@@ -26,5 +26,4 @@ public class ToDoPredefined {
   @JoinColumn(name = "to_do_id")
   @Singular
   private List<Task> tasks = new ArrayList<>();
-
 }
