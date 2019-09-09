@@ -1,4 +1,25 @@
-create table if not exists event
+create table flyway_schema_history
+(
+    installed_rank integer not null
+        constraint flyway_schema_history_pk
+            primary key,
+    version varchar(50),
+    description varchar(200) not null,
+    type varchar(20) not null,
+    script varchar(1000) not null,
+    checksum integer,
+    installed_by varchar(100) not null,
+    installed_on timestamp default now() not null,
+    execution_time integer not null,
+    success boolean not null
+);
+
+alter table flyway_schema_history owner to test;
+
+create index flyway_schema_history_s_idx
+    on flyway_schema_history (success);
+
+create table event
 (
     id bigserial not null
         constraint event_pkey
@@ -11,7 +32,7 @@ create table if not exists event
     topic varchar(255)
 );
 
-alter table event owner to postgres;
+alter table event owner to test;
 
 create table person
 (
@@ -21,9 +42,9 @@ create table person
     name varchar(255)
 );
 
-alter table person owner to postgres;
+alter table person owner to test;
 
-create table if not exists task_status
+create table task_status
 (
     id bigserial not null
         constraint task_status_pkey
@@ -40,7 +61,7 @@ create table if not exists task_status
             references person
 );
 
-alter table task_status owner to postgres;
+alter table task_status owner to test;
 
 create table event_task_statuses
 (
@@ -56,7 +77,7 @@ create table event_task_statuses
         primary key (event_id, task_statuses_id)
 );
 
-alter table event_task_statuses owner to postgres;
+alter table event_task_statuses owner to test;
 
 create table person_task_statuses
 (
@@ -72,7 +93,7 @@ create table person_task_statuses
         primary key (person_id, task_statuses_id)
 );
 
-alter table person_task_statuses owner to postgres;
+alter table person_task_statuses owner to test;
 
 create table to_do_predefined
 (
@@ -82,7 +103,7 @@ create table to_do_predefined
     name varchar(255)
 );
 
-alter table to_do_predefined owner to postgres;
+alter table to_do_predefined owner to test;
 
 create table task
 (
@@ -92,5 +113,5 @@ create table task
     description varchar(255)
 );
 
-alter table task owner to postgres;
+alter table task owner to test;
 
