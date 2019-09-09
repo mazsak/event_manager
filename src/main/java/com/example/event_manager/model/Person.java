@@ -1,11 +1,21 @@
 package com.example.event_manager.model;
 
-import com.example.event_manager.form.PersonForm;
-import lombok.*;
-
-import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 
 @Entity
 @Table
@@ -23,13 +33,20 @@ public class Person {
 
   private String name;
 
-  @OneToMany @Singular private Set<TaskStatus> taskStatuses;
+  @OneToMany(
+      fetch = FetchType.LAZY
+  )
+  @Singular
+  private Set<TaskStatus> taskStatuses = new HashSet<>();
 
-  public PersonForm mapToPersonForm() {
-    return PersonForm.builder()
-        .id(id)
-        .name(name)
-        .taskStatuses(taskStatuses.stream().map(x -> x.mapToTaskStatusForm()).collect(Collectors.toList()))
-        .build();
+  public void addTaskStatus(final TaskStatus ts) {
+    taskStatuses.add(ts);
+    ts.setPerson(this);
   }
+
+  public void removeTaskStatus(final TaskStatus ts) {
+    taskStatuses.remove(ts);
+    ts.setPerson(null);
+  }
+
 }

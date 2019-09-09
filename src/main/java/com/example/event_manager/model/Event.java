@@ -1,13 +1,23 @@
 package com.example.event_manager.model;
 
-import com.example.event_manager.form.EventForm;
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.stream.Collectors;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table
@@ -31,17 +41,23 @@ public class Event {
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   private LocalDateTime dateTime = LocalDateTime.now();
 
-  @OneToMany @Singular private Set<TaskStatus> taskStatuses;
+  @Singular
+  @OneToMany(
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY
+  )
+  private Set<TaskStatus> taskStatuses;
 
-  public EventForm mapToEventForm() {
-    return EventForm.builder()
-        .id(id)
-        .name(name)
-        .description(description)
-        .topic(topic)
-        .place(place)
-        .dateTime(dateTime)
-        .taskStatuses(taskStatuses.stream().map(x -> x.mapToTaskStatusForm()).collect(Collectors.toList()))
-        .build();
+  public void addTaskStatus(TaskStatus ts) {
+    taskStatuses.add(ts);
+    ts.setEvent(this);
   }
+
+  public void removeTaskStatus(TaskStatus ts) {
+    taskStatuses.remove(ts);
+    ts.setEvent(null);
+    ts.getPerson().removeTaskStatus(ts);
+  }
+
 }

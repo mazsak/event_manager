@@ -1,16 +1,20 @@
 package com.example.event_manager.service;
 
-import com.example.event_manager.form.EventForm;
 import com.example.event_manager.model.Event;
-
+import com.example.event_manager.model.TaskStatus;
 import java.util.List;
+import java.util.Map;
 
 public interface EventService {
-  boolean save(EventForm eventForm);
 
-  void delete(Long id);
+  boolean save(final Event event);
 
-  List<EventForm> findAll();
+  void delete(final Long id);
 
-  EventForm findById(Long id);
+  List<Event> findAll();
+
+  Event findById(final Long id);
+
+  Map<String, List<TaskStatus>> preapreTasksForEvent(final Event event);
+
 }
