@@ -52,32 +52,26 @@
         <th scope="col">Name</th>
         <th scope="col">Is finished?</th>
         <th scope="col">Assigned to</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+
       </tr>
       </thead>
       <tbody>
       <tr th:each="taskStatus, obj : ${tasks.get('adhoc')}">
         <td th:text="${taskStatus.id}">Id</td>
-        <td th:text="${taskStatus.date}">Date</td>
+        <td th:text="${taskStatus.date}" >Date</td>
         <td th:text="${taskStatus.name}">Name</td>
         <td th:text="${taskStatus.status}">Is finished?</td>
         <td th:text="${taskStatus.person.name}">Assigned to</td>
         <td>
-          <button  type="button" class="btn btn-warning"><i class="fa fa-cog" aria-hidden="true"></i></button>
-
+          <a class="btn btn-warning"  href="#" th:href="@{/event/editTask?taskId=} + ${taskStatus.id}"
+          ><i class="fa fa-cog" aria-hidden="true"></i></a>
         </td>
         <td>
           <a class="btn btn-danger" href="#" th:href="@{/event/deleteTaskFromEvent?taskId=} + ${taskStatus.id} + '&eventId' + '=' + ${event.id}"
-                   ><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-
+                   ><i class="fa fa-trash-o" aria-hidden="false"></i></a>
         </td>
-<!--        <td>-->
-<!--          <a class="btn btn-danger" href="#" th:href="@{/event/deleteTaskFromEvent?taskId=} + ${taskStatus.id} + '&eventId' + '=' + ${event.id}"> Delete </a>-->
-<!--        </td>-->
-<!--        <a href="#" style="background-color: #6cf552" th:href="@{/task_change?id=} + ${task.id} + '&idEvent=' + ${event.id}" th:text="${task.name}" ></a>-->
-
-        <!--        <a href="#" style="background-color: #6cf552" th:href="@{/task_change?id=} + ${task.id} + '&idEvent=' + ${event.id}" th:text="${task.name}" ></a>-->
-
-
       </tr>
       </tbody>
     </table>
@@ -109,14 +103,11 @@
         <td th:text="${taskStatus.person.name}">Assigned to</td>
         <td>
           <button  type="button" class="btn btn-warning"><i class="fa fa-cog" aria-hidden="true"></i></button>
-
-        </td>
+        </td>"event/editTask"
         <td>
           <a class="btn btn-danger" href="#" th:href="@{/event/deleteTaskFromEvent?taskId=} + ${taskStatus.id} + '&eventId' + '=' + ${event.id}"
           ><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-
         </td>
-
       </tr>
         </span>
       </li>

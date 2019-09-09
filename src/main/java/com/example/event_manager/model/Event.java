@@ -38,7 +38,7 @@ public class Event {
   private String topic;
   private String place;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime dateTime = LocalDateTime.now();
 
   @Singular
@@ -49,12 +49,12 @@ public class Event {
   )
   private Set<TaskStatus> taskStatuses;
 
-  public void addTaskStatus(TaskStatus ts) {
+  public void addTaskStatus(final TaskStatus ts) {
     taskStatuses.add(ts);
     ts.setEvent(this);
   }
 
-  public void removeTaskStatus(TaskStatus ts) {
+  public void removeTaskStatus(final TaskStatus ts) {
     taskStatuses.remove(ts);
     ts.setEvent(null);
     ts.getPerson().removeTaskStatus(ts);

@@ -66,5 +66,15 @@ public class EventController {
     eventService.save(event);
     return "redirect:/event/details?id=" + eventId;
   }
+  @GetMapping(value = "event/editTask")
+  public String editTaskStatus(final Model model, @RequestParam final Long taskId){
+    model.addAttribute("task", taskStatusService.findById(taskId));
+    return "event/editTaskStatus";
+  }
+  @PostMapping(value="event/editTask/save")
+  public String saveEditedTask(@ModelAttribute(value="task") final TaskStatus taskStatus){
+    taskStatusService.update(taskStatus);
+    return "redirect:/event/details?id="+taskStatus.getEvent().getId();
+  }
 
 }
