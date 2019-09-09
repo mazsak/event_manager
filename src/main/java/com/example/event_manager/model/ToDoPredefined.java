@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "to_do_predefined")
@@ -22,8 +23,9 @@ public class ToDoPredefined {
 
   private String name;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "to_do_id")
+  @ElementCollection
+  @CollectionTable(name = "task", joinColumns = @JoinColumn(name = "id"))
+  @Column(name = "description")
   @Singular
-  private List<Task> tasks = new ArrayList<>();
+  private Set<String> tasks;
 }

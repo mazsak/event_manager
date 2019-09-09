@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 @Table
@@ -30,12 +32,7 @@ public class Event {
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   private LocalDateTime dateTime = LocalDateTime.now();
 
-  @ManyToMany
-  @JoinTable(
-          name = "event_to_do",
-          joinColumns = @JoinColumn(name = "event_id"),
-          inverseJoinColumns = @JoinColumn(name = "to_do_id"))
+  @OneToMany
   @Singular
-  private List<ToDo> toDos = new ArrayList<>();
-
+  private Set<TaskStatus> taskStatuses;
 }
