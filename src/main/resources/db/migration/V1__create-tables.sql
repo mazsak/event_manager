@@ -1,4 +1,4 @@
-create table event
+create table if not exists event
 (
     id bigserial not null
         constraint event_pkey
@@ -7,6 +7,7 @@ create table event
     description varchar(255),
     name varchar(255),
     place varchar(255),
+    started boolean not null,
     topic varchar(255)
 );
 
@@ -22,7 +23,7 @@ create table person
 
 alter table person owner to postgres;
 
-create table task_status
+create table if not exists task_status
 (
     id bigserial not null
         constraint task_status_pkey
@@ -33,7 +34,10 @@ create table task_status
     task_status_type varchar(255),
     event_id bigint
         constraint fk5j3q4o7eqdyged3hyf7wellxs
-            references event
+            references event,
+    person_id bigint
+        constraint fkgvwld2clxxeouw895gr630o1j
+            references person
 );
 
 alter table task_status owner to postgres;
