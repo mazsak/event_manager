@@ -5,4 +5,7 @@ insert into event (date_time, description, name, place, topic)
 values ('2011-08-20 23:43:07', 'description1', 'nazwa1', 'place1', 'topic1');
 
 insert into event (date_time, description, name, place, topic)
-values ('2011-06-12 23:43:07', 'description1', 'nazwa1', 'place1', 'topic1');
+values ('2011-06-12 23:43:07', 'description2', 'nazwa2', 'place2', 'topic2');
+
+insert into event (date_time, description, name, place, topic)
+values ('2020-06-12 23:43:07', 'description3', 'nazwa3', 'place3', 'topic3');
