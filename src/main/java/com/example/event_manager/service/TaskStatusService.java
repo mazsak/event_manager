@@ -12,4 +12,6 @@ public interface TaskStatusService {
   List<TaskStatus> findAll();
 
   TaskStatus findById(final Long id);
+
+  void update(TaskStatus ts);
 }

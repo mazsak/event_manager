@@ -51,12 +51,12 @@ public class Event {
   private Set<TaskStatus> taskStatuses;
 
   public void addTaskStatus(final TaskStatus ts) {
-    this.taskStatuses.add(ts);
+    taskStatuses.add(ts);
     ts.setEvent(this);
   }
 
   public void removeTaskStatus(final TaskStatus ts) {
-    this.taskStatuses.remove(ts);
+    taskStatuses.remove(ts);
     ts.setEvent(null);
     ts.getPerson().removeTaskStatus(ts);
   }

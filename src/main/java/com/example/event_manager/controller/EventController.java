@@ -57,14 +57,25 @@ public class EventController {
     return "redirect:/event/details?id=" + wrapper.getEventId();
   }
 
-
   @GetMapping(value = "event/deleteTaskFromEvent")
   public String deleteTaskFromEvent(final Model model, @RequestParam final Long taskId,
       @RequestParam final Long eventId) {
     final Event event = eventService.findById(eventId);
-    event.removeTaskStatus(taskStatusService.findById(taskId));
+    final TaskStatus toDelete = taskStatusService.findById(taskId);
+    event.removeTaskStatus(toDelete);
     eventService.save(event);
     return "redirect:/event/details?id=" + eventId;
+  }
+  @GetMapping(value = "event/editTask")
+  public String editTaskStatus(final Model model, @RequestParam final Long taskId){
+    model.addAttribute("task", taskStatusService.findById(taskId));
+    model.addAttribute("persons", personService.findAll());
+    return "event/editTaskStatus";
+  }
+  @PostMapping(value="event/editTask/save")
+  public String saveEditedTask(@ModelAttribute(value="task") final TaskStatus taskStatus){
+    taskStatusService.update(taskStatus);
+    return "redirect:/event/details?id="+taskStatus.getEvent().getId();
   }
 
 }

@@ -25,18 +25,10 @@
              th:field="*{personId}"
              th:value="${person.id}" />
       <label
-              th:for="${#ids.prev('personId')}"
-              th:text="${person.name}"></label>
+          th:for="${#ids.prev('personId')}"
+          th:text="${person.name}"></label>
     </li>
   </ul>
-
-<!--  <tr th:each="person: ${persons}">-->
-<!--    <td th:text="${person.id}" />-->
-<!--    <td th:text="${person.name}" />-->
-<!--    <div class="custom-control custom-radio">-->
-<!--      <input type="radio" class="custom-control-input" th:field="*{destinationAddressId}" th:value="${destinationAddress.destinationAddressId}"  th:field="*{personId}" value="" id="defaultGroupExample1" name="groupOfDefaultRadios">-->
-<!--      <label class="custom-control-label" th:text="${person.name}"for="defaultGroupExample1">${person.name}</label>-->
-<!--    </div>-->
 
   </tr>
 

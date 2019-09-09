@@ -33,7 +33,7 @@ public class TaskStatus {
 
   private String name;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime date;
 
   private boolean status;
@@ -49,4 +49,10 @@ public class TaskStatus {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
   private Person person;
+
+  public boolean getStatus() {
+    return status;
+  }
+  @Override
+  public String toString(){return id.toString();}
 }
