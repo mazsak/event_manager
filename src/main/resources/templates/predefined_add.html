@@ -11,6 +11,7 @@
 <div th:replace="/nav :: nav"></div>
 <div style="width: 80%; margin-right: auto; margin-left:auto">
     <form action="#" th:action="@{predefined_add}" th:object="${predefined}" method="post">
+        <input hidden th:field="*{id}"/>
         <div>
             <p> Name: </p>
             <input type="text" th:field="*{name}"/>

@@ -29,13 +29,14 @@
                 <h3 th:text="${toDo.name}"></h3>
                 <li th:each="task : ${toDo.tasks}">
                     <p th:if="${task.status}">
-                        <span style="background-color: #6cf552" th:text="${task.name}"></span>
+                        <a href="#" style="background-color: #6cf552" th:href="@{/task_change?id=} + ${task.id} + '&idEvent=' + ${event.id}" th:text="${task.name}" ></a>
                     </p>
                     <p th:unless="${task.status}">
-                        <span style="background-color: brown" th:text="${task.name}"></span>
+                        <a href="#" style="background-color: brown" th:href="@{/task_change?id=} + ${task.id} + '&idEvent=' + ${event.id}" th:text="${task.name}" ></a>
                     </p>
                 </li>
             </ul>
+
         </div>
     </div>
 </div>

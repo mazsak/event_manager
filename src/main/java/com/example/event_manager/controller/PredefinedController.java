@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PredefinedController {
@@ -27,8 +28,21 @@ public class PredefinedController {
     return "predefined_add";
   }
 
+  @GetMapping("/predefined_edit")
+  public String edit(Model model, @RequestParam String id) {
+    model.addAttribute("predefined", toDoPredefinedService.findById(Long.valueOf(id)));
+    return "predefined_add";
+  }
+
+  @GetMapping("/predefined_delete")
+  public String delete(Model model, @RequestParam String id) {
+    toDoPredefinedService.delete(Long.valueOf(id));
+    return "redirect:/predefined";
+  }
+
+
   @PostMapping(value = "/predefined_add", params = "action=add")
-  public String add_element(Model model, @ModelAttribute ToDoPredefined predefined) {
+  public String addElement(Model model, @ModelAttribute ToDoPredefined predefined) {
     predefined.getTasks().add(Task.builder().name("").build());
     model.addAttribute("predefined", predefined);
     return "predefined_add";

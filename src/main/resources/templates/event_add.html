@@ -42,10 +42,10 @@
                 </td>
             </tr>
         </table>
-        <select th:field="*{toDoPredefineds}" multiple>
-            <option th:each="predefined : ${predefineds}" th:value="${predefined.id}"
-                    th:text="${predefined.name}"></option>
-        </select>
+        <div th:each="predefined : ${predefineds}">
+            <input type="checkbox" th:value="${predefined.id}" th:text="${predefined.name}"
+                   th:field="*{toDoPredefineds}"/>
+        </div>
         <div id="list_task">
             <h2>TODO:</h2>
             <div th:each="task, itemStat : *{adhoc.tasks}">

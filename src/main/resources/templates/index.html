@@ -9,24 +9,10 @@
 <body>
 <div th:replace="/nav :: nav"></div>
 <div style="width: 80%;margin-right: auto; margin-left:auto">
-    <div class="row">
-        <div>
-            <a href="#" th:href="@{/event_add}"> Add event </a>
-        </div>
-        <div class="column" style="background-color: aqua" th:each="event : ${events}">
-            <div>
-                <h1 style="text-align: center;" th:text="${event.name}"></h1>
-                <div>
-                    <a href="#" th:href="@{/event?id=} + ${event.id}"> Show </a>
-                    <a href="#" th:href="@{/event_delete?id=} + ${event.id}"> Delete event </a>
-                </div>
-                <p> Topic: <span th:text="${event.topic}"></span></p>
-                <p> Description: <span th:text="${event.description}"></span></p>
-                <p> Place: <span th:text="${event.place}"></span></p>
-                <p> Date: <span th:text="${event.dateTime}"></span></p>
-            </div>
-        </div>
+    <div class="element_list" th:each="event : ${events}">
+        <div th:replace="/event_item :: event_item(event=${event})"></div>
     </div>
+</div>
 </div>
 </body>
 </html>

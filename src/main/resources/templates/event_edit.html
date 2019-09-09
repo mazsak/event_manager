@@ -9,8 +9,13 @@
 <body>
 <div th:replace="/nav :: nav"></div>
 <div style="width: 80%; margin-right: auto; margin-left:auto">
-    <form action="#" th:action="@{event_add}" th:object="${event}" method="post">
+    <form action="#" th:action="@{event_edit}" th:object="${event}" method="post">
         <table>
+            <tr>
+                <td>
+                    <input hidden th:field="*{id}"/>
+                </td>
+            </tr>
             <tr>
                 <td>Name:</td>
                 <td>
@@ -42,10 +47,10 @@
                 </td>
             </tr>
         </table>
-        <select th:field="*{toDoPredefineds}" multiple>
-            <option th:each="predefined : ${predefineds}" th:value="${predefined.id}"
-                    th:text="${predefined.name}"></option>
-        </select>
+        <div th:each="predefined : ${predefineds}">
+            <input type="checkbox" th:value="${predefined.id}" th:text="${predefined.name}"
+                   th:field="*{toDoPredefineds}"/>
+        </div>
         <div id="list_task">
             <h2>TODO:</h2>
             <div th:each="task, itemStat : *{adhoc.tasks}">

@@ -2,19 +2,6 @@
     box-sizing: border-box;
 }
 
-.column {
-    float: left;
-    width: 50%;
-    padding: 10px;
-    height: 300px;
-}
-
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 .right {
     float: right;
 }
@@ -23,3 +10,16 @@
     float: left;
 }
 
+.element_list {
+    border: 2px solid gray;
+    border-radius: 12px;
+}
+
+#element_list:link, #element_list:visited {
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border: 2px solid gray;
+    border-radius: 12px;
+}
