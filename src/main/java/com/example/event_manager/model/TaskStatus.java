@@ -1,5 +1,6 @@
 package com.example.event_manager.model;
 
+import com.example.event_manager.form.TaskStatusForm;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,4 +30,15 @@ public class TaskStatus {
 
   @ManyToOne(cascade = CascadeType.ALL)
   private Event event;
+
+  public TaskStatusForm mapToTaskStatusForm() {
+    return TaskStatusForm.builder()
+        .id(id)
+        .name(name)
+        .date(date)
+        .status(status)
+        .taskStatusType(taskStatusType)
+        .event(event.mapToEventForm())
+        .build();
+  }
 }

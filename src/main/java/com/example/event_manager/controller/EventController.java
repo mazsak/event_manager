@@ -15,12 +15,12 @@ public class EventController {
 //        person.setId(Long.valueOf(12));
         person.setName("Czesiu");
 
-        PersonForm personForm = PersonMapper.INSTAMCE.toDto(person);
+        PersonForm personForm = person.mapToPersonForm();
 
         PersonForm personForm1 = new PersonForm();
-//        personForm1.setName("qwertyuiop");
+        personForm1.setName("qwertyuiop");
 //
-        Person person1 = PersonMapper.INSTAMCE.toPOJO(personForm1);
+        Person person1 = personForm1.mapToPerson();
 
     System.out.println(personForm.toString());
     return "cus";
