@@ -1,5 +1,6 @@
 package com.example.event_manager.form;
 
+import com.example.event_manager.model.ToDoPredefined;
 import lombok.*;
 
 import java.util.Set;
@@ -15,4 +16,8 @@ public class ToDoPredefinedForm {
   private String name;
 
   @Singular private Set<String> tasks;
+
+  public ToDoPredefined mapToToDoPredefined() {
+    return ToDoPredefined.builder().id(id).name(name).tasks(tasks).build();
+  }
 }

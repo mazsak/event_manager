@@ -1,13 +1,14 @@
 package com.example.event_manager.form;
 
+import com.example.event_manager.model.Person;
 import lombok.*;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @ToString
-//@Getter
-//@Setter
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 public class PersonForm {
   private Long id;
@@ -15,33 +16,11 @@ public class PersonForm {
 
   @Singular private Set<TaskStatusForm> taskStatuses;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public void setTaskStatuses(Set<TaskStatusForm> taskStatuses) {
-    this.taskStatuses = taskStatuses;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public Set<TaskStatusForm> getTaskStatuses() {
-    return taskStatuses;
-  }
-
-  public PersonForm(Long id, String name, Set<TaskStatusForm> taskStatuses) {
-    this.id = id;
-    this.name = name;
-    this.taskStatuses = taskStatuses;
-  }
+//  public Person mapToPerson() {
+//    return Person.builder()
+//        .id(id)
+//        .name(name)
+//        .taskStatuses(taskStatuses.stream().map(x -> x.mapToTaskStatus()).collect(Collectors.toList()))
+//        .build();
+//  }
 }

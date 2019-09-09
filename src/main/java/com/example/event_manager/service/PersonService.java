@@ -7,11 +7,11 @@ import com.example.event_manager.model.Person;
 import java.util.List;
 
 public interface PersonService {
-  boolean save(PersonForm personForm);
+  boolean save(Person personForm);
 
   void delete(Long id);
 
-  List<PersonForm> findAll();
+  List<Person> findAll();
 
-  PersonForm findById(Long id);
+  Person findById(Long id);
 }

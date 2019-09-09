@@ -1,13 +1,12 @@
 package com.example.event_manager.form;
 
 import com.example.event_manager.model.Event;
-import com.example.event_manager.model.TaskStatus;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @ToString
 @Getter
@@ -27,9 +26,15 @@ public class EventForm {
 
   @Singular private Set<TaskStatusForm> taskStatuses;
 
-  public Event mapToEvent(){
-    List<TaskStatus>
-    Event event = Event.builder().id(id).name(name).description(description).topic(topic).place(place).dateTime(dateTime).taskStatuses(taskStatuses.stream().map(x -> x.mapToTaskStatus())).build();
-    return
+  public Event mapToEvent() {
+    return Event.builder()
+        .id(id)
+        .name(name)
+        .description(description)
+        .topic(topic)
+        .place(place)
+        .dateTime(dateTime)
+        .taskStatuses(taskStatuses.stream().map(x -> x.mapToTaskStatus()).collect(Collectors.toList()))
+        .build();
   }
 }
