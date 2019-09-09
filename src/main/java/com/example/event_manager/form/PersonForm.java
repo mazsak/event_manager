@@ -1,47 +1,23 @@
 package com.example.event_manager.form;
 
-import lombok.*;
-
 import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
 
 @ToString
-//@Getter
-//@Setter
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class PersonForm {
+
   private Long id;
   private String name;
 
-  @Singular private Set<TaskStatusForm> taskStatuses;
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public void setTaskStatuses(Set<TaskStatusForm> taskStatuses) {
-    this.taskStatuses = taskStatuses;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public Set<TaskStatusForm> getTaskStatuses() {
-    return taskStatuses;
-  }
-
-  public PersonForm(Long id, String name, Set<TaskStatusForm> taskStatuses) {
-    this.id = id;
-    this.name = name;
-    this.taskStatuses = taskStatuses;
-  }
+  @Singular
+  private Set<TaskStatusForm> taskStatuses;
 }

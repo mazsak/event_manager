@@ -1,10 +1,13 @@
 package com.example.event_manager.form;
 
-import com.example.event_manager.model.TaskStatus;
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @ToString
 @Getter
@@ -13,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskStatusForm {
+
   private Long id;
   private String name;
   private boolean status;
@@ -21,8 +25,6 @@ public class TaskStatusForm {
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   private LocalDateTime date;
 
-  public TaskStatus mapToTaskStatus(){
-    return TaskStatus.builder().id(id).name(name).status(status).taskStatusType(taskStatusType).date(date).build();
-  }
+  private EventForm event;
 
 }

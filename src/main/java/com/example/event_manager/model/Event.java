@@ -1,14 +1,22 @@
 package com.example.event_manager.model;
 
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table
@@ -32,7 +40,21 @@ public class Event {
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   private LocalDateTime dateTime = LocalDateTime.now();
 
-  @OneToMany
   @Singular
+  @OneToMany(cascade = CascadeType.ALL,
+      orphanRemoval = true
+  )
   private Set<TaskStatus> taskStatuses;
+
+  public void addTaskStatus(TaskStatus ts) {
+    taskStatuses.add(ts);
+    ts.setEvent(this);
+  }
+
+  public void removeTaskStatus(TaskStatus ts) {
+    taskStatuses.remove(ts);
+    ts.setEvent(null);
+    ts.getPerson().removeTaskStatus(ts);
+  }
+
 }
