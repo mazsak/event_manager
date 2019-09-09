@@ -21,8 +21,16 @@ public class TaskStatusForm {
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   private LocalDateTime date;
 
-  public TaskStatus mapToTaskStatus(){
-    return TaskStatus.builder().id(id).name(name).status(status).taskStatusType(taskStatusType).date(date).build();
-  }
+  private EventForm event;
 
+  public TaskStatus mapToTaskStatus() {
+    return TaskStatus.builder()
+        .id(id)
+        .name(name)
+        .status(status)
+        .taskStatusType(taskStatusType)
+        .date(date)
+        .event(event.mapToEvent())
+        .build();
+  }
 }

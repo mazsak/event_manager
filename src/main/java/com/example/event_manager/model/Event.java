@@ -31,8 +31,32 @@ public class Event {
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   private LocalDateTime dateTime = LocalDateTime.now();
-
-  @OneToMany
+  
   @Singular
+  @OneToMany(cascade = CascadeType.ALL,
+      orphanRemoval = true
+  )
   private Set<TaskStatus> taskStatuses;
+  public void addTaskStatus(TaskStatus ts){
+    taskStatuses.add(ts);
+    ts.setEvent(this);
+  }
+  
+  public void removeTaskStatus(TaskStatus ts){
+    taskStatuses.remove(ts);
+    ts.setEvent(null);
+    ts.getPerson().removeTaskStatus(ts);
+  }
+  
+//  public EventForm mapToEventForm() {
+//    return EventForm.builder()
+//        .id(id)
+//        .name(name)
+//        .description(description)
+//        .topic(topic)
+//        .place(place)
+//        .dateTime(dateTime)
+//        .taskStatuses(taskStatuses.stream().map(x -> x.mapToTaskStatusForm()).collect(Collectors.toList()))
+//        .build();
+//  }
 }

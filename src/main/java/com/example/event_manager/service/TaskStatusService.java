@@ -6,11 +6,11 @@ import com.example.event_manager.model.TaskStatus;
 import java.util.List;
 
 public interface TaskStatusService {
-  boolean save(TaskStatusForm taskStatusForm);
+  boolean save(TaskStatus taskStatus);
 
   void delete(Long id);
 
-  List<TaskStatusForm> findAll();
-
-  TaskStatusForm findById(Long id);
+  List<TaskStatus> findAll();
+  
+  TaskStatus findById(Long id);
 }

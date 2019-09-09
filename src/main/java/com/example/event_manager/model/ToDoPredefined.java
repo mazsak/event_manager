@@ -1,10 +1,9 @@
 package com.example.event_manager.model;
 
+import com.example.event_manager.form.ToDoPredefinedForm;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,4 +27,8 @@ public class ToDoPredefined {
   @Column(name = "description")
   @Singular
   private Set<String> tasks;
+
+  public ToDoPredefinedForm mapToDoPredefinedForm() {
+    return ToDoPredefinedForm.builder().id(id).name(name).tasks(tasks).build();
+  }
 }
