@@ -1,14 +1,13 @@
 package com.example.event_manager.model;
 
+import com.example.event_manager.form.EventForm;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 @Entity
 @Table
@@ -59,4 +58,7 @@ public class Event {
 //        .taskStatuses(taskStatuses.stream().map(x -> x.mapToTaskStatusForm()).collect(Collectors.toList()))
 //        .build();
 //  }
+
+
+  
 }

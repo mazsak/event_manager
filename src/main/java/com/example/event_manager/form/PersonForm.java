@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 @ToString
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 public class PersonForm {
   private Long id;

@@ -32,6 +32,7 @@ public class TaskStatus {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY) //!!!
   private Event event;
+
 //  public TaskStatusForm mapToTaskStatusForm() {
 //    return TaskStatusForm.builder()
 //        .id(id)
@@ -47,4 +48,16 @@ public class TaskStatus {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY) //!!!
   private Person person;
+
+  public TaskStatusForm mapToTaskStatusForm() {
+    return TaskStatusForm.builder()
+        .id(id)
+        .name(name)
+        .date(date)
+        .status(status)
+        .taskStatusType(taskStatusType)
+        .event(event.mapToEventForm())
+        .build();
+  }
+
 }
