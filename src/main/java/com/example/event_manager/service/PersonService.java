@@ -1,17 +1,15 @@
 package com.example.event_manager.service;
 
-import com.example.event_manager.form.PersonForm;
-import com.example.event_manager.model.Event;
 import com.example.event_manager.model.Person;
-
 import java.util.List;
 
 public interface PersonService {
-  boolean save(PersonForm personForm);
 
-  void delete(Long id);
+  boolean save(final Person personForm);
 
-  List<PersonForm> findAll();
+  void delete(final Long id);
 
-  PersonForm findById(Long id);
+  List<Person> findAll();
+
+  Person findById(final Long id);
 }

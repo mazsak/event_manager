@@ -1,16 +1,15 @@
 package com.example.event_manager.service;
 
-import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.model.TaskStatus;
-
 import java.util.List;
 
 public interface TaskStatusService {
-  boolean save(TaskStatusForm taskStatusForm);
 
-  void delete(Long id);
+  boolean save(final TaskStatus taskStatus);
 
-  List<TaskStatusForm> findAll();
+  void delete(final Long id);
 
-  TaskStatusForm findById(Long id);
+  List<TaskStatus> findAll();
+
+  TaskStatus findById(final Long id);
 }
