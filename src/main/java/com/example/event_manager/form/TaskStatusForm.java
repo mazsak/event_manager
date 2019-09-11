@@ -22,7 +22,7 @@ public class TaskStatusForm {
   private boolean status;
   private String taskStatusType;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime date;
 
   private EventForm event;

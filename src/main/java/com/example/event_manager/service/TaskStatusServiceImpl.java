@@ -31,4 +31,15 @@ public class TaskStatusServiceImpl implements TaskStatusService {
   public TaskStatus findById(final Long id) {
     return taskStatusRepo.findById(id).get();
   }
+
+  @Override
+  public void update(final TaskStatus ts) {
+    final TaskStatus toUpdate = findById(ts.getId());
+    toUpdate.setStatus(ts.getStatus());
+    toUpdate.setName(ts.getName());
+    toUpdate.setDate(ts.getDate());
+    toUpdate.setPerson(ts.getPerson());
+    toUpdate.setTaskStatusType(ts.getTaskStatusType());
+    save(toUpdate);
+  }
 }
