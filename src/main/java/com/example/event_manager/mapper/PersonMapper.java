@@ -8,7 +8,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface PersonMapper {
 
-
   PersonForm personToPresonDto(Person person);
 
   Person toPOJO(PersonForm personForm);
