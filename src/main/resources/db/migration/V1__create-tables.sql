@@ -1,4 +1,3 @@
-
 create table event
 (
     id bigserial not null

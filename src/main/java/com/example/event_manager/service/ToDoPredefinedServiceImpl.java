@@ -1,34 +1,41 @@
 package com.example.event_manager.service;
 
-import com.example.event_manager.model.ToDoPredefined;
+import com.example.event_manager.form.ToDoPredefinedForm;
+import com.example.event_manager.mapper.ToDoPredefinedMapper;
 import com.example.event_manager.repo.ToDoPredefinedRepo;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ToDoPredefinedServiceImpl implements ToDoPredefinedService {
 
   private final ToDoPredefinedRepo toDoPredefinedRepo;
+  private final ToDoPredefinedMapper toDoPredefinedMapper;
 
   @Override
-  public boolean save(final ToDoPredefined toDoPredefined) {
-    return this.toDoPredefinedRepo.save(toDoPredefined) != null;
+  public boolean save(final ToDoPredefinedForm toDoPredefined) {
+    return toDoPredefinedRepo.save(toDoPredefinedMapper.toPOJO(toDoPredefined)) != null;
   }
 
   @Override
   public void delete(final Long id) {
-    this.toDoPredefinedRepo.deleteById(id);
+    toDoPredefinedRepo.deleteById(id);
   }
 
   @Override
-  public List<ToDoPredefined> findAll() {
-    return this.toDoPredefinedRepo.findAll();
+  public List<ToDoPredefinedForm> findAll() {
+    return toDoPredefinedRepo.findAll().stream()
+        .map(toDoPredefinedMapper::personToDoPredefinedMapperDto)
+        .collect(Collectors.toList());
   }
 
   @Override
-  public ToDoPredefined findById(final Long id) {
-    return this.toDoPredefinedRepo.findById(id).get();
+  public ToDoPredefinedForm findById(final Long id) {
+    return toDoPredefinedMapper.personToDoPredefinedMapperDto(
+        toDoPredefinedRepo.findById(id).get());
   }
 }
