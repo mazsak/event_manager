@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List Predefined</title>
+
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <script src="jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="tabbable tabs-left container">
+    <ul class="nav nav-tabs">
+        <li th:each="predefined : ${predefineds}">
+            <a href="#" th:href="@{'#' + ${predefined.id}}" data-toggle="tab"
+               th:text="${predefined.name}"></a>
+        </li>
+        <li>
+            <a href="#add"> Add </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade" th:each="predefined : ${predefineds}" th:id="${predefined.id}">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-primary"> Edit</button>
+                <a href="#" th:href="@{/predefined/delete?id=} + ${predefined.id}" class="btn btn-danger"> Delete </a>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li th:each="task : ${predefined.tasks}" th:text="${task}" class="list-group-item"></li>
+            </ul>
+        </div>
+        <div class="tab-pane fade" id="add">
+            <div>
+                <span>Name list: </span>
+                <input>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
