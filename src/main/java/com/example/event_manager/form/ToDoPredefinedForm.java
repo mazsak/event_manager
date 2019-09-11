@@ -1,6 +1,5 @@
 package com.example.event_manager.form;
 
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -21,6 +22,6 @@ public class ToDoPredefinedForm {
   private String name;
 
   @Singular
-  private Set<String> tasks;
+  private List<String> tasks;
 
 }

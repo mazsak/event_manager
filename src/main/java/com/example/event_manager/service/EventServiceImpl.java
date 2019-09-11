@@ -4,13 +4,14 @@ package com.example.event_manager.service;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.model.TaskStatus;
 import com.example.event_manager.repo.EventRepo;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

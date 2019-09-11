@@ -1,15 +1,16 @@
 package com.example.event_manager.service;
 
-import com.example.event_manager.model.ToDoPredefined;
+import com.example.event_manager.form.ToDoPredefinedForm;
+
 import java.util.List;
 
 public interface ToDoPredefinedService {
 
-  boolean save(final ToDoPredefined toDoPredefined);
+  boolean save(final ToDoPredefinedForm toDoPredefined);
 
   void delete(final Long id);
 
-  List<ToDoPredefined> findAll();
+  List<ToDoPredefinedForm> findAll();
 
-  ToDoPredefined findById(final Long id);
+  ToDoPredefinedForm findById(final Long id);
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add List Predefined</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <form action="#" th:action="@{add}" th:object="${predefined}" method="post">
+        <fieldset>
+            <input hidden th:field="*{id}"/>
+            <div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <label> Name </label>
+                        <input class="form-control" type="text" th:field="*{name}"/>
+                    </li>
+                    <li class="list-group-item"><label>Tasks</label>
+                        <table class="table">
+                            <tbody>
+                            <tr th:each="task, itemStat : ${predefined.tasks}">
+                                <td>
+                                    <label th:text="${'Task ' + itemStat.count}"></label>
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" th:id="${'task' + itemStat.index}"
+                                           th:field="*{tasks[__${itemStat.index}__]}">
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" name="remove" th:value="${task}"><i
+                                            class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="2">
+                                    <button class="btn btn-primary" name="action" value="add"> Add new element</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+                <a class="btn btn-primary" href="#" th:href="@{/predefineds}"> Cancel </a>
+                <button class="btn btn-success" name="action" value="save"> Save</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>
