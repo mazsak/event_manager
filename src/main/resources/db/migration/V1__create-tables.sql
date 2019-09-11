@@ -1,74 +1,92 @@
-create table if not exists event
+create table event
 (
-	id bigserial not null
-		constraint event_pkey
-			primary key,
-	date_time timestamp,
-	description varchar(255),
-	name varchar(255),
-	place varchar(255),
-	topic varchar(255)
+    id bigserial not null
+        constraint event_pkey
+            primary key,
+    date_time timestamp,
+    description varchar(255),
+    name varchar(255),
+    place varchar(255),
+    topic varchar(255)
 );
 
-alter table event owner to manager;
+alter table event owner to postgres;
 
-create table if not exists to_do
+create table person
 (
-	id bigserial not null
-		constraint to_do_pkey
-			primary key,
-	name varchar(255),
-	predefined boolean not null
+    id bigserial not null
+        constraint person_pkey
+            primary key,
+    name varchar(255)
 );
 
-alter table to_do owner to manager;
+alter table person owner to postgres;
 
-create table if not exists event_to_do
+create table task_status
 (
-	event_id bigint not null
-		constraint fkdqst6glb6bro683akdapyw9at
-			references event,
-	to_do_id bigint not null
-		constraint fkmwxlqxp6t4pjmrkw55ub4ss16
-			references to_do
+    id bigserial not null
+        constraint task_status_pkey
+            primary key,
+    date timestamp,
+    name varchar(255),
+    status boolean not null,
+    task_status_type varchar(255),
+    event_id bigint
+        constraint fk5j3q4o7eqdyged3hyf7wellxs
+            references event
 );
 
-alter table event_to_do owner to manager;
+alter table task_status owner to postgres;
 
-create table if not exists task_status
+create table event_task_statuses
 (
-	id bigserial not null
-		constraint task_status_pkey
-			primary key,
-	name varchar(255),
-	status boolean not null,
-	to_do_id bigint
-		constraint fktcipw68rby7mm59p0yo3wj9bt
-			references to_do
+    event_id bigint not null
+        constraint fk7r1mipvdo1xvrboq5g5qcrs7y
+            references event,
+    task_statuses_id bigint not null
+        constraint uk_miupq79dgtolm7tcrstvy5gol
+            unique
+        constraint fkmh1hbqwpseotpy3uis72j8ymg
+            references task_status,
+    constraint event_task_statuses_pkey
+        primary key (event_id, task_statuses_id)
 );
 
-alter table task_status owner to manager;
+alter table event_task_statuses owner to postgres;
 
-create table if not exists to_do_predefined
+create table person_task_statuses
 (
-	id bigserial not null
-		constraint to_do_predefined_pkey
-			primary key,
-	name varchar(255)
+    person_id bigint not null
+        constraint fkimia5ixh03j63ys5f3qcect8p
+            references person,
+    task_statuses_id bigint not null
+        constraint uk_m5ph86mru30f1syyk4p5xv2vr
+            unique
+        constraint fk8cr27xkb3er3qvgl6y8cqnbpc
+            references task_status,
+    constraint person_task_statuses_pkey
+        primary key (person_id, task_statuses_id)
 );
 
-alter table to_do_predefined owner to manager;
+alter table person_task_statuses owner to postgres;
 
-create table if not exists task
+create table to_do_predefined
 (
-	id bigserial not null
-		constraint task_pkey
-			primary key,
-	name varchar(255),
-	to_do_id bigint
-		constraint fk59wa02mne8bfc1ho8tl557cmo
-			references to_do_predefined
+    id bigserial not null
+        constraint to_do_predefined_pkey
+            primary key,
+    name varchar(255)
 );
 
-alter table task owner to manager;
+alter table to_do_predefined owner to postgres;
+
+create table task
+(
+    id bigint not null
+        constraint fkianbphhujjn3ykeclo52hetif
+            references to_do_predefined,
+    description varchar(255)
+);
+
+alter table task owner to postgres;
 
