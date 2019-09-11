@@ -40,6 +40,10 @@
       </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
   </nav>
+  <div class="jumbotron">
+    <h2 class="display-4" th:text= "${event.name}" ></h2>
+    <h3 class="display-4" th:text="${event.description}"></h3>
+  </div>
   <div class="jumbotron" xmlns:th="http://www.w3.org/1999/xhtml">
     <a class="btn btn-success" href="#" th:href="@{/events/addAdhocTaskToEventForm?id=} + ${event.id}">Add adhoc task </a>
 
@@ -54,7 +58,6 @@
         <th scope="col">Assigned to</th>
         <th scope="col">Edit</th>
         <th scope="col">Delete</th>
-
       </tr>
       </thead>
       <tbody>
@@ -71,19 +74,16 @@
         </td>
         <td th:text="${taskStatus.person.name}">Assigned to</td>
         <td>
-          <a class="btn btn-warning"  href="#" th:href="@{/event/editTask?taskId=} + ${taskStatus.id}"
+          <a class="btn btn-warning"  href="#" th:href="@{/events/editTask?taskId=} + ${taskStatus.id}"
           ><i class="fa fa-cog" aria-hidden="true"></i></a>
         </td>
         <td>
-          <a class="btn btn-danger" href="#" th:href="@{/event/deleteTaskFromEvent?taskId=} + ${taskStatus.id} + '&eventId' + '=' + ${event.id}"
+          <a class="btn btn-danger" href="#" th:href="@{/events/deleteTaskFromEvent?taskId=} + ${taskStatus.id} + '&eventId' + '=' + ${event.id}"
                    ><i class="fa fa-trash-o" aria-hidden="false"></i></a>
         </td>
       </tr>
       </tbody>
     </table>
-
-
-
 
   </div>
   <div class="jumbotron bg-dark text-white" xmlns:th="http://www.w3.org/1999/xhtml">
@@ -114,11 +114,11 @@
         </td>
         <td th:text="${taskStatus.person.name}">Assigned to</td>
         <td>
-          <a class="btn btn-warning"  href="#" th:href="@{/event/editTask?taskId=} + ${taskStatus.id}"
+          <a class="btn btn-warning"  href="#" th:href="@{/events/editTask?taskId=} + ${taskStatus.id}"
           ><i class="fa fa-cog" aria-hidden="true"></i></a>
         </td>
         <td>
-          <a class="btn btn-danger" href="#" th:href="@{/event/deleteTaskFromEvent?taskId=} + ${taskStatus.id} + '&eventId' + '=' + ${event.id}"
+          <a class="btn btn-danger" href="#" th:href="@{/events/deleteTaskFromEvent?taskId=} + ${taskStatus.id} + '&eventId' + '=' + ${event.id}"
           ><i class="fa fa-trash-o" aria-hidden="false"></i></a>
         </td>
       </tr>

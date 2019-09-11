@@ -1,8 +1,8 @@
 package com.example.event_manager.model;
 
 import java.time.LocalDateTime;
-import java.util.Set;
-import javax.persistence.CascadeType;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,28 +37,15 @@ public class Event {
   private String description;
   private String topic;
   private String place;
-  private boolean started;
+  private Boolean started;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   private LocalDateTime dateTime = LocalDateTime.now();
 
   @Singular
   @OneToMany(
-      cascade = CascadeType.ALL,
-      orphanRemoval = true,
       fetch = FetchType.LAZY
   )
-  private Set<TaskStatus> taskStatuses;
-
-  public void addTaskStatus(final TaskStatus ts) {
-    taskStatuses.add(ts);
-    ts.setEvent(this);
-  }
-
-  public void removeTaskStatus(final TaskStatus ts) {
-    taskStatuses.remove(ts);
-    ts.setEvent(null);
-    ts.getPerson().removeTaskStatus(ts);
-  }
+  private List<TaskStatus> taskStatuses = new ArrayList<>();
 
 }

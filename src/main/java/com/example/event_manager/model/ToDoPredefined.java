@@ -1,6 +1,6 @@
 package com.example.event_manager.model;
 
-import java.util.Set;
+import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -38,6 +38,6 @@ public class ToDoPredefined {
   @CollectionTable(name = "task", joinColumns = @JoinColumn(name = "id"))
   @Column(name = "description")
   @Singular
-  private Set<String> tasks;
+  private List<String> tasks;
 
 }

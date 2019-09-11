@@ -2,6 +2,8 @@ package com.example.event_manager.controller;
 
 import com.example.event_manager.form.ToDoPredefinedForm;
 import com.example.event_manager.service.ToDoPredefinedService;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("predefineds")
@@ -42,7 +41,7 @@ public class PredefinedController {
 
   @GetMapping("/add/{id}")
   public String edit(final Model model, @PathVariable final Long id) {
-    model.addAttribute("predefined", this.toDoPredefinedService.findById(id));
+    model.addAttribute("predefined", toDoPredefinedService.findById(id));
     return "/predefined/add";
   }
 

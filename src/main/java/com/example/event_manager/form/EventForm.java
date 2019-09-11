@@ -1,9 +1,11 @@
 package com.example.event_manager.form;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class EventForm {
 
   private Long id;
@@ -24,12 +27,12 @@ public class EventForm {
   private String description;
   private String topic;
   private String place;
-  private boolean started;
+  private Boolean started;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime dateTime = LocalDateTime.now();
 
   @Singular
-  private Set<TaskStatusForm> taskStatuses;
+  private List<TaskStatusForm> taskStatuses = new ArrayList<>();
 
 }
