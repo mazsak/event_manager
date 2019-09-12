@@ -26,6 +26,6 @@ public class TaskStatusForm {
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime date;
-  private PersonForm person;
 
+  private PersonForm person;
 }

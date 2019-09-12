@@ -10,12 +10,14 @@ import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.mapper.EventMapper;
 import com.example.event_manager.mapper.EventWithBillingMapper;
 import com.example.event_manager.mapper.TaskStatusMapper;
+import com.example.event_manager.model.Billing;
 import com.example.event_manager.model.BillingRaportSchema;
 import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.model.TaskStatus;
 import com.example.event_manager.repo.EventRepo;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +34,37 @@ public class EventServiceImpl implements EventService {
   private final TaskStatusService taskStatusService;
   private final TaskStatusMapper taskStatusMapper;
   private final EventWithBillingMapper eventWithBillingMapper;
+  private final BillingService billingService;
 
-
-  public boolean saveEventForm(final EventForm eventForm) {
-    final Event eve = eventMapper.toEntity(eventForm);
-    return save(eve);
+  public void saveEventForm(final EventForm eventForm) {
+    if(eventForm.getBillings()==null)
+      eventForm.setBillings(new ArrayList<BillingForm>());
+    final List<TaskStatusForm> list = new ArrayList<>();
+    final List<BillingForm> billingFormList = new ArrayList<>();
+    eventForm
+        .getTaskStatuses()
+        .forEach(
+            x -> {
+              if (x.getId() == null) {
+                list.add(taskStatusService.saveAndReturn(x));
+              } else {
+                list.add(x);
+              }
+            });
+    eventForm
+        .getBillings()
+        .forEach((
+            x -> {
+              if (x.getId() == null) {
+                billingFormList.add(billingService.saveAndReturn(x));
+              } else {
+                billingFormList.add(x);
+              }
+            }
+        ));
+    eventForm.setTaskStatuses(list);
+    eventForm.setBillings(billingFormList);
+    save(eventMapper.toEntity(eventForm));
   }
 
   @Override
@@ -71,11 +99,19 @@ public class EventServiceImpl implements EventService {
   }
 
   @Override
-  public boolean deleteTaskStatusFromEvent(final Long taskId, final Long eventId) {
+  public void deleteTaskStatusFromEvent(final Long taskId, final Long eventId) {
     final Event event = findById(eventId);
     final TaskStatus toDelete = taskStatusService.findById(taskId);
     event.getTaskStatuses().remove(toDelete);
-    return save(event);
+    save(event);
+  }
+
+  @Override
+  public void deleteBillingFromEvent(final Long billingId, final Long eventId) {
+    final Event event = findById(eventId);
+    final Billing toDelete = billingService.findById(billingId);
+    event.getBillings().remove(toDelete);
+    save(event);
   }
 
   @Override
@@ -90,14 +126,14 @@ public class EventServiceImpl implements EventService {
   }
 
   @Override
-  public Map<String, List<Event>> getEventsPartition() { // It uses repo to call spring data jpa methods (3 queries) not yet paginated
-
+  public Map<String, List<Event>>
+  getEventsPartition() {
     final Map<String, List<Event>> nameToListMap = new HashMap<>();
 
-    nameToListMap
-        .put("started", eventRepo.findAllByDateTimeIsAfterAndStartedIsTrue(LocalDateTime.now()));
-    nameToListMap.put("notstarted",
-        eventRepo.findAllByDateTimeIsAfterAndStartedIsFalse(LocalDateTime.now()));
+    nameToListMap.put(
+        "started", eventRepo.findAllByDateTimeIsAfterAndStartedIsTrue(LocalDateTime.now()));
+    nameToListMap.put(
+        "notstarted", eventRepo.findAllByDateTimeIsAfterAndStartedIsFalse(LocalDateTime.now()));
     nameToListMap.put("outdated", eventRepo.findAllByDateTimeIsBefore(LocalDateTime.now()));
 
     return nameToListMap;

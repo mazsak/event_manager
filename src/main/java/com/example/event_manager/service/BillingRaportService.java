@@ -8,7 +8,7 @@ import org.apache.fop.apps.FOPException;
 
 public interface BillingRaportService {
 
-  String generateXmlForBillingRaportSchema(BillingRaportSchema brs) throws FileNotFoundException;
+  String generateXmlForBillingRaportSchema(BillingRaportSchema brs);
 
   byte[] convertBillingRaportSchemaToByteStream(BillingRaportSchema brs)
       throws IOException, FOPException, TransformerException;

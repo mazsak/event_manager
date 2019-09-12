@@ -23,6 +23,4 @@ public interface TaskStatusMapper {
   PersonForm fromEntity(Person person);
 
   Person toEntity(PersonForm pf);
-
-
 }
