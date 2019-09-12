@@ -1,0 +1,25 @@
+<nav th:fragment="nav" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+     class="navbar navbar-fixed-top"
+     style="background-color: #f1f1f1;">
+    <a class="navbar-brand" href="#" th:href="@{/events/all}">Event Manager</a>
+    <ul class="nav navbar-nav">
+        <li>
+            <a class="navbar-link" href="#" th:href="@{/events/all}"> Event </a>
+        </li>
+        <li>
+            <a class="navbar-link" href="#" th:href="@{/predefineds/all}"> List predefined </a>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle navbar-link" href="#" type="button" data-toggle="dropdown"> Add
+                <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#" th:href="@{/predefineds/add}"> List predefined </a>
+                </li>
+                <li>
+                    <a href="#" th:href="@{/events/add}"> Event </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>

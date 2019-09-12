@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Controller
@@ -20,16 +22,16 @@ public class PredefinedController {
 
   private final ToDoPredefinedService toDoPredefinedService;
 
-  @GetMapping("")
+  @GetMapping("/all")
   public String all(final Model model) {
-    model.addAttribute("predefineds", toDoPredefinedService.findAll());
+    model.addAttribute("predefineds", toDoPredefinedService.findAllAndSortByName());
     return "predefined/list";
   }
 
-  @GetMapping("/delete")
-  public String delete(@RequestParam final String id) {
+  @GetMapping("/delete/{id}")
+  public String delete(@PathVariable final String id) {
     toDoPredefinedService.delete(Long.valueOf(id));
-    return "redirect:/predefineds";
+    return "redirect:/predefineds/all";
   }
 
   @GetMapping("/add")
@@ -38,14 +40,17 @@ public class PredefinedController {
     return "/predefined/add";
   }
 
-  @GetMapping("/edit")
-  public String edit(final Model model, @RequestParam final Long id) {
+  @GetMapping("/add/{id}")
+  public String edit(final Model model, @PathVariable final Long id) {
     model.addAttribute("predefined", this.toDoPredefinedService.findById(id));
     return "/predefined/add";
   }
 
   @PostMapping(value = "/add", params = "action=add")
   public String addTask(final Model model, @ModelAttribute final ToDoPredefinedForm predefined) {
+    if (predefined.getTasks() == null) {
+      predefined.setTasks(new ArrayList<>());
+    }
     predefined.getTasks().add("");
     model.addAttribute("predefined", predefined);
     return "/predefined/add";
@@ -66,6 +71,6 @@ public class PredefinedController {
     predefined.setTasks(
         predefined.getTasks().stream().filter(x -> !x.equals("")).collect(Collectors.toList()));
     toDoPredefinedService.save(predefined);
-    return "redirect:/predefineds";
+    return "redirect:/predefineds/all";
   }
 }

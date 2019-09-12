@@ -11,7 +11,8 @@
 
 </head>
 <body>
-<div class="container">
+<nav th:replace="/fragments/nav :: nav"></nav>
+<div class="container" style="margin-top:80px;">
     <form action="#" th:action="@{add}" th:object="${predefined}" method="post">
         <fieldset>
             <input hidden th:field="*{id}"/>
@@ -49,7 +50,7 @@
                 </ul>
             </div>
             <div class="right">
-                <a class="btn btn-primary" href="#" th:href="@{/predefineds}"> Cancel </a>
+                <a class="btn btn-primary" href="#" th:href="@{/predefineds/all}"> Cancel </a>
                 <button class="btn btn-success" name="action" value="save"> Save</button>
             </div>
         </fieldset>

@@ -12,5 +12,7 @@ public interface ToDoPredefinedService {
 
   List<ToDoPredefinedForm> findAll();
 
+  List<ToDoPredefinedForm> findAllAndSortByName();
+
   ToDoPredefinedForm findById(final Long id);
 }
