@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <title>List Predefined</title>
 
+    <link rel="stylesheet" type="text/css" href="navigation.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="tabbable tabs-left container">
+<nav th:replace="/fragments/nav :: nav"></nav>
+<div class="tabbable tabs-left container" style="margin-top:80px;">
     <ul class="nav nav-tabs">
         <li th:each="predefined : ${predefineds}">
             <a href="#" th:href="@{'#' + ${predefined.id}}" data-toggle="tab"><b>
@@ -17,15 +20,15 @@
             </b></a>
         </li>
         <li>
-            <a href="#" th:href="@{predefineds/add}"><h4> Add list </h4></a>
+            <a href="#" th:href="@{add}"><h4> Add list </h4></a>
         </li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane fade" th:each="predefined : ${predefineds}" th:id="${predefined.id}">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <a href="#" th:href="@{predefineds/edit?id=} + ${predefined.id}" class="btn btn-primary"> Edit </a>
-                    <a href="#" th:href="@{predefineds/delete?id=} + ${predefined.id}" class="btn btn-danger">
+                    <a href="#" th:href="@{add/__${predefined.id}__}" class="btn btn-primary"> Edit </a>
+                    <a href="#" th:href="@{delete/__${predefined.id}__}" class="btn btn-danger">
                         Delete </a>
                 </li>
                 <li class="list-group-item"><label>Tasks</label>

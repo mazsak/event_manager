@@ -34,6 +34,13 @@ public class ToDoPredefinedServiceImpl implements ToDoPredefinedService {
   }
 
   @Override
+  public List<ToDoPredefinedForm> findAllAndSortByName() {
+    return toDoPredefinedRepo.findAllByOrderByNameAsc().stream()
+            .map(toDoPredefinedMapper::personToDoPredefinedMapperDto)
+            .collect(Collectors.toList());
+  }
+
+  @Override
   public ToDoPredefinedForm findById(final Long id) {
     return toDoPredefinedMapper.personToDoPredefinedMapperDto(
         toDoPredefinedRepo.findById(id).get());
