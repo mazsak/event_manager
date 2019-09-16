@@ -28,4 +28,7 @@ public interface EventService {
   void saveAdhocTaskToEvent(TaskStatusForm taskStatusForm, Long eventId);
 
   Map<String, List<Event>> getEventsPartition();
+
+  Map<String, List<Event>> searchByNamePlaceTopic(String s);
+
 }

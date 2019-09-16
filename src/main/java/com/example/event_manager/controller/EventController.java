@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-@RequestMapping("events")
 @Controller
-@AllArgsConstructor()
+@AllArgsConstructor
+@RequestMapping("/events/")
 public class EventController {
 
   private final PersonService personService;
@@ -35,7 +35,6 @@ public class EventController {
     model.addAttribute("event", event);
     return "/event/details";
   }
-
 
   @GetMapping("addAdhocTaskToEventForm")
   public String addAdhocToEvent(final Model model, @RequestParam final Long id) {
@@ -85,6 +84,19 @@ public class EventController {
     mv.addObject("started", nameToListMap.get("started"));
     mv.addObject("outdated", nameToListMap.get("outdated"));
     return mv;
+  }
+
+  @GetMapping(value = "all", params = "search")
+  public String search(@RequestParam(value = "query", required = false) final String query,
+      final Model model) {
+
+    final Map<String, List<Event>> nameToListMap = this.eventService.searchByNamePlaceTopic(query);
+
+    model.addAttribute("notstarted", nameToListMap.get("notstrated"));
+    model.addAttribute("started", nameToListMap.get("started"));
+    model.addAttribute("outdated", nameToListMap.get("outdated"));
+
+    return "event/list";
   }
 
 }
