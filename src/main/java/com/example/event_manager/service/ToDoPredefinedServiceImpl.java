@@ -3,11 +3,10 @@ package com.example.event_manager.service;
 import com.example.event_manager.form.ToDoPredefinedForm;
 import com.example.event_manager.mapper.ToDoPredefinedMapper;
 import com.example.event_manager.repo.ToDoPredefinedRepo;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +35,8 @@ public class ToDoPredefinedServiceImpl implements ToDoPredefinedService {
   @Override
   public List<ToDoPredefinedForm> findAllAndSortByName() {
     return toDoPredefinedRepo.findAllByOrderByNameAsc().stream()
-            .map(toDoPredefinedMapper::personToDoPredefinedMapperDto)
-            .collect(Collectors.toList());
+        .map(toDoPredefinedMapper::personToDoPredefinedMapperDto)
+        .collect(Collectors.toList());
   }
 
   @Override

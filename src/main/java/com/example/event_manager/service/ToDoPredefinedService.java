@@ -1,7 +1,6 @@
 package com.example.event_manager.service;
 
 import com.example.event_manager.form.ToDoPredefinedForm;
-
 import java.util.List;
 
 public interface ToDoPredefinedService {

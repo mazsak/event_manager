@@ -18,7 +18,7 @@
 <div class="container">
   <h1>Edit Task</h1>
   <hr>
-  <form action="#" th:action="@{/event/editTask/save}" th:object="${task}" method="post">
+  <form action="#" th:action="@{editTask/save}" th:object="${task}" method="post">
     <div class="row">
       <form class="form-horizontal" role="form">
         <div class="form-group">
@@ -59,7 +59,6 @@
         </div>
         <input type="hidden" th:field="*{id}">
 <!--        <input type="hidden" th:field="*{person.id}">-->
-        <input type="hidden" th:field="*{event}">
         <input type="hidden" th:field="*{taskStatusType}">
 <!--        <input type="hidden" th:field="*{person.name}">-->
 <!--        <input type="hidden" th:field="*{person.taskStatuses}">-->
