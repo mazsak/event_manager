@@ -1,0 +1,34 @@
+<div th:fragment="group(name,events)" th:if ="${!events.isEmpty()}" class="card" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" style="margin-bottom: 80px;">
+  <ul class="list-group list-group-flush">
+  <li class="list-group-item" style="background-color: #d4d4d4">
+   <h4><label th:text="${name}" ></label></h4>
+  </li>
+
+  <li class="list-group-item" >
+
+    <table class="table ">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Date</th>
+        <th>Topic</th>
+        <th>Edit</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="event : ${events}">
+        <td><a th:href="@{/events/details?(id=${event.id})}"><span th:text="${event.name}"></span></a></td>
+        </td>
+        <td><span th:text="${event.place}"></span></td>
+        <td><span th:text="${event.dateTime}"></span></td>
+        <td><span th:text="${event.topic}"></span></td>
+        <td><a  class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
+<!--        th:href="@{/event/edit/{id}(id=${event.id})}"-->
+      </tr>
+      </tbody>
+    </table>
+
+  </li>
+  </ul>
+</div>

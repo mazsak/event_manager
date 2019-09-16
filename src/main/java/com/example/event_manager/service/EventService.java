@@ -17,4 +17,5 @@ public interface EventService {
 
   Map<String, List<TaskStatus>> preapreTasksForEvent(final Event event);
 
+  Map<String, List<Event>> getEventsPartition();
 }

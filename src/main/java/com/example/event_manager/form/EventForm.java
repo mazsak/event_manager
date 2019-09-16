@@ -24,6 +24,7 @@ public class EventForm {
   private String description;
   private String topic;
   private String place;
+  private boolean started;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime dateTime = LocalDateTime.now();

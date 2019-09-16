@@ -6,8 +6,8 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface TaskStatusMapper {
+
   TaskStatusForm taskStatusToTaskStatusDto(TaskStatus taskStatus);
 
   TaskStatus toPOJO(TaskStatusForm taskStatusForm);
-
 }
