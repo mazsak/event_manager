@@ -1,5 +1,7 @@
 package com.example.event_manager.service;
 
+import com.example.event_manager.form.PersonForm;
+import com.example.event_manager.mapper.TaskStatusMapper;
 import com.example.event_manager.model.Person;
 import com.example.event_manager.repo.PersonRepo;
 import java.util.List;
@@ -11,10 +13,11 @@ import org.springframework.stereotype.Service;
 public class PersonServiceImpl implements PersonService {
 
   private final PersonRepo personRepo;
+  private final TaskStatusMapper taskStatusMapper;
 
   @Override
-  public boolean save(final Person person) {
-    return personRepo.save(person) != null;
+  public boolean save(final PersonForm person) {
+    return personRepo.save(taskStatusMapper.toEntity(person)) != null;
   }
 
   @Override
@@ -23,12 +26,17 @@ public class PersonServiceImpl implements PersonService {
   }
 
   @Override
-  public List<Person> findAll() {
-    return personRepo.findAll();
+  public List<PersonForm> findAll() {
+    return taskStatusMapper.toPersonsDTO(personRepo.findAll());
   }
 
   @Override
   public Person findById(final Long id) {
     return personRepo.findById(id).get();
+  }
+
+  @Override
+  public PersonForm PersonFormById(final Long id) {
+    return taskStatusMapper.fromEntity(personRepo.findById(id).get());
   }
 }

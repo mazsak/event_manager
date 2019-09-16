@@ -1,16 +1,23 @@
 package com.example.event_manager.controller;
 
-
+import com.example.event_manager.form.BillingForm;
+import com.example.event_manager.form.EventForm;
+import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.model.Event;
-import com.example.event_manager.model.Person;
-import com.example.event_manager.model.TaskStatus;
+import com.example.event_manager.service.BillingService;
 import com.example.event_manager.service.EventService;
 import com.example.event_manager.service.PersonService;
 import com.example.event_manager.service.TaskStatusService;
-import com.example.event_manager.wrapper.TaskForEventCreationWrapper;
+import com.example.event_manager.utils.raport.BillingsSummary;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.TransformerException;
 import lombok.AllArgsConstructor;
+import org.apache.fop.apps.FOPException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,74 +28,86 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@AllArgsConstructor
-@RequestMapping("/events/")
+@AllArgsConstructor()
+@RequestMapping("events")
 public class EventController {
 
   private final PersonService personService;
   private final EventService eventService;
   private final TaskStatusService taskStatusService;
+  private final BillingService billingService;
+
+  @GetMapping(value = "billingsRaport", produces = "application/pdf")
+  public void Billings(final HttpServletResponse response, @RequestParam final Long id)
+      throws TransformerException, IOException, FOPException {
+    final String pathToFile = eventService.pathToGeneratatedBillingsRaportForEvent(id);
+    try {
+      final InputStream is = new FileInputStream(pathToFile);
+      org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+      response.flushBuffer();
+    } catch (final IOException ex) {
+      throw new RuntimeException("IOError writing file to output stream");
+    }
+  }
+
 
   @GetMapping("details")
   public String detailsEvent(final Model model, @RequestParam final Long id) {
-    final Event event = this.eventService.findById(id);
-    final Map<String, List<TaskStatus>> map = this.eventService.preapreTasksForEvent(event);
+    final EventForm event = eventService.eventFormById(id);
+    final Map<String, List<TaskStatusForm>> map = eventService.preapreTasksForEvent(event);
+    final List<BillingForm> billings = billingService.findAll();
+    final BillingsSummary billingsSummary = new BillingsSummary(billings);
     model.addAttribute("tasks", map);
     model.addAttribute("event", event);
+    model.addAttribute("billings", billings);
+    model.addAttribute("billingsSummary", billingsSummary);
     return "/event/details";
   }
 
+
   @GetMapping("addAdhocTaskToEventForm")
   public String addAdhocToEvent(final Model model, @RequestParam final Long id) {
-    final TaskForEventCreationWrapper wrapper = new TaskForEventCreationWrapper(id);
-    model.addAttribute("taskStatusForEventCreatingDto", wrapper);
-    model.addAttribute("persons", this.personService.findAll());
+    model.addAttribute("eventId", id);
+    model.addAttribute("taskStatusForm", new TaskStatusForm());
+    model.addAttribute("persons", personService.findAll());
     return "event/addAdhoc";
   }
 
   @PostMapping(value = "saveAdhocTaskToEvent")
   public String saveAdhocToEvent(final Model model,
-      @ModelAttribute(value = "taskStatusForEventCreatingDto") final TaskForEventCreationWrapper wrapper) {
-    final TaskStatus ts = new TaskStatus();
-    final Person person = this.personService.findById(wrapper.getPersonId());
-    ts.setTaskStatusType("adhoc");
-    ts.setName(wrapper.getName());
-    ts.setDate(wrapper.getDate());
-    person.addTaskStatus(ts);
-    final Event eventToUpdate = this.eventService.findById(wrapper.getEventId());
-    eventToUpdate.addTaskStatus(ts);
-    eventService.save(eventToUpdate);
-    return "redirect:/event/details?id=" + wrapper.getEventId();
+      @ModelAttribute(value = "taskStatusForm") final TaskStatusForm taskStatusForm,
+      @RequestParam final Long eventId) {
+
+    eventService.saveAdhocTaskToEvent(taskStatusForm, eventId);
+
+    return "redirect:/events/details?id=" + eventId;
   }
 
   @GetMapping(value = "deleteTaskFromEvent")
   public String deleteTaskFromEvent(final Model model, @RequestParam final Long taskId,
       @RequestParam final Long eventId) {
-    final Event event = this.eventService.findById(eventId);
-    final TaskStatus toDelete = this.taskStatusService.findById(taskId);
-    event.removeTaskStatus(toDelete);
-    eventService.save(event);
-    return "redirect:/event/details?id=" + eventId;
+    eventService.deleteTaskStatusFromEvent(taskId, eventId);
+    return "redirect:/events/details?id=" + eventId;
   }
 
   @GetMapping(value = "editTask")
   public String editTaskStatus(final Model model, @RequestParam final Long taskId) {
-    model.addAttribute("task", this.taskStatusService.findById(taskId));
-    model.addAttribute("persons", this.personService.findAll());
+    model.addAttribute("task", taskStatusService.taskStatusFormById(taskId));
+    model.addAttribute("persons", personService.findAll());
     return "event/editTaskStatus";
   }
 
   @PostMapping(value = "editTask/save")
-  public String saveEditedTask(@ModelAttribute(value = "task") final TaskStatus taskStatus) {
-    taskStatusService.update(taskStatus);
-    return "redirect:/event/details?id=" + taskStatus.getEvent().getId();
+  public String saveEditedTask(@ModelAttribute(value = "task") final TaskStatusForm taskStatus) {
+    taskStatusService.update((taskStatus));
+    return "redirect:/events/details?id=" + Long.valueOf(1);
   }
 
   @GetMapping(value = "all")
   public ModelAndView eventList() {
     final ModelAndView mv = new ModelAndView("event/list");
 
-    final Map<String, List<Event>> nameToListMap = this.eventService.getEventsPartition();
+    final Map<String, List<Event>> nameToListMap = eventService.getEventsPartition();
 
     mv.addObject("notstarted", nameToListMap.get("notstarted"));
     mv.addObject("started", nameToListMap.get("started"));

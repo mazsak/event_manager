@@ -1,7 +1,6 @@
 package com.example.event_manager.model;
 
 import java.time.LocalDateTime;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,23 +35,11 @@ public class TaskStatus {
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime date;
 
-  private boolean status;
+  private Boolean status;
   private String taskStatusType;
 
   @ManyToOne(
-      cascade = CascadeType.ALL,
-      fetch = FetchType.LAZY)
-  private Event event;
-
-
-  @ManyToOne(
-      cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
   private Person person;
 
-  public boolean getStatus() {
-    return status;
-  }
-  @Override
-  public String toString(){return id.toString();}
 }
