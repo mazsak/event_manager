@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class EventServiceImpl implements EventService {
   private final TaskStatusMapper taskStatusMapper;
 
 
+  @Override
   public boolean saveEventForm(final EventForm eventForm) {
     final Event eve = eventMapper.toEntity(eventForm);
     return save(eve);
@@ -95,5 +97,25 @@ public class EventServiceImpl implements EventService {
     nameToListMap.put("outdated", eventRepo.findAllByDateTimeIsBefore(LocalDateTime.now()));
 
     return nameToListMap;
+  }
+
+  @Override
+  public Map<String, List<Event>> searchByNamePlaceTopic(final String s) {
+    final Map<String, List<Event>> nameToListMap = new HashMap<>();
+    final List<Event> list = eventRepo.searchByNamePlaceTopic(s);
+
+    nameToListMap.put("started",
+        list.stream().filter(x -> x.getStarted())
+            .filter(x -> x.getDateTime().isAfter(LocalDateTime.now()))
+            .collect(Collectors.toList()));
+    nameToListMap.put("notstarted",
+        list.stream().filter(x -> !x.getStarted())
+            .filter(x -> x.getDateTime().isAfter(LocalDateTime.now()))
+            .collect(Collectors.toList()));
+    nameToListMap.put("outdated",
+        list.stream().filter(x -> x.getDateTime().isBefore(LocalDateTime.now())).collect(
+            Collectors.toList()));
+    return nameToListMap;
+
   }
 }
