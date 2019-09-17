@@ -14,11 +14,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.TransformerException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.apache.fop.apps.FOPException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,12 +40,12 @@ public class EventController {
   private final BillingService billingService;
 
   @GetMapping(value = "billingsRaport", produces = "application/pdf")
-  public void Billings(final HttpServletResponse response, @RequestParam final Long id)
+  public ResponseEntity<byte[]> Billings(@RequestParam final Long id)
       throws TransformerException, IOException, FOPException {
     final String pathToFile = eventService.pathToGeneratatedBillingsRaportForEvent(id);
     try (final InputStream is = new FileInputStream(pathToFile)) {
-      IOUtils.copy(is, response.getOutputStream());
-      response.flushBuffer();
+      ResponseEntity<byte[]> response = new ResponseEntity<>(IOUtils.toByteArray(is), HttpStatus.OK);
+      return response;
     } catch (final IOException ex) {
       throw new RuntimeException("IOError writing file to output stream");
     }
