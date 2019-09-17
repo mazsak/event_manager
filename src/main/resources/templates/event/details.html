@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">-->
-<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-<!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>-->
+  <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">-->
+  <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+  <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>-->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -14,36 +14,18 @@
   <title>Navbar Template for Bootstrap</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+  <nav th:replace="/fragments/nav :: nav"></nav>
+
 </head>
 <body>
-<div class="container">
-  <!-- Static navbar -->
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#" th:text="${username}">Project name</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a th:href="@{/definedList/all}">Prefered lists CRUD</a></li>
-          <li><a th:href="@{/task/all}" href="#">Adhoc tasks CRUD</a></li>
-        </ul>
+<div class="container" style="
+    padding-top: 65px;
+">
+  <!--  <div class="jumbotron" xmlns:th="http://www.w3.org/1999/xhtml">-->
+  <!--    <h2 class="display-4" th:text= "${event.name}" ></h2>-->
+  <!--    <h3 class="display-4" th:text="${event.description}"></h3>-->
+  <!--  </div>-->
 
-      </div><!--/.nav-collapse -->
-    </div><!--/.container-fluid -->
-  </nav>
-  <div class="jumbotron">
-    <h2 class="display-4" th:text= "${event.name}" ></h2>
-    <h3 class="display-4" th:text="${event.description}"></h3>
-  </div>
   <div class="jumbotron" xmlns:th="http://www.w3.org/1999/xhtml">
     <a class="btn btn-success" href="#" th:href="@{/events/addAdhocTaskToEventForm?id=} + ${event.id}">Add adhoc task </a>
 
@@ -79,7 +61,7 @@
         </td>
         <td>
           <a class="btn btn-danger" href="#" th:href="@{/events/deleteTaskFromEvent?taskId=} + ${taskStatus.id} + '&eventId' + '=' + ${event.id}"
-                   ><i class="fa fa-trash-o" aria-hidden="false"></i></a>
+          ><i class="fa fa-trash-o" aria-hidden="false"></i></a>
         </td>
       </tr>
       </tbody>
@@ -127,6 +109,53 @@
     </table>
     </li>
     </tbody>
+    </table>
+  </div>
+
+  <div class="jumbotron bg-dark text-white" xmlns:th="http://www.w3.org/1999/xhtml">
+    <h3>Płatności <span class="badge badge-secondary">Billings</span></h3>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Company name</th>
+        <th scope="col">Expense</th>
+        <th scope="col">is Paided?</th>
+        <th scope="col">Person assign to</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:if="${billings.empty}">
+        <td colspan="2"> No Billings Available </td>
+      </tr>
+      <tr th:each="billing : ${billings}">
+        <td><span th:text="${billing.companyName}">Company name </span></td>
+        <td><span th:text="${billing.money}">Expense </span></td>
+        <td><span th:text="${billing.paided}">is Paided? </span></td>
+        <td><span th:text="${billing.personAssigned}">Person assign to</span></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Paided</th>
+        <th scope="col">Not paided</th>
+        <th scope="col">Coast of all paided</th>
+        <th scope="col">Coast of all not paided</th>
+      </tr>
+      </thead>
+      <tbody>
+        <td><span th:text="${billingsSummary.paided}">Paided </span></td>
+        <td><span th:text="${billingsSummary.notPaided}">Not paid </span></td>
+        <td><span th:text="${billingsSummary.coastOfAllPaided}">Coast of all paided</span></td>
+        <td><span th:text="${billingsSummary.coastOfAllNotPaided}">Coast of all not paided</span></td>
+        <td>
+          <a class="btn btn-danger" href="#" th:href="@{/events/billingsRaport?id=}+ ${event.id}"
+          >Generate PDF</a>
+        </td>
+      </tr>
+      </tbody>
     </table>
   </div>
 </div> <!-- /container -->
