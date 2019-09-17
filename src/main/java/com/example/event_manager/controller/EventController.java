@@ -8,7 +8,7 @@ import com.example.event_manager.service.BillingService;
 import com.example.event_manager.service.EventService;
 import com.example.event_manager.service.PersonService;
 import com.example.event_manager.service.TaskStatusService;
-import com.example.event_manager.utils.raport.BillingsSummary;
+import com.example.event_manager.utils.BillingsSummary;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,6 +58,8 @@ public class EventController {
     final Map<String, List<TaskStatusForm>> map = eventService.preapreTasksForEvent(event);
     model.addAttribute("tasks", map);
     model.addAttribute("event", event);
+    model.addAttribute("billings",event.getBillings());
+    model.addAttribute("billingsSummary",new BillingsSummary(event.getBillings()));
     return "/event/details";
   }
 

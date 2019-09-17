@@ -3,6 +3,7 @@ package com.example.event_manager.service;
 
 import static java.util.stream.Collectors.groupingBy;
 
+import com.example.event_manager.form.BillingForm;
 import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.mapper.EventMapper;
@@ -11,6 +12,10 @@ import com.example.event_manager.model.Event;
 import com.example.event_manager.model.TaskStatus;
 import com.example.event_manager.repo.EventRepo;
 
+import com.example.event_manager.utils.BillingRaport;
+import com.example.event_manager.utils.BillingRaportSchema;
+import com.example.event_manager.utils.BillingsSummary;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -119,5 +124,20 @@ public class EventServiceImpl implements EventService {
             Collectors.toList()));
     return nameToListMap;
 
+  }
+  @Override
+  public String pathToGeneratatedBillingsRaportForEvent(final Long id)
+      throws TransformerException, IOException, FOPException {
+    final EventForm eventForm = eventFormById(id);
+    final List<BillingForm> listOfBilling = eventForm.getBillings();
+    final BillingsSummary bs = new BillingsSummary(listOfBilling);
+    final BillingRaportSchema brs = new BillingRaportSchema();
+    brs.setEventName(eventForm.getName());
+    brs.setBillings(listOfBilling);
+    brs.setBillingsSummary(bs);
+
+    final BillingRaport billingRaport = new BillingRaport(brs);
+    final String path = billingRaport.convertXmlToPdfAndSaveOnDisc();
+    return path;
   }
 }
