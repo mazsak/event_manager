@@ -56,7 +56,7 @@ public class EventServiceImpl implements EventService {
 
   @Override
   public Event findById(final Long id) {
-    return eventRepo.eventById(id);
+    return eventRepo.findById(id).get();
   }
 
   @Override
