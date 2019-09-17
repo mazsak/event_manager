@@ -8,7 +8,7 @@ import com.example.event_manager.service.BillingService;
 import com.example.event_manager.service.EventService;
 import com.example.event_manager.service.PersonService;
 import com.example.event_manager.service.TaskStatusService;
-import com.example.event_manager.utils.raport.BillingsSummary;
+import com.example.event_manager.utils.BillingsSummary;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.TransformerException;
 import lombok.AllArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.apache.fop.apps.FOPException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,9 +42,8 @@ public class EventController {
   public void Billings(final HttpServletResponse response, @RequestParam final Long id)
       throws TransformerException, IOException, FOPException {
     final String pathToFile = eventService.pathToGeneratatedBillingsRaportForEvent(id);
-    try {
-      final InputStream is = new FileInputStream(pathToFile);
-      org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+    try (final InputStream is = new FileInputStream(pathToFile)) {
+      IOUtils.copy(is, response.getOutputStream());
       response.flushBuffer();
     } catch (final IOException ex) {
       throw new RuntimeException("IOError writing file to output stream");

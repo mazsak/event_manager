@@ -3,7 +3,6 @@ package com.example.event_manager.form;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,6 @@ public class EventForm {
 
   @Singular
   private List<BillingForm> billings = new ArrayList<>();
-
 
 
 }

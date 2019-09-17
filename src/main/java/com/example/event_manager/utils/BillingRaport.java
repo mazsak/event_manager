@@ -1,4 +1,4 @@
-package com.example.event_manager.utils.raport;
+package com.example.event_manager.utils;
 
 import com.example.event_manager.form.BillingForm;
 import com.thoughtworks.xstream.XStream;
@@ -24,6 +24,8 @@ public class BillingRaport {
   private final String pathToBillingInStatic = "src/main/resources/static/billing/";
   private final BillingRaportSchema billingRaportSchema;
   private String billingsXml;
+  private String styleFileName = "newStyle.xsl";
+  private String pdfFileName = "billings.pdf";
 
   public BillingRaport(final BillingRaportSchema billingRaportSchema) {
     this.billingRaportSchema = billingRaportSchema;
@@ -42,19 +44,18 @@ public class BillingRaport {
       throws IOException, FOPException, TransformerException {
     generateXmlForBillingRaportSchema();
     final File xsltFile = new File(
-        pathToBillingInStatic +"newStyle.xsl");
+        pathToBillingInStatic + styleFileName);
     final StreamSource xmlSource = new StreamSource(new StringReader(billingsXml));
     final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
     final FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
-    final OutputStream out;
-    out = new java.io.FileOutputStream(pathToBillingInStatic +"billings.pdf");
+    final OutputStream out = new java.io.FileOutputStream(pathToBillingInStatic + pdfFileName);
     try {
       final Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
       final TransformerFactory factory = TransformerFactory.newInstance();
       final Transformer transformer = factory.newTransformer(new StreamSource(xsltFile));
       final Result res = new SAXResult(fop.getDefaultHandler());
       transformer.transform(xmlSource, res);
-      return pathToBillingInStatic +"billings.pdf";
+      return pathToBillingInStatic + pdfFileName;
     } finally {
       out.close();
     }

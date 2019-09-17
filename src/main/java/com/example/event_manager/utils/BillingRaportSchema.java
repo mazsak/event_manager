@@ -1,4 +1,4 @@
-package com.example.event_manager.utils.raport;
+package com.example.event_manager.utils;
 
 import com.example.event_manager.form.BillingForm;
 import java.util.List;
@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class BillingRaportSchema {
+
   private String eventName;
   private List<BillingForm> billings;
   private BillingsSummary billingsSummary;
