@@ -29,30 +29,30 @@ public class BillingsSummary {
   private void calculateCoastOfAllPaided() {
     coastOfAllPaided = billingForms
         .stream()
-        .filter(b -> b.isPaided() == true)
-        .mapToDouble(b -> b.getMoney())
+        .filter(b -> b.isPaided())
+        .mapToDouble(BillingForm::getMoney)
         .sum();
   }
 
   private void calculateCoastOfAllNotPaided() {
     coastOfAllNotPaided = billingForms
         .stream()
-        .filter(b -> b.isPaided() == false)
-        .mapToDouble(b -> b.getMoney())
+        .filter(b -> !b.isPaided())
+        .mapToDouble(BillingForm::getMoney)
         .sum();
   }
 
   private void calculateNotPaided() {
     notPaided = billingForms
         .stream()
-        .filter(b -> b.isPaided() == false)
+        .filter(b -> !b.isPaided())
         .count();
   }
 
   private void calculatePaided() {
     paided = billingForms
         .stream()
-        .filter(b -> b.isPaided() == true)
+        .filter(b -> b.isPaided())
         .count();
   }
 

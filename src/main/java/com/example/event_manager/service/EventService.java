@@ -33,6 +33,8 @@ public interface EventService {
   Map<String, List<Event>> getEventsPartition();
 
   Map<String, List<Event>> searchByNamePlaceTopic(String s);
-  String pathToGeneratatedBillingsRaportForEvent(final Long id) throws TransformerException, IOException, FOPException;
+
+  byte[] generateRaportOfBillingsForEvent(final Long id)
+      throws TransformerException, IOException, FOPException;
 
 }

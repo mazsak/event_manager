@@ -139,17 +139,17 @@
     <table class="table">
       <thead>
       <tr>
-        <th scope="col">Paided</th>
-        <th scope="col">Not paided</th>
-        <th scope="col">Coast of all paided</th>
-        <th scope="col">Coast of all not paided</th>
+        <th scope="col">Paid</th>
+        <th scope="col">Not paid</th>
+        <th scope="col">Coast of all paid</th>
+        <th scope="col">Coast of all not paid</th>
       </tr>
       </thead>
       <tbody>
-        <td><span th:text="${billingsSummary.paided}">Paided </span></td>
+        <td><span th:text="${billingsSummary.paided}">Paid</span></td>
         <td><span th:text="${billingsSummary.notPaided}">Not paid </span></td>
-        <td><span th:text="${billingsSummary.coastOfAllPaided}">Coast of all paided</span></td>
-        <td><span th:text="${billingsSummary.coastOfAllNotPaided}">Coast of all not paided</span></td>
+        <td><span th:text="${billingsSummary.coastOfAllPaided}">Coast of all paid</span></td>
+        <td><span th:text="${billingsSummary.coastOfAllNotPaided}">Coast of all not paid/span></td>
         <td>
           <a class="btn btn-danger" href="#" th:href="@{/events/billingsRaport?id=}+ ${event.id}"
           >Generate PDF</a>

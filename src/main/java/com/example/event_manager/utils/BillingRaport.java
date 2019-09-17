@@ -2,10 +2,9 @@ package com.example.event_manager.utils;
 
 import com.example.event_manager.form.BillingForm;
 import com.thoughtworks.xstream.XStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.StringReader;
 import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
@@ -19,14 +18,11 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class BillingRaport {
 
-
-  private final String pathToBillingInStatic = "src/main/resources/static/billing/";
   private final BillingRaportSchema billingRaportSchema;
   private String billingsXml;
-  private final String styleFileName = "newStyle.xsl";
-  private final String pdfFileName = "billings.pdf";
 
   public BillingRaport(final BillingRaportSchema billingRaportSchema) {
     this.billingRaportSchema = billingRaportSchema;
@@ -41,24 +37,24 @@ public class BillingRaport {
 
   }
 
-  public String convertXmlToPdfAndSaveOnDisc()
+  public byte[] convertBillingRaportToByteStream()
       throws IOException, FOPException, TransformerException {
     generateXmlForBillingRaportSchema();
-    final File xsltFile = new File(
-        pathToBillingInStatic + styleFileName);
+    String styleXslFile = "src/main/resources/static/billing/newStyle.xsl";
+    final File xsltFile = new File(styleXslFile);
     final StreamSource xmlSource = new StreamSource(new StringReader(billingsXml));
     final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
     final FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
-    final OutputStream out = new FileOutputStream(pathToBillingInStatic + pdfFileName);
+    final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     try {
-      final Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
+      final Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, byteArrayOutputStream);
       final TransformerFactory factory = TransformerFactory.newInstance();
       final Transformer transformer = factory.newTransformer(new StreamSource(xsltFile));
       final Result res = new SAXResult(fop.getDefaultHandler());
       transformer.transform(xmlSource, res);
-      return pathToBillingInStatic + pdfFileName;
+      return byteArrayOutputStream.toByteArray();
     } finally {
-      out.close();
+      byteArrayOutputStream.close();
     }
   }
 }
