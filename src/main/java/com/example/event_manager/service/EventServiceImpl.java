@@ -10,11 +10,15 @@ import com.example.event_manager.mapper.TaskStatusMapper;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.model.TaskStatus;
 import com.example.event_manager.repo.EventRepo;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import javax.xml.transform.TransformerException;
 import lombok.RequiredArgsConstructor;
+import org.apache.fop.apps.FOPException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -95,5 +99,25 @@ public class EventServiceImpl implements EventService {
     nameToListMap.put("outdated", eventRepo.findAllByDateTimeIsBefore(LocalDateTime.now()));
 
     return nameToListMap;
+  }
+
+  @Override
+  public Map<String, List<Event>> searchByNamePlaceTopic(final String s) {
+    final Map<String, List<Event>> nameToListMap = new HashMap<>();
+    final List<Event> list = eventRepo.searchByNamePlaceTopic(s);
+
+    nameToListMap.put("started",
+        list.stream().filter(x -> x.getStarted())
+            .filter(x -> x.getDateTime().isAfter(LocalDateTime.now()))
+            .collect(Collectors.toList()));
+    nameToListMap.put("notstarted",
+        list.stream().filter(x -> !x.getStarted())
+            .filter(x -> x.getDateTime().isAfter(LocalDateTime.now()))
+            .collect(Collectors.toList()));
+    nameToListMap.put("outdated",
+        list.stream().filter(x -> x.getDateTime().isBefore(LocalDateTime.now())).collect(
+            Collectors.toList()));
+    return nameToListMap;
+
   }
 }
