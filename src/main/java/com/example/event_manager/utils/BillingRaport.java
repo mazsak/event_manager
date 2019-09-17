@@ -3,6 +3,7 @@ package com.example.event_manager.utils;
 import com.example.event_manager.form.BillingForm;
 import com.thoughtworks.xstream.XStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
@@ -24,8 +25,8 @@ public class BillingRaport {
   private final String pathToBillingInStatic = "src/main/resources/static/billing/";
   private final BillingRaportSchema billingRaportSchema;
   private String billingsXml;
-  private String styleFileName = "newStyle.xsl";
-  private String pdfFileName = "billings.pdf";
+  private final String styleFileName = "newStyle.xsl";
+  private final String pdfFileName = "billings.pdf";
 
   public BillingRaport(final BillingRaportSchema billingRaportSchema) {
     this.billingRaportSchema = billingRaportSchema;
@@ -48,7 +49,7 @@ public class BillingRaport {
     final StreamSource xmlSource = new StreamSource(new StringReader(billingsXml));
     final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
     final FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
-    final OutputStream out = new java.io.FileOutputStream(pathToBillingInStatic + pdfFileName);
+    final OutputStream out = new FileOutputStream(pathToBillingInStatic + pdfFileName);
     try {
       final Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
       final TransformerFactory factory = TransformerFactory.newInstance();

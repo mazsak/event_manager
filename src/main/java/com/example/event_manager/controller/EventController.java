@@ -37,7 +37,6 @@ public class EventController {
   private final PersonService personService;
   private final EventService eventService;
   private final TaskStatusService taskStatusService;
-  private final BillingService billingService;
 
   @GetMapping(value = "billingsRaport", produces = "application/pdf")
   public ResponseEntity<byte[]> Billings(@RequestParam final Long id)
