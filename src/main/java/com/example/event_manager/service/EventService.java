@@ -2,6 +2,7 @@ package com.example.event_manager.service;
 
 import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.TaskStatusForm;
+import com.example.event_manager.model.BillingRaportSchema;
 import com.example.event_manager.model.Event;
 import java.io.IOException;
 import java.util.List;
@@ -34,7 +35,7 @@ public interface EventService {
 
   Map<String, List<Event>> searchByNamePlaceTopic(String s);
 
-  byte[] generateRaportOfBillingsForEvent(final Long id)
+  BillingRaportSchema generateBillingRaportSchemaForEvent(final Long id)
       throws TransformerException, IOException, FOPException;
 
 }

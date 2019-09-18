@@ -15,16 +15,12 @@ import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.model.TaskStatus;
 import com.example.event_manager.repo.EventRepo;
-import com.example.event_manager.utils.BillingRaport;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.xml.transform.TransformerException;
 import lombok.RequiredArgsConstructor;
-import org.apache.fop.apps.FOPException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -128,8 +124,7 @@ public class EventServiceImpl implements EventService {
   }
 
   @Override
-  public byte[] generateRaportOfBillingsForEvent(final Long id)
-      throws TransformerException, IOException, FOPException {
+  public BillingRaportSchema generateBillingRaportSchemaForEvent(final Long id) {
     final EventWithBillingForm eventWithBillingForm = eventWithBillingMapper
         .toDto(this.findById(id));
     final List<BillingForm> listOfBilling = eventWithBillingForm.getBillings();
@@ -138,8 +133,6 @@ public class EventServiceImpl implements EventService {
     brs.setEventName(eventWithBillingForm.getName());
     brs.setBillings(listOfBilling);
     brs.setBillingsSummary(bs);
-
-    final BillingRaport billingRaport = new BillingRaport(brs);
-    return billingRaport.convertBillingRaportToByteStream();
+    return brs;
   }
 }

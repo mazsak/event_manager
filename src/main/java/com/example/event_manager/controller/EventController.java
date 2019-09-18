@@ -2,8 +2,10 @@ package com.example.event_manager.controller;
 
 import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.TaskStatusForm;
+import com.example.event_manager.model.BillingRaportSchema;
 import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.model.Event;
+import com.example.event_manager.service.BillingRaportService;
 import com.example.event_manager.service.EventService;
 import com.example.event_manager.service.PersonService;
 import com.example.event_manager.service.TaskStatusService;
@@ -32,11 +34,13 @@ public class EventController {
   private final PersonService personService;
   private final EventService eventService;
   private final TaskStatusService taskStatusService;
+  private final BillingRaportService billingRaportService;
 
   @GetMapping(value = "billingsRaport", produces = "application/pdf")
   public ResponseEntity<byte[]> billings(@RequestParam final Long id)
       throws TransformerException, IOException, FOPException {
-    final byte[] pdfInByteArray = eventService.generateRaportOfBillingsForEvent(id);
+    BillingRaportSchema brs = eventService.generateBillingRaportSchemaForEvent(id);
+    final byte[] pdfInByteArray = billingRaportService.convertBillingRaportSchemaToByteStream(brs);
     return new ResponseEntity<>(pdfInByteArray, HttpStatus.OK);
   }
 
