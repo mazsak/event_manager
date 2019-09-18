@@ -2,11 +2,11 @@ package com.example.event_manager.controller;
 
 import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.TaskStatusForm;
+import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.service.EventService;
 import com.example.event_manager.service.PersonService;
 import com.example.event_manager.service.TaskStatusService;
-import com.example.event_manager.utils.BillingsSummary;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;

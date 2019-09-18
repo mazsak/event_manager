@@ -1,4 +1,4 @@
-package com.example.event_manager.utils;
+package com.example.event_manager.model;
 
 import com.example.event_manager.form.BillingForm;
 import java.util.List;

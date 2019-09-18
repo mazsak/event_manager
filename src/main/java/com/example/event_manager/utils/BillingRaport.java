@@ -1,9 +1,11 @@
 package com.example.event_manager.utils;
 
 import com.example.event_manager.form.BillingForm;
+import com.example.event_manager.model.BillingRaportSchema;
 import com.thoughtworks.xstream.XStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import javax.xml.transform.Result;
@@ -17,15 +19,20 @@ import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.springframework.util.ResourceUtils;
 
 public class BillingRaport {
 
+  private static final String styleXslFileLocation = "classpath:static/newStyle.xsl";
+  private static File styleFile;
   private final BillingRaportSchema billingRaportSchema;
-  private String billingsXml;
-  static final String styleXslFile = "src/main/resources/static/billing/newStyle.xsl";
+  private static String billingsXml;
 
-  public BillingRaport(final BillingRaportSchema billingRaportSchema) {
+
+  public BillingRaport(final BillingRaportSchema billingRaportSchema)
+      throws FileNotFoundException {
     this.billingRaportSchema = billingRaportSchema;
+    styleFile = ResourceUtils.getFile(styleXslFileLocation);
   }
 
   private void generateXmlForBillingRaportSchema() {
@@ -40,7 +47,7 @@ public class BillingRaport {
   public byte[] convertBillingRaportToByteStream()
       throws IOException, FOPException, TransformerException {
     generateXmlForBillingRaportSchema();
-    final File xsltFile = new File(styleXslFile);
+    final File xsltFile = styleFile;
     final StreamSource xmlSource = new StreamSource(new StringReader(billingsXml));
     final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
     final FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
