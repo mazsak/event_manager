@@ -18,11 +18,11 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 
-@SuppressWarnings("FieldCanBeLocal")
 public class BillingRaport {
 
   private final BillingRaportSchema billingRaportSchema;
   private String billingsXml;
+  static final String styleXslFile = "src/main/resources/static/billing/newStyle.xsl";
 
   public BillingRaport(final BillingRaportSchema billingRaportSchema) {
     this.billingRaportSchema = billingRaportSchema;
@@ -40,7 +40,6 @@ public class BillingRaport {
   public byte[] convertBillingRaportToByteStream()
       throws IOException, FOPException, TransformerException {
     generateXmlForBillingRaportSchema();
-    String styleXslFile = "src/main/resources/static/billing/newStyle.xsl";
     final File xsltFile = new File(styleXslFile);
     final StreamSource xmlSource = new StreamSource(new StringReader(billingsXml));
     final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());

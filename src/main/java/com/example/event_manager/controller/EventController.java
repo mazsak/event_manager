@@ -34,7 +34,7 @@ public class EventController {
   private final TaskStatusService taskStatusService;
 
   @GetMapping(value = "billingsRaport", produces = "application/pdf")
-  public ResponseEntity<byte[]> Billings(@RequestParam final Long id)
+  public ResponseEntity<byte[]> billings(@RequestParam final Long id)
       throws TransformerException, IOException, FOPException {
     final byte[] pdfInByteArray = eventService.generateRaportOfBillingsForEvent(id);
     return new ResponseEntity<>(pdfInByteArray, HttpStatus.OK);
@@ -87,13 +87,12 @@ public class EventController {
   @PostMapping(value = "editTask/save")
   public String saveEditedTask(@ModelAttribute(value = "task") final TaskStatusForm taskStatus) {
     taskStatusService.update((taskStatus));
-    return "redirect:/events/details?id=" + 1L;
+    return "redirect:/events/all";
   }
 
   @GetMapping(value = "all")
   public ModelAndView eventList() {
     final ModelAndView mv = new ModelAndView("event/list");
-
     final Map<String, List<Event>> nameToListMap = this.eventService.getEventsPartition();
 
     mv.addObject("notstarted", nameToListMap.get("notstarted"));
