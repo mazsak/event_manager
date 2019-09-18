@@ -3,10 +3,15 @@ package com.example.event_manager.service;
 
 import static java.util.stream.Collectors.groupingBy;
 
+import com.example.event_manager.form.BillingForm;
 import com.example.event_manager.form.EventForm;
+import com.example.event_manager.form.EventWithBillingForm;
 import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.mapper.EventMapper;
+import com.example.event_manager.mapper.EventWithBillingMapper;
 import com.example.event_manager.mapper.TaskStatusMapper;
+import com.example.event_manager.model.BillingRaportSchema;
+import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.model.TaskStatus;
 import com.example.event_manager.repo.EventRepo;
@@ -26,9 +31,9 @@ public class EventServiceImpl implements EventService {
   private final EventMapper eventMapper;
   private final TaskStatusService taskStatusService;
   private final TaskStatusMapper taskStatusMapper;
+  private final EventWithBillingMapper eventWithBillingMapper;
 
 
-  @Override
   public boolean saveEventForm(final EventForm eventForm) {
     final Event eve = eventMapper.toEntity(eventForm);
     return save(eve);
@@ -61,9 +66,8 @@ public class EventServiceImpl implements EventService {
 
   @Override
   public Map<String, List<TaskStatusForm>> preapreTasksForEvent(final EventForm event) {
-    final Map<String, List<TaskStatusForm>> tasks = event.getTaskStatuses().stream()
+    return event.getTaskStatuses().stream()
         .collect(groupingBy(TaskStatusForm::getTaskStatusType));
-    return tasks;
   }
 
   @Override
@@ -117,5 +121,18 @@ public class EventServiceImpl implements EventService {
             Collectors.toList()));
     return nameToListMap;
 
+  }
+
+  @Override
+  public BillingRaportSchema generateBillingRaportSchemaForEvent(final Long id) {
+    final EventWithBillingForm eventWithBillingForm = eventWithBillingMapper
+        .toDto(this.findById(id));
+    final List<BillingForm> listOfBilling = eventWithBillingForm.getBillings();
+    final BillingsSummary bs = new BillingsSummary(listOfBilling);
+    final BillingRaportSchema brs = new BillingRaportSchema();
+    brs.setEventName(eventWithBillingForm.getName());
+    brs.setBillings(listOfBilling);
+    brs.setBillingsSummary(bs);
+    return brs;
   }
 }
