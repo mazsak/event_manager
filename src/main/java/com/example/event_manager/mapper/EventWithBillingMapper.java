@@ -19,6 +19,4 @@ public interface EventWithBillingMapper {
   EventWithBillingForm toDto(Event event);
 
   BillingForm fromEntity(Billing billing);
-
-
 }

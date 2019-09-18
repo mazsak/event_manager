@@ -22,7 +22,7 @@ public class BillingServiceImpl implements BillingService {
   }
 
   @Override
-  public BillingForm saveAndReturn(BillingForm billingForm) {
+  public BillingForm saveAndReturn(final BillingForm billingForm) {
     return billingMapper.toDto(billingRepo.save(billingMapper.toEntity(billingForm)));
   }
 
@@ -42,7 +42,7 @@ public class BillingServiceImpl implements BillingService {
   }
 
   @Override
-  public void changeState(Long id) {
+  public void changeState(final Long id) {
     billingRepo.changeState(id);
   }
 

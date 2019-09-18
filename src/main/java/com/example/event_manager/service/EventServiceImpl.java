@@ -1,9 +1,15 @@
 package com.example.event_manager.service;
 
+import static java.util.stream.Collectors.groupingBy;
+
+import com.example.event_manager.enums.GroupName;
+import com.example.event_manager.enums.SortHowEnum;
 import com.example.event_manager.exception.EventNotFoundException;
+import com.example.event_manager.form.AllEventsForm;
 import com.example.event_manager.form.BillingForm;
 import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.EventWithBillingForm;
+import com.example.event_manager.form.GroupForm;
 import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.mapper.EventMapper;
 import com.example.event_manager.mapper.EventWithBillingMapper;
@@ -14,17 +20,14 @@ import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.model.TaskStatus;
 import com.example.event_manager.repo.EventRepo;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.groupingBy;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +40,7 @@ public class EventServiceImpl implements EventService {
   private final EventWithBillingMapper eventWithBillingMapper;
   private final BillingService billingService;
 
+  @Override
   public void saveEventForm(final EventForm eventForm) {
     eventForm.setTaskStatuses(eventForm.getTaskStatuses());
     eventForm.setBillings(eventForm.getBillings());
@@ -61,7 +65,7 @@ public class EventServiceImpl implements EventService {
 
   @Override
   public Event findById(final Long id) {
-    Optional<Event> event = eventRepo.findById(id);
+    final Optional<Event> event = eventRepo.findById(id);
     if (!event.isPresent()) {
       throw new EventNotFoundException();
     } else {
@@ -103,50 +107,93 @@ public class EventServiceImpl implements EventService {
     final Event event = findById(eventId);
     event.getTaskStatuses().add(taskStatusMapper.toPOJO(returnedTS));
     save(event);
+
   }
 
   @Override
-  public Map<String, List<Event>> getEventsPartition() {
-    final Map<String, List<Event>> nameToListMap = new HashMap<>();
-
-    nameToListMap.put(
-        "started", eventRepo.findAllByDateTimeIsAfterAndStartedIsTrue(LocalDateTime.now()));
-    nameToListMap.put(
-        "notstarted", eventRepo.findAllByDateTimeIsAfterAndStartedIsFalse(LocalDateTime.now()));
-    nameToListMap.put("outdated", eventRepo.findAllByDateTimeIsBefore(LocalDateTime.now()));
-
-    return nameToListMap;
+  public AllEventsForm searchByNamePlaceTopic(final String s, final Pageable pagingS,
+      final Pageable pagingN,
+      final Pageable pagingO) {
+    final Page<Event> started = eventRepo
+        .searchStarted(s.toLowerCase(), LocalDateTime.now(), pagingS);
+    final Page<Event> notStarted = eventRepo
+        .searchNotStarted(s.toLowerCase(), LocalDateTime.now(), pagingN);
+    final Page<Event> outdated = eventRepo
+        .searchOutdated(s.toLowerCase(), LocalDateTime.now(), pagingO);
+    return AllEventsForm.builder()
+        .started(GroupForm.builder().groupName(GroupName.STARTED).pageOfEvents(started)
+            .pageNumberOfCurrentGroup(started.getNumber())
+            .pageSizeOfCurrentGroup(started.getSize())
+            .pageNumberOfSecondGroup(notStarted.getNumber())
+            .pageSizeOfSecondGroup(notStarted.getSize())
+            .pageNumberOfThirdGroup(outdated.getNumber())
+            .pageSizeOfThirdGroup(outdated.getSize())
+            .query(s)
+            .sortHowEnum(SortHowEnum.NAME_ASC).build())
+        .notStarted(GroupForm.builder().groupName(GroupName.NOTSTARTED).pageOfEvents(notStarted)
+            .pageNumberOfCurrentGroup(notStarted.getNumber())
+            .pageSizeOfCurrentGroup(notStarted.getSize())
+            .pageNumberOfSecondGroup(started.getNumber())
+            .pageSizeOfSecondGroup(started.getSize())
+            .pageNumberOfThirdGroup(outdated.getNumber())
+            .pageSizeOfThirdGroup(outdated.getSize())
+            .query(s)
+            .sortHowEnum(SortHowEnum.NAME_ASC).build())
+        .outdated(GroupForm.builder().groupName(GroupName.OUTDATED).pageOfEvents(outdated)
+            .pageNumberOfCurrentGroup(outdated.getNumber())
+            .pageSizeOfCurrentGroup(outdated.getSize())
+            .pageNumberOfSecondGroup(started.getNumber())
+            .pageSizeOfSecondGroup(started.getSize())
+            .pageNumberOfThirdGroup(notStarted.getNumber())
+            .pageSizeOfThirdGroup(notStarted.getSize())
+            .query(s)
+            .sortHowEnum(SortHowEnum.NAME_ASC).build())
+        .query(s)
+        .build();
   }
 
   @Override
-  public Map<String, List<Event>> searchByNamePlaceTopic(final String s) {
-    final Map<String, List<Event>> nameToListMap = new HashMap<>();
-    final List<Event> list = eventRepo.searchByNamePlaceTopic(s);
-
-    nameToListMap.put(
-            "started",
-            list.stream()
-                    .filter(Event::getStarted)
-            .filter(x -> x.getDateTime().isAfter(LocalDateTime.now()))
-            .collect(Collectors.toList()));
-    nameToListMap.put(
-            "notstarted",
-            list.stream()
-                    .filter(x -> !x.getStarted())
-            .filter(x -> x.getDateTime().isAfter(LocalDateTime.now()))
-            .collect(Collectors.toList()));
-    nameToListMap.put(
-            "outdated",
-            list.stream()
-                    .filter(x -> x.getDateTime().isBefore(LocalDateTime.now()))
-                    .collect(Collectors.toList()));
-    return nameToListMap;
+  public AllEventsForm getPartition(final Pageable pagingS, final Pageable pagingN,
+      final Pageable pagingO) {
+    final Page<Event> started = eventRepo
+        .findAllByDateTimeIsAfterAndStartedIsTrue(LocalDateTime.now(), pagingS);
+    final Page<Event> notStarted = eventRepo
+        .findAllByDateTimeIsAfterAndStartedIsFalse(LocalDateTime.now(), pagingN);
+    final Page<Event> outdated = eventRepo.findAllByDateTimeIsBefore(LocalDateTime.now(), pagingO);
+    return AllEventsForm.builder()
+        .started(GroupForm.builder().groupName(GroupName.STARTED).pageOfEvents(started)
+            .pageNumberOfCurrentGroup(started.getNumber())
+            .pageSizeOfCurrentGroup(started.getSize())
+            .pageNumberOfSecondGroup(notStarted.getNumber())
+            .pageSizeOfSecondGroup(notStarted.getSize())
+            .pageNumberOfThirdGroup(outdated.getNumber())
+            .pageSizeOfThirdGroup(outdated.getSize())
+            .query("")
+            .sortHowEnum(SortHowEnum.NAME_ASC).build())
+        .notStarted(GroupForm.builder().groupName(GroupName.NOTSTARTED).pageOfEvents(notStarted)
+            .pageNumberOfCurrentGroup(notStarted.getNumber())
+            .pageSizeOfCurrentGroup(notStarted.getSize())
+            .pageNumberOfSecondGroup(started.getNumber())
+            .pageSizeOfSecondGroup(started.getSize())
+            .pageNumberOfThirdGroup(outdated.getNumber())
+            .pageSizeOfThirdGroup(outdated.getSize())
+            .query("")
+            .sortHowEnum(SortHowEnum.NAME_ASC).build())
+        .outdated(GroupForm.builder().groupName(GroupName.OUTDATED).pageOfEvents(outdated)
+            .pageNumberOfCurrentGroup(outdated.getNumber())
+            .pageSizeOfCurrentGroup(outdated.getSize())
+            .pageNumberOfSecondGroup(started.getNumber())
+            .pageSizeOfSecondGroup(started.getSize())
+            .pageNumberOfThirdGroup(notStarted.getNumber())
+            .pageSizeOfThirdGroup(notStarted.getSize())
+            .query("")
+            .sortHowEnum(SortHowEnum.NAME_ASC).build()).build();
   }
 
   @Override
   public BillingRaportSchema generateBillingRaportSchemaForEvent(final Long id) {
     final EventWithBillingForm eventWithBillingForm =
-            eventWithBillingMapper.toDto(this.findById(id));
+        eventWithBillingMapper.toDto(this.findById(id));
     final List<BillingForm> listOfBilling = eventWithBillingForm.getBillings();
     final BillingsSummary bs = new BillingsSummary(listOfBilling);
     final BillingRaportSchema brs = new BillingRaportSchema();
@@ -157,7 +204,7 @@ public class EventServiceImpl implements EventService {
   }
 
   @Override
-  public void changeStarted(Long id) {
+  public void changeStarted(final Long id) {
     eventRepo.changeStarted(id);
   }
 }

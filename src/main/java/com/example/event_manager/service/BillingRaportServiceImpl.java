@@ -25,11 +25,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class BillingRaportServiceImpl implements BillingRaportService {
 
-
   @Value("classpath:static/newStyle.xsl")
   Resource styleXslResource;
 
-  public String generateXmlForBillingRaportSchema(BillingRaportSchema brs) {
+  @Override
+  public String generateXmlForBillingRaportSchema(final BillingRaportSchema brs) {
     final XStream xStream = new XStream();
     xStream.alias("BillingRaportSchema", BillingRaportSchema.class);
     xStream.alias("billing", BillingForm.class);
@@ -37,9 +37,10 @@ public class BillingRaportServiceImpl implements BillingRaportService {
     return xStream.toXML(brs);
   }
 
-  public byte[] convertBillingRaportSchemaToByteStream(BillingRaportSchema brs)
+  @Override
+  public byte[] convertBillingRaportSchemaToByteStream(final BillingRaportSchema brs)
       throws IOException, FOPException, TransformerException {
-    String xml = generateXmlForBillingRaportSchema(brs);
+    final String xml = generateXmlForBillingRaportSchema(brs);
     final File xsltFile = styleXslResource.getFile();
     final StreamSource xmlSource = new StreamSource(new StringReader(xml));
     final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());

@@ -11,5 +11,4 @@ public interface BillingRaportService {
 
   byte[] convertBillingRaportSchemaToByteStream(BillingRaportSchema brs)
       throws IOException, FOPException, TransformerException;
-
 }

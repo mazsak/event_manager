@@ -1,50 +1,59 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="events" type="com.example.event_manager.form.AllEventsForm"*/-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <!--  <link rel="stylesheet"-->
-  <!--                                        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"-->
-  <!--                                        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"-->
-  <!--                                        crossorigin="anonymous">-->
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
 
 </head>
 <body>
 <nav th:replace="/fragments/nav :: nav"></nav>
 
-<div class="container" style="margin-top:80px;">
+<div class="container" style="margin-top:100px; margin-bottom: 100px;">
   <div class="row ">
     <div>
-      <form>
-
-        <!--end of col-->
+      <form action="#" th:action="@{all}" th:object="${events}" method="get">
         <div class="input-group">
           <input class="form-control" type="search"
-                 placeholder="Search for event" name='query'>
-          <div class="input-group-btn">
-            <button class="btn btn-lg btn-success" type="submit">Search</button>
-          </div>
+                 placeholder="Search for event" th:field = "*{query}">
+          <span class="input-group-btn">
+            <button class="btn btn-success" name="search">Search</button>
+          </span>
         </div>
-
-
       </form>
     </div>
-    <!--end of col-->
   </div>
   <div
-      th:replace="/fragments/group :: group(name='Started (Tasks that are in progress)', events = ${started})"></div>
-  <div th:replace="/fragments/group :: group(name='Not Started', events = ${notstarted})"></div>
-  <div th:replace="/fragments/group :: group(name='Outdated', events = ${outdated})"></div>
-
+      th:replace="/fragments/group :: group(name='In progress', events = ${events.started})"></div>
+  <div
+      th:replace="/fragments/group :: group(name='Not Started', events = ${events.notStarted})"></div>
+  <div
+      th:replace="/fragments/group :: group(name='Outdated', events = ${events.outdated})"></div>
 </div>
+<script>
+  $(window).scroll(function() {
+    sessionStorage.scrollTop = $(this).scrollTop();
+  });
+
+  $(document).ready(function() {
+    if (sessionStorage.scrollTop != "undefined") {
+      $(window).scrollTop(sessionStorage.scrollTop);
+    }
+  });
+
+
+  function myFunction(){
+    $("form").submit();
+  }
+</script>
 </body>
 </html>

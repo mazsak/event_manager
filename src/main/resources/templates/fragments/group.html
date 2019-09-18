@@ -1,38 +1,98 @@
-<div th:fragment="group(name,events)" th:if="${!events.isEmpty()}" class="card"
-     xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:th="http://www.thymeleaf.org" style="margin-bottom: 80px;">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item" style="background-color: #d4d4d4">
-      <h4><label th:text="${name}"></label></h4>
-    </li>
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <!--/*@thymesVar id="events" type="com.example.event_manager.form.GroupForm"*/-->
+  <!--/*@thymesVar id="name" type="java.lang.String"*/-->
+  <div th:fragment="group(name,events)"
+       th:if="${events != null and !events.pageOfEvents.isEmpty()}"
+       class="card"
+       style="margin-top: 80px;">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" style="background-color: #f5f9fa">
+        <h4><label th:text="${name}"></label></h4>
+      </li>
 
-    <li class="list-group-item">
+      <form action="#" th:action="@{/events/all}" th:object="${events}" method="get">
+        <li class="list-group-item">
+          <input hidden name="sortHowEnum" th:value="*{sortHowEnum}">
+          <input hidden name="groupName" th:value="*{groupName}">
+          <input hidden type="number" name = "pageNumberOfCurrentGroup" th:value="*{pageNumberOfCurrentGroup}"/>
+          <input hidden type="number" name="pageSizeOfCurrentGroup" th:value="*{pageSizeOfCurrentGroup}"/>
+          <input hidden type="number" name="pageNumberOfSecondGroup" th:value="*{pageNumberOfSecondGroup}"/>
+          <input hidden type="number" name="pageSizeOfSecondGroup" th:value="*{pageSizeOfSecondGroup}"/>
+          <input hidden type="number" name="pageNumberOfThirdGroup" th:value="*{pageNumberOfThirdGroup}"/>
+          <input hidden type="number" name="pageSizeOfThirdGroup" th:value="*{pageSizeOfThirdGroup}"/>
+          <input hidden type="text" name="query" th:value="*{query}">
+          <table class="table ">
+            <thead>
+            <tr>
+              <th>
+                <label>Name</label>
+                <button class="page-link" style="background-color: transparent; border-color: transparent " name="sort" value="NAME">
+                  <i class="fa fa-fw fa-sort"></i>
+                </button>
+              </th>
+              <th>
+                <label>Location</label>
+                <button style="background-color: transparent; border-color: transparent " name="sort" value="LOCATION">
+                  <i class="fa fa-fw fa-sort"></i>
+                </button>
+              </th>
+              <th>
+                <label>Date</label>
+                <button style="background-color: transparent; border-color: transparent " name="sort" value="DATE">
+                  <i class="fa fa-fw fa-sort"></i>
+                </button>
+              </th>
+              <th>
+                <label>Topic</label>
+                <button style="background-color: transparent; border-color: transparent " name="sort" value="TOPIC">
+                  <i class="fa fa-fw fa-sort"></i>
+                </button>
+              </th>
+            </tr>
+            <tr th:each="event : *{pageOfEvents.content}"
+                th:onclick="'detailView(' + ${event.id} + ')'">
+              <td>
+                <p th:text="${event.name}"></p>
+              </td>
+              <td>
+                <p th:text="${event.place}"></p>
+              </td>
+              <td>
+                <p th:text="${event.dateTime}"></p>
+              </td>
+              <td>
+                <p th:text="${event.topic}"></p>
+              </td>
 
-      <table class="table ">
-        <thead>
-        <tr>
-          <th>Name</th>
-          <th>Location</th>
-          <th>Date</th>
-          <th>Topic</th>
-          <th>Edit</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="event : ${events}">
-          <td><a th:href="@{/events/details/} + ${event.id}"><span
-              th:text="${event.name}"></span></a></td>
-          </td>
-          <td><span th:text="${event.place}"></span></td>
-          <td><span th:text="${event.dateTime}"></span></td>
-          <td><span th:text="${event.topic}"></span></td>
-          <td><a class="btn btn-primary" href="#" th:href="@{add/__${event.id}__}"><i
-              class="fas fa-user-edit ml-2"></i></a></td>
-          <!--        th:href="@{/event/edit/{id}(id=${event.id})}"-->
-        </tr>
-        </tbody>
-      </table>
-
-    </li>
-  </ul>
+              <td th:if="${name != 'Outdated'}"><a  class="btn btn-primary" href="#" th:href="@{/events/add/{id}(id=${event.id})}"><span class="glyphicon glyphicon-edit"></span> </a></td>
+              <td><span th:if="${name == 'Outdated'}" style="color: #5e5e5e">Not editable</span></td>
+            </tr>
+            </thead>
+          </table>
+        </li>
+        <li class="list-group-item">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item" th:if="${events.pageOfEvents.hasPrevious()}">
+                <button class="btn" name="previous">Previous</button>
+              </li>
+              <th:block th:each="i: ${#numbers.sequence(0, events.pageOfEvents.getTotalPages() - 1)}">
+                <li  class="page-item" >
+                  <button class="btn" th:classappend="*{pageNumberOfCurrentGroup == __${i}__} ? btn-success"th:text="${i+1}" name = "changePage" th:value="${i}"></button>
+                </li>
+              </th:block>
+              <li class="page-item" th:if="${events.pageOfEvents.hasNext()}">
+                <button class="btn" name="next">Next</button>
+              </li>
+            </ul>
+          </nav>
+        </li>
+      </form>
+    </ul>
+    <script>
+      function detailView(id) {
+          location.href = location.href.split('/',1)[0] + "/events/details/" + id;
+      }
+    </script>
+  </div>
 </div>

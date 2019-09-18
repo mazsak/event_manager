@@ -15,5 +15,4 @@ public interface BillingMapper {
   Billing toEntity(BillingForm billingForm);
 
   BillingForm toDto(Billing billing);
-
 }
