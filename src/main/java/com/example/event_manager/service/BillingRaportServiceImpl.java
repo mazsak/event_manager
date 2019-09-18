@@ -5,7 +5,6 @@ import com.example.event_manager.model.BillingRaportSchema;
 import com.thoughtworks.xstream.XStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import javax.xml.transform.Result;
@@ -19,31 +18,29 @@ import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 @Service
 public class BillingRaportServiceImpl implements BillingRaportService {
 
-  private static final String styleXslFileLocation = "classpath:static/newStyle.xsl";
-  private static File styleFile;
 
+  @Value("classpath:static/newStyle.xsl")
+  Resource styleXslResource;
 
-  public String generateXmlForBillingRaportSchema(BillingRaportSchema brs)
-      throws FileNotFoundException {
-    styleFile = ResourceUtils.getFile(styleXslFileLocation);
+  public String generateXmlForBillingRaportSchema(BillingRaportSchema brs) {
     final XStream xStream = new XStream();
     xStream.alias("BillingRaportSchema", BillingRaportSchema.class);
     xStream.alias("billing", BillingForm.class);
     xStream.addImplicitCollection(BillingRaportSchema.class, "billings");
     return xStream.toXML(brs);
-
   }
 
   public byte[] convertBillingRaportSchemaToByteStream(BillingRaportSchema brs)
       throws IOException, FOPException, TransformerException {
     String xml = generateXmlForBillingRaportSchema(brs);
-    final File xsltFile = styleFile;
+    final File xsltFile = styleXslResource.getFile();
     final StreamSource xmlSource = new StreamSource(new StringReader(xml));
     final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
     final FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
