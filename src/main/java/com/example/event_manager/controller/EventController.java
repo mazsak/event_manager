@@ -6,17 +6,23 @@ import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.form.ToDoPredefinedForm;
 import com.example.event_manager.form.ToDoPredefinedSimpleForm;
-import com.example.event_manager.mapper.EventMapper;
 import com.example.event_manager.model.BillingRaportSchema;
 import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.model.Event;
-import com.example.event_manager.repo.EventRepo;
 import com.example.event_manager.service.BillingRaportService;
 import com.example.event_manager.service.BillingService;
 import com.example.event_manager.service.EventService;
 import com.example.event_manager.service.PersonService;
 import com.example.event_manager.service.TaskStatusService;
 import com.example.event_manager.service.ToDoPredefinedService;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.xml.transform.TransformerException;
 import lombok.AllArgsConstructor;
 import org.apache.fop.apps.FOPException;
 import org.springframework.http.HttpStatus;
@@ -24,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,14 +38,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RequestMapping("events")
 @Controller
@@ -51,8 +50,7 @@ public class EventController {
   private final BillingRaportService billingRaportService;
   private final ToDoPredefinedService toDoPredefinedService;
   private final BillingService billingService;
-    private final EventRepo eventRepo;
-    private final EventMapper eventMapper;
+
 
   @GetMapping(value = "billingsRaport", produces = "application/pdf")
   public ResponseEntity<byte[]> billings(@RequestParam final Long id)
@@ -99,20 +97,20 @@ public class EventController {
   @GetMapping("/add")
   public String add(final Model model) {
     model.addAttribute(
-            "eventAddEditForm",
-            EventAddEditForm.builder()
-                    .event(
-                            EventForm.builder()
-                                    .started(false)
-                                    .taskStatus(
-                                            TaskStatusForm.builder().status(false).taskStatusType("adhoc").build())
-                                    .billing(BillingForm.builder().build())
-                                    .build())
-                    .predefinedNameList(toDoPredefinedService.findAllSimple())
-                    .people(personService.findAll())
-                    .position(0)
-                    .collapses(Arrays.asList(true, false, false, false, false, false))
-                    .build());
+        "eventAddEditForm",
+        EventAddEditForm.builder()
+            .event(
+                EventForm.builder()
+                    .started(false)
+                    .taskStatus(
+                        TaskStatusForm.builder().status(false).taskStatusType("adhoc").build())
+                    .billing(BillingForm.builder().build())
+                    .build())
+            .predefinedNameList(toDoPredefinedService.findAllSimple())
+            .people(personService.findAll())
+            .position(0)
+            .collapses(Arrays.asList(true, false, false, false, false, false))
+            .build());
 
     return "event/add";
   }
@@ -133,18 +131,18 @@ public class EventController {
           toDoPredefinedService.findAllByNameNotInSimple(
               event.getPredefineds().stream()
                   .map(e -> e.get(0).getTaskStatusType())
-                      .collect(Collectors.toList()));
+                  .collect(Collectors.toList()));
     }
 
     model.addAttribute(
-            "eventAddEditForm",
-            EventAddEditForm.builder()
-                    .event(event)
-                    .predefinedNameList(predefinedSimpleForms)
-                    .people(personService.findAll())
-                    .position(0)
-                    .collapses(Arrays.asList(true, false, false, false, false, false))
-                    .build());
+        "eventAddEditForm",
+        EventAddEditForm.builder()
+            .event(event)
+            .predefinedNameList(predefinedSimpleForms)
+            .people(personService.findAll())
+            .position(0)
+            .collapses(Arrays.asList(true, false, false, false, false, false))
+            .build());
 
     return "/event/add";
   }
@@ -155,7 +153,7 @@ public class EventController {
       eventAddEditForm.getEvent().setTaskStatuses(new ArrayList<>());
     }
     eventAddEditForm
-            .getEvent()
+        .getEvent()
         .getTaskStatuses()
         .add(TaskStatusForm.builder().status(false).taskStatusType("adhoc").build());
     eventAddEditForm = updateData(eventAddEditForm);
@@ -167,11 +165,11 @@ public class EventController {
 
   @PostMapping(value = "/add", params = "removeAdhoc")
   public String removeAdhoc(
-          final Model model,
-          @ModelAttribute EventAddEditForm eventAddEditForm,
-          @RequestParam("removeAdhoc") final String indexAdhoc) {
+      final Model model,
+      @ModelAttribute EventAddEditForm eventAddEditForm,
+      @RequestParam("removeAdhoc") final String indexAdhoc) {
     TaskStatusForm taskStatusRemove =
-            eventAddEditForm.getEvent().getTaskStatuses().get(Integer.parseInt(indexAdhoc));
+        eventAddEditForm.getEvent().getTaskStatuses().get(Integer.parseInt(indexAdhoc));
     eventAddEditForm.getEvent().getTaskStatuses().remove(taskStatusRemove);
     eventAddEditForm = updateData(eventAddEditForm);
 
@@ -195,11 +193,11 @@ public class EventController {
 
   @PostMapping(value = "/add", params = "removeBilling")
   public String removeBilling(
-          final Model model,
-          @ModelAttribute EventAddEditForm eventAddEditForm,
-          @RequestParam("removeBilling") final String indexBilling) {
+      final Model model,
+      @ModelAttribute EventAddEditForm eventAddEditForm,
+      @RequestParam("removeBilling") final String indexBilling) {
     BillingForm billingRemove =
-            eventAddEditForm.getEvent().getBillings().get(Integer.parseInt(indexBilling));
+        eventAddEditForm.getEvent().getBillings().get(Integer.parseInt(indexBilling));
     eventAddEditForm.getEvent().getBillings().remove(billingRemove);
     eventAddEditForm = updateData(eventAddEditForm);
 
@@ -210,9 +208,9 @@ public class EventController {
 
   @PostMapping(value = "/add", params = "addPredefined")
   public String addPredefined(
-          final Model model,
-          @RequestParam("addPredefined") final ToDoPredefinedSimpleForm predefined,
-          @ModelAttribute EventAddEditForm eventAddEditForm) {
+      final Model model,
+      @RequestParam("addPredefined") final ToDoPredefinedSimpleForm predefined,
+      @ModelAttribute EventAddEditForm eventAddEditForm) {
     final ToDoPredefinedForm predefinedForm = toDoPredefinedService.findById(predefined.getId());
     if (!predefinedForm.getTasks().isEmpty()) {
       eventAddEditForm.getEvent().addToDoPredefined(predefinedForm);
@@ -226,11 +224,11 @@ public class EventController {
 
   @PostMapping(value = "/add", params = "removePredefined")
   public String removePredefined(
-          final Model model,
-          @RequestParam("removePredefined") final String indexPredefined,
-          @ModelAttribute EventAddEditForm eventAddEditForm) {
+      final Model model,
+      @RequestParam("removePredefined") final String indexPredefined,
+      @ModelAttribute EventAddEditForm eventAddEditForm) {
     List<TaskStatusForm> predefinedRemove =
-            eventAddEditForm.getEvent().getPredefineds().get(Integer.parseInt(indexPredefined));
+        eventAddEditForm.getEvent().getPredefineds().get(Integer.parseInt(indexPredefined));
     eventAddEditForm.getEvent().getPredefineds().remove(predefinedRemove);
     eventAddEditForm = updateData(eventAddEditForm);
 
@@ -238,11 +236,20 @@ public class EventController {
     return "event/add";
   }
 
-  @PostMapping(value = "/add", params = "action=save")
-  public String save(@ModelAttribute final EventAddEditForm eventAddEditForm) {
-    eventAddEditForm.getEvent().makeToOneList();
-    eventService.saveEventForm(eventAddEditForm.getEvent());
-    return "redirect:/events/all";
+  @PostMapping(value = "add", params = "action=save")
+  public String save(@ModelAttribute("eventAddEditForm") @Valid EventAddEditForm eventAddEditForm,
+      BindingResult bindingResult, Model model) {
+    if (bindingResult.hasErrors()) {
+      eventAddEditForm = updateData(eventAddEditForm);
+
+      model.addAttribute("eventAddEditForm", eventAddEditForm);
+
+      return "event/add";
+    } else {
+      eventAddEditForm.getEvent().makeToOneList();
+      eventService.saveEventForm(eventAddEditForm.getEvent());
+      return "redirect:/events/all";
+    }
   }
 
   @GetMapping(value = "all")
@@ -258,8 +265,8 @@ public class EventController {
   }
 
   @GetMapping(value = "all", params = "search")
-  public String search(
-          @RequestParam(value = "query", required = false) final String query, final Model model) {
+  public String search(@RequestParam(value = "query", required = false) final String query,
+      final Model model) {
 
     final Map<String, List<Event>> nameToListMap = this.eventService.searchByNamePlaceTopic(query);
 
@@ -272,15 +279,18 @@ public class EventController {
 
   private EventAddEditForm updateData(EventAddEditForm eventAddEditForm) {
     eventAddEditForm.setPeople(personService.findAll());
-      if (CollectionUtils.isEmpty(eventAddEditForm.getEvent().getPredefineds()))
+    if (CollectionUtils.isEmpty(eventAddEditForm.getEvent().getPredefineds())) {
       eventAddEditForm.setPredefinedNameList(toDoPredefinedService.findAllSimple());
-    else
+    } else {
       eventAddEditForm.setPredefinedNameList(
-              toDoPredefinedService.findAllByNameNotInSimple(
-                      eventAddEditForm.getEvent().getPredefineds().stream()
-                              .map(x -> x.get(0).getTaskStatusType())
-                              .collect(Collectors.toList())));
+          toDoPredefinedService.findAllByNameNotInSimple(
+              eventAddEditForm.getEvent().getPredefineds().stream()
+                  .map(x -> x.get(0).getTaskStatusType())
+                  .collect(Collectors.toList())));
+    }
 
     return eventAddEditForm;
   }
+
+
 }

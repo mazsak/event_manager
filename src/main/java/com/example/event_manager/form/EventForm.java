@@ -1,5 +1,13 @@
 package com.example.event_manager.form;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -9,12 +17,6 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @ToString
 @Getter
@@ -26,22 +28,38 @@ import java.util.stream.Collectors;
 public class EventForm {
 
   private Long id;
+
+  @NotNull
+  @Size(min = 2, max = 20, message = "Name length must be between 3 and 255")
   private String name;
+
+  @NotNull
+  @Size(min = 3, max = 255, message = "Description length must be between 3 and 255")
   private String description;
+
+  @NotNull
+  @Size(min = 3, max = 255, message = "Topic length must be between 3 and 255")
   private String topic;
+
+  @NotNull
+  @Size(min = 3, max = 255, message = "Place length must be between 3 and 255")
   private String place;
+
   private Boolean started;
 
   @Singular
   private List<List<TaskStatusForm>> predefineds;
 
+  @NotNull(message = "Select date and time")
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-  private LocalDateTime dateTime = LocalDateTime.now();
+  private LocalDateTime dateTime;
 
   @Singular
+  @Valid
   private List<TaskStatusForm> taskStatuses;
 
   @Singular
+  @Valid
   private List<BillingForm> billings = new ArrayList<>();
 
   public void separationTasksOnList() {

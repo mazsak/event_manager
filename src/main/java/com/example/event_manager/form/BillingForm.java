@@ -1,6 +1,9 @@
 package com.example.event_manager.form;
 
 import java.time.LocalDateTime;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,9 +22,13 @@ public class BillingForm {
 
   private Long id;
 
+  @Size(min = 3, max = 255, message = "Comapny name length between 3 and 255")
   private String companyName;
+  @Min(value = 0, message = "expense > 0")
   private double money;
+  @NotNull(message = "status not null")
   private boolean paided;
+  @Size(min = 3, max = 255, message = "Person must be assigned")
   private String personAssigned;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")

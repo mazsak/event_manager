@@ -37,29 +37,22 @@ public class EventServiceImpl implements EventService {
   private final BillingService billingService;
 
   public void saveEventForm(final EventForm eventForm) {
-    if(eventForm.getBillings()==null)
+    if (eventForm.getBillings() == null) {
       eventForm.setBillings(new ArrayList<BillingForm>());
+    }
     final List<TaskStatusForm> list = new ArrayList<>();
     final List<BillingForm> billingFormList = new ArrayList<>();
     eventForm
         .getTaskStatuses()
         .forEach(
             x -> {
-              if (x.getId() == null) {
-                list.add(taskStatusService.saveAndReturn(x));
-              } else {
-                list.add(x);
-              }
+              list.add(taskStatusService.saveAndReturn(x));
             });
     eventForm
         .getBillings()
         .forEach((
             x -> {
-              if (x.getId() == null) {
-                billingFormList.add(billingService.saveAndReturn(x));
-              } else {
-                billingFormList.add(x);
-              }
+              billingFormList.add(billingService.saveAndReturn(x));
             }
         ));
     eventForm.setTaskStatuses(list);

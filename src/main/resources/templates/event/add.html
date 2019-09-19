@@ -28,6 +28,31 @@
                             <input hidden th:field="*{event.started}"/>
                             <input hidden th:field="*{collapses}"/>
                             <input id="position" hidden th:field="*{position}" th:value="*{position}">
+                            <div th:if="${#fields.hasErrors('event.name')}">
+                                <div class="alert alert-danger" role="alert">
+                                    <p th:errors="*{event.name}"></p>
+                                </div>
+                            </div>
+                            <div th:if="${#fields.hasErrors('event.topic')}">
+                                <div class="alert alert-danger" role="alert">
+                                    <p th:errors="*{event.topic}"></p>
+                                </div>
+                            </div>
+                            <div th:if="${#fields.hasErrors('event.description')}">
+                                <div class="alert alert-danger" role="alert">
+                                    <p th:errors="*{event.description}"></p>
+                                </div>
+                            </div>
+                            <div th:if="${#fields.hasErrors('event.place')}">
+                                <div class="alert alert-danger" role="alert">
+                                    <p th:errors="*{event.place}"></p>
+                                </div>
+                            </div>
+                            <div th:if="${#fields.hasErrors('event.dateTime')}">
+                                <div class="alert alert-danger" role="alert">
+                                    <p th:errors="*{event.dateTime}"></p>
+                                </div>
+                            </div>
                             <table class="table">
                                 <tr>
                                     <td><label> Name </label></td>
@@ -39,6 +64,7 @@
                                     <td><label> Topic </label></td>
                                     <td>
                                         <input class="form-control" type="text" th:field="*{event.topic}"/>
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -47,12 +73,14 @@
                                 <textarea style="resize: vertical;" class="form-control"
                                           th:field="*{event.description}"></textarea>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td><label> Place </label></td>
                                     <td>
                                         <input class="form-control" type="text" th:field="*{event.place}"/>
                                     </td>
+
                                 </tr>
                                 <tr>
                                     <td><label> Date </label></td>
@@ -69,7 +97,7 @@
             <ul class="list-group list-group-flush">
                 <a id="a_list_predefined" data-toggle="collapse" href="#list_predefined">
                     <li class="list-group-item" style="background-color: #f5f9fa">
-                        <h4><label> Predefined List </label></h4>
+                        <h4><label> List predefined </label></h4>
                     </li>
                 </a>
                 <input hidden id="input_list_predefined" type="checkbox" th:field="*{collapses[1]}"/>
@@ -239,6 +267,22 @@
                                                 th:value="${itemStat.index}"><i
                                                 class="fa fa-trash-o" aria-hidden="true"></i></button>
                                     </td>
+
+                                    <div th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].name')}">
+                                        <div class="alert alert-danger" role="alert">
+                                            <p th:errors="*{event.taskStatuses[__${itemStat.index}__].name}"></p>
+                                        </div>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].person')}">
+                                    <div class="alert alert-danger" role="alert">
+                                        <p th:errors="*{event.taskStatuses[__${itemStat.index}__].person}"></p>
+                                    </div>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].date')}">
+                                        <div class="alert alert-danger" role="alert">
+                                            <p th:errors="*{event.taskStatuses[__${itemStat.index}__].date}"></p>
+                                        </div>
+                                    </div>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -300,7 +344,7 @@
                                                th:field="*{event.billings[__${itemStat.index}__].companyName}">
                                     </td>
                                     <td>
-                                        <input class="form-control" type="text"
+                                        <input class="form-control" type="number" step ="0.01"
                                                th:field="*{event.billings[__${itemStat.index}__].money}">
                                     </td>
                                     <td>
@@ -317,6 +361,26 @@
                                                 th:value="${itemStat.index}"><i
                                                 class="fa fa-trash-o" aria-hidden="true"></i></button>
                                     </td>
+                                    <div th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].companyName')}">
+                                    <div class="alert alert-danger" role="alert">
+                                        <p th:errors="*{event.billings[__${itemStat.index}__].companyName}"></p>
+                                    </div>
+                                </div>
+                                    <div th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].money')}">
+                                        <div class="alert alert-danger" role="alert">
+                                            <p th:errors="*{event.billings[__${itemStat.index}__].money}"></p>
+                                        </div>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].paided')}">
+                                        <div class="alert alert-danger" role="alert">
+                                            <p th:errors="*{event.billings[__${itemStat.index}__].paided}"></p>
+                                        </div>
+                                    </div>
+                                    <div th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].personAssigned')}">
+                                        <div class="alert alert-danger" role="alert">
+                                            <p th:errors="*{event.billings[__${itemStat.index}__].personAssigned}"></p>
+                                        </div>
+                                    </div>
                                 </tr>
                                 <tr>
                                     <td></td>
