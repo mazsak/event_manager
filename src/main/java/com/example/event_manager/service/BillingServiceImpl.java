@@ -16,13 +16,13 @@ public class BillingServiceImpl implements BillingService {
   private final BillingMapper billingMapper;
 
   @Override
-  public boolean save(final Billing billing) {
-    return billingRepo.save(billing) != null;
+  public boolean save(final BillingForm billing) {
+    return billingRepo.save(billingMapper.toEntity(billing)) != null;
   }
 
   @Override
-  public boolean saveBillingForm(final BillingForm billingForm) {
-    return save(billingMapper.toEntity(billingForm));
+  public BillingForm saveAndReturn(BillingForm billingForm) {
+    return billingMapper.toDto(billingRepo.save(billingMapper.toEntity(billingForm)));
   }
 
   @Override

@@ -5,6 +5,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,10 +35,9 @@ public class ToDoPredefined {
 
   private String name;
 
-  @ElementCollection
+  @ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
   @CollectionTable(name = "task", joinColumns = @JoinColumn(name = "id"))
   @Column(name = "description")
   @Singular
   private List<String> tasks;
-
 }

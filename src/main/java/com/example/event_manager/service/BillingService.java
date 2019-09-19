@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface BillingService {
 
-  boolean save(final Billing billing);
+  boolean save(final BillingForm billing);
 
-  boolean saveBillingForm(final BillingForm billingForm);
+  BillingForm saveAndReturn(BillingForm billingForm);
 
   void delete(final Long id);
 

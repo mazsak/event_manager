@@ -14,7 +14,7 @@ public interface EventService {
 
   boolean save(final Event event);
 
-  boolean saveEventForm(final EventForm eventForm);
+  void saveEventForm(final EventForm eventForm);
 
   void delete(final Long id);
 
@@ -24,10 +24,11 @@ public interface EventService {
 
   EventForm eventFormById(final Long id);
 
-
   Map<String, List<TaskStatusForm>> preapreTasksForEvent(final EventForm eventForm);
 
-  boolean deleteTaskStatusFromEvent(Long taskId, Long eventId);
+  void deleteTaskStatusFromEvent(Long taskId, Long eventId);
+
+  void deleteBillingFromEvent(Long bilingId, Long eventId);
 
   void saveAdhocTaskToEvent(TaskStatusForm taskStatusForm, Long eventId);
 

@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ToDoPredefinedRepo extends JpaRepository<ToDoPredefined, Long> {
 
   List<ToDoPredefined> findAllByOrderByNameAsc();
+
+  List<ToDoPredefined> findAllByNameNotIn(List<String> names);
 }

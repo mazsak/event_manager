@@ -19,5 +19,4 @@ public class PersonForm {
 
   private Long id;
   private String name;
-
 }

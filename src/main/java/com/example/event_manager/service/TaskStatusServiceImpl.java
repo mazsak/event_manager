@@ -17,7 +17,6 @@ public class TaskStatusServiceImpl implements TaskStatusService {
   private final TaskStatusMapper taskStatusMapper;
   private final PersonService personService;
 
-
   @Override
   public boolean save(final TaskStatus taskStatus) {
     return taskStatusRepo.save(taskStatus) != null;
@@ -25,8 +24,8 @@ public class TaskStatusServiceImpl implements TaskStatusService {
 
   @Override
   public TaskStatusForm saveAndReturn(final TaskStatusForm taskStatus) {
-    return taskStatusMapper.taskStatusToTaskStatusDto(taskStatusRepo.save(
-        taskStatusMapper.toPOJO(taskStatus)));
+    return taskStatusMapper.taskStatusToTaskStatusDto(
+        taskStatusRepo.save(taskStatusMapper.toPOJO(taskStatus)));
   }
 
   @Override

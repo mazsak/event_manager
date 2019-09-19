@@ -2,7 +2,10 @@ package com.example.event_manager.form;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -28,14 +31,70 @@ public class EventForm {
   private String topic;
   private String place;
   private Boolean started;
+  private int position;
+
+  private List<Boolean> collapses = Arrays.asList(true, false, false, false, false);
+
+  @Singular
+  private List<List<TaskStatusForm>> predefineds;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime dateTime = LocalDateTime.now();
+
   @Singular
-  private List<TaskStatusForm> taskStatuses = new ArrayList<>();
+  private List<TaskStatusForm> taskStatuses;
 
   @Singular
   private List<BillingForm> billings = new ArrayList<>();
+
+  public void changeCollapses(final int index) {
+    collapses.set(index, !collapses.get(index));
+  }
+
+  public void separationTasksOnList() {
+    final Set<String> namePredefined =
+        taskStatuses.stream().map(TaskStatusForm::getTaskStatusType).collect(Collectors.toSet());
+    namePredefined.remove("adhoc");
+    predefineds = new ArrayList<>();
+
+    for (final String name : namePredefined) {
+      predefineds.add(
+          taskStatuses.stream()
+              .filter(x -> x.getTaskStatusType().equals(name))
+              .collect(Collectors.toList()));
+    }
+
+    setTaskStatuses(
+        taskStatuses.stream()
+            .filter(x -> x.getTaskStatusType().equals("adhoc"))
+            .collect(Collectors.toList()));
+  }
+
+  public void makeToOneList() {
+    if (taskStatuses == null) {
+      taskStatuses = new ArrayList<>();
+    }
+    if (predefineds != null && !predefineds.isEmpty()) {
+      predefineds.forEach(taskStatuses::addAll);
+      predefineds.clear();
+    }
+  }
+
+  public void addToDoPredefined(final ToDoPredefinedForm predefined) {
+    if (predefineds == null) {
+      predefineds = new ArrayList<>();
+    }
+    predefineds.add(
+        predefined.getTasks().stream()
+            .map(
+                x ->
+                    TaskStatusForm.builder()
+                        .name(x)
+                        .status(false)
+                        .taskStatusType(predefined.getName())
+                        .build())
+            .collect(Collectors.toList()));
+  }
 
 
 }

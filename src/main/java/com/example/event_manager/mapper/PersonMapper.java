@@ -5,7 +5,6 @@ import com.example.event_manager.model.Person;
 import java.util.List;
 import org.mapstruct.Mapper;
 
-
 @Mapper(componentModel = "spring")
 public interface PersonMapper {
 
@@ -14,5 +13,4 @@ public interface PersonMapper {
   List<PersonForm> personsToPersonsDtos(List<Person> people);
 
   Person toEntity(PersonForm personForm);
-
 }

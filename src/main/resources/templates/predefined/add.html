@@ -13,7 +13,7 @@
 <body>
 <nav th:replace="/fragments/nav :: nav"></nav>
 <div class="container" style="margin-top:80px;">
-    <form action="#" th:action="@{add}" th:object="${predefined}" method="post">
+    <form action="#" th:action="@{/predefineds/add}" th:object="${predefined}" method="post">
         <fieldset>
             <input hidden th:field="*{id}"/>
             <div>
@@ -34,8 +34,8 @@
                                            th:field="*{tasks[__${itemStat.index}__]}">
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger" name="remove" th:value="${task}"><i
-                                            class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                    <button class="btn btn-danger" name="remove" th:value="${task}"><i
+                                            class="fa fa-trash-o" aria-hidden="true"></i></button>
                                 </td>
                             </tr>
                             <tr>

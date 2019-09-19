@@ -20,6 +20,8 @@ public interface EventMapper {
 
   BillingForm fromEntity(Billing billing);
 
+  Billing toEntity(BillingForm billingForm);
+
 
   @Mapping(target = "taskStatuses", resultType = ArrayList.class)
   EventForm fromEntity(Event event);

@@ -38,8 +38,6 @@ public class TaskStatus {
   private Boolean status;
   private String taskStatusType;
 
-  @ManyToOne(
-      fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   private Person person;
-
 }
