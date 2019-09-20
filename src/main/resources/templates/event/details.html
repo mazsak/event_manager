@@ -64,37 +64,6 @@
           </div>
         </li>
       </ul>
-      <ul class="list-group list-group-flush">
-        <a id="a_list_predefined" data-toggle="collapse" href="#list_predefined">
-          <li class="list-group-item" style="background-color: #f5f9fa">
-            <h4><label> List predefined </label></h4>
-          </li>
-        </a>
-        <label hidden id="input_list_predefined" type="checkbox" th:field="*{collapses[1]}" />
-        <li class="list-group-item">
-          <div id="list_predefined" class="panel-collapse collapse" th:classappend="*{collapses[1]} ? in">
-            <div class="panel-body">
-              <th:block th:with="colCount=${4}">
-                <div th:each="r : ${#numbers.sequence(0, predefinedList.size(), colCount)}"
-                     class="row">
-                  <div th:each="c : ${#numbers.sequence(0, colCount - 1)}"
-                       th:if="${r + c &lt; predefinedList.size()}" class="col-sm-3">
-                    <button onclick="savePosition('a_list_predefined')" style="width: 100%; height: 100px; margin-bottom: 5px; margin-top: 5px;"
-                            class="btn btn-secondary"
-                            name="predefined"
-                            data-toggle="tooltip"
-                            data-placement="right"
-                            th:id="${predefinedList.get(r + c).id}"
-                            th:value="${predefinedList.get(r + c).id}">
-                      <label th:text="${predefinedList.get(r + c).name}"></label>
-                    </button>
-                  </div>
-                </div>
-              </th:block>
-            </div>
-          </div>
-        </li>
-      </ul>
       <ul class="list-group list-group-flush"
           th:if="${event.predefineds != null && !event.predefineds.isEmpty()}">
         <a id="a_predefined_tasks" data-toggle="collapse" href="#predefined_task">

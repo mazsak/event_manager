@@ -1,5 +1,8 @@
 package com.example.event_manager.form;
 
+import java.util.Arrays;
+import java.util.List;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -7,9 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Arrays;
-import java.util.List;
 
 @ToString
 @Getter
@@ -20,11 +20,12 @@ import java.util.List;
 @EqualsAndHashCode
 public class EventAddEditForm {
 
-    private EventForm event;
-    private List<ToDoPredefinedSimpleForm> predefinedNameList;
-    private List<PersonForm> people;
+  @Valid
+  private EventForm event;
+  private List<ToDoPredefinedSimpleForm> predefinedNameList;
+  private List<PersonForm> people;
 
-    private int position;
+  private int position;
 
-    private List<Boolean> collapses = Arrays.asList(true, false, false, false, false);
+  private List<Boolean> collapses = Arrays.asList(true, false, false, false, false);
 }
