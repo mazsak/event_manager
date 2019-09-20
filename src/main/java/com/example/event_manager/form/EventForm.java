@@ -1,11 +1,5 @@
 package com.example.event_manager.form;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -15,6 +9,12 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @ToString
 @Getter
@@ -31,9 +31,6 @@ public class EventForm {
   private String topic;
   private String place;
   private Boolean started;
-  private int position;
-
-  private List<Boolean> collapses = Arrays.asList(true, false, false, false, false);
 
   @Singular
   private List<List<TaskStatusForm>> predefineds;
@@ -46,10 +43,6 @@ public class EventForm {
 
   @Singular
   private List<BillingForm> billings = new ArrayList<>();
-
-  public void changeCollapses(final int index) {
-    collapses.set(index, !collapses.get(index));
-  }
 
   public void separationTasksOnList() {
     final Set<String> namePredefined =
@@ -95,6 +88,4 @@ public class EventForm {
                         .build())
             .collect(Collectors.toList()));
   }
-
-
 }
