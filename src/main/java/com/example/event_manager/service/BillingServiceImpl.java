@@ -4,9 +4,10 @@ import com.example.event_manager.form.BillingForm;
 import com.example.event_manager.mapper.BillingMapper;
 import com.example.event_manager.model.Billing;
 import com.example.event_manager.repo.BillingRepo;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,11 @@ public class BillingServiceImpl implements BillingService {
   @Override
   public BillingForm saveAndReturn(BillingForm billingForm) {
     return billingMapper.toDto(billingRepo.save(billingMapper.toEntity(billingForm)));
+  }
+
+  @Override
+  public List<BillingForm> saveAndReturnList(List<BillingForm> billings) {
+    return billingMapper.toDtos(billingRepo.saveAll(billingMapper.toEntities(billings)));
   }
 
   @Override
@@ -49,6 +55,4 @@ public class BillingServiceImpl implements BillingService {
   public BillingForm billingFormById(final Long id) {
     return billingMapper.toDto(findById(id));
   }
-
-
 }

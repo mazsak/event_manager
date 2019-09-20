@@ -109,8 +109,8 @@
             <div class="panel-body">
               <th:block th:with="colCount=${4}">
                 <div
-                    th:each="r : ${#numbers.sequence(0, eventAddEditForm.predefinedNameList.size(), colCount)}"
-                    class="row">
+                        th:each="r : ${#numbers.sequence(0, eventAddEditForm.predefinedNameList.size(), colCount)}"
+                        class="row">
                   <div th:each="c : ${#numbers.sequence(0, colCount - 1)}"
                        th:if="${r + c &lt; eventAddEditForm.predefinedNameList.size()}"
                        class="col-sm-3">
@@ -123,7 +123,7 @@
                             th:id="${eventAddEditForm.predefinedNameList.get(r + c).id}"
                             th:value="${eventAddEditForm.predefinedNameList.get(r + c).id}">
                       <label
-                          th:text="${eventAddEditForm.predefinedNameList.get(r + c).name}"></label>
+                              th:text="${eventAddEditForm.predefinedNameList.get(r + c).name}"></label>
                     </button>
                   </div>
                 </div>
@@ -133,7 +133,7 @@
         </li>
       </ul>
       <ul class="list-group list-group-flush"
-          th:if="${eventAddEditForm.event.predefineds != null && !eventAddEditForm.event.predefineds.isEmpty()}">
+          th:if="${eventAddEditForm.event.predefinedList != null && !eventAddEditForm.event.predefinedList.isEmpty()}">
         <a id="a_predefined_tasks" data-toggle="collapse" href="#predefined_task">
           <li class="list-group-item" style="background-color: #f5f9fa">
             <h4><label> Predefined tasks </label></h4>
@@ -146,13 +146,13 @@
             <div class="panel-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item"
-                    th:each="list, itemStatList : ${eventAddEditForm.event.predefineds}">
+                    th:each="list, itemStatList : ${eventAddEditForm.event.predefinedList}">
                   <div>
                     <label><h4 th:text="${list[0].taskStatusType}"></h4></label>
                     <button onclick="savePosition('a_predefined_tasks')" class="btn btn-danger"
                             name="removePredefined"
                             th:value="${itemStatList.index}"><i
-                        class="fa fa-trash-o" aria-hidden="true"></i></button>
+                            class="fa fa-trash-o" aria-hidden="true"></i></button>
                     <table class="table">
                       <thead>
                       <tr>
@@ -173,26 +173,26 @@
                       <tbody>
                       <tr th:each="task, itemStat : ${list}">
                         <input hidden
-                               th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].id}"/>
+                               th:field="*{event.predefinedList[__${itemStatList.index}__][__${itemStat.index}__].id}"/>
                         <input hidden
-                               th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].taskStatusType}"/>
+                               th:field="*{event.predefinedList[__${itemStatList.index}__][__${itemStat.index}__].taskStatusType}"/>
                         <input hidden
-                               th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].status}"/>
+                               th:field="*{event.predefinedList[__${itemStatList.index}__][__${itemStat.index}__].status}"/>
                         <td>
                           <label th:text="${itemStat.count}"></label>
                         </td>
                         <td>
                           <input class="form-control" type="text"
                                  th:id="${'task' + itemStat.index}"
-                                 th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].name}">
+                                 th:field="*{event.predefinedList[__${itemStatList.index}__][__${itemStat.index}__].name}">
                         </td>
                         <td>
                           <input class="form-control" type="datetime-local"
-                                 th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].date}"/>
+                                 th:field="*{event.predefinedList[__${itemStatList.index}__][__${itemStat.index}__].date}"/>
                         </td>
                         <td>
                           <select class="form-control"
-                                  th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].person}">
+                                  th:field="*{event.predefinedList[__${itemStatList.index}__][__${itemStat.index}__].person}">
                             <option th:each="personSelect : ${eventAddEditForm.people}"
                                     th:text="${personSelect.name}"
                                     th:value="${personSelect.id}"
@@ -269,23 +269,23 @@
                     <button onclick="savePosition('a_adhoc')" class="btn btn-danger"
                             name="removeAdhoc"
                             th:value="${itemStat.index}"><i
-                        class="fa fa-trash-o" aria-hidden="true"></i></button>
+                            class="fa fa-trash-o" aria-hidden="true"></i></button>
                   </td>
 
                   <div
-                      th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].name')}">
+                          th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].name')}">
                     <div class="alert alert-danger" role="alert">
                       <p th:errors="*{event.taskStatuses[__${itemStat.index}__].name}"></p>
                     </div>
                   </div>
                   <div
-                      th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].person')}">
+                          th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].person')}">
                     <div class="alert alert-danger" role="alert">
                       <p th:errors="*{event.taskStatuses[__${itemStat.index}__].person}"></p>
                     </div>
                   </div>
                   <div
-                      th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].date')}">
+                          th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].date')}">
                     <div class="alert alert-danger" role="alert">
                       <p th:errors="*{event.taskStatuses[__${itemStat.index}__].date}"></p>
                     </div>
@@ -356,7 +356,7 @@
                   </td>
                   <td>
                     <input class="form-control" type="text"
-                           th:field="*{event.billings[__${itemStat.index}__].isPaid}">
+                           th:field="*{event.billings[__${itemStat.index}__].paid}">
                   </td>
                   <td>
                     <input class="form-control" type="text"
@@ -366,10 +366,10 @@
                     <button onclick="savePosition('a_billing')" class="btn btn-danger"
                             name="removeBilling"
                             th:value="${itemStat.index}"><i
-                        class="fa fa-trash-o" aria-hidden="true"></i></button>
+                            class="fa fa-trash-o" aria-hidden="true"></i></button>
                   </td>
                   <div
-                      th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].companyName')}">
+                          th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].companyName')}">
                     <div class="alert alert-danger" role="alert">
                       <p th:errors="*{event.billings[__${itemStat.index}__].companyName}"></p>
                     </div>
@@ -380,13 +380,13 @@
                     </div>
                   </div>
                   <div
-                      th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].paid')}">
+                          th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].paid')}">
                     <div class="alert alert-danger" role="alert">
-                      <p th:errors="*{event.billings[__${itemStat.index}__].isPaid}"></p>
+                      <p th:errors="*{event.billings[__${itemStat.index}__].paid}"></p>
                     </div>
                   </div>
                   <div
-                      th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].personAssigned')}">
+                          th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].personAssigned')}">
                     <div class="alert alert-danger" role="alert">
                       <p th:errors="*{event.billings[__${itemStat.index}__].personAssigned}"></p>
                     </div>

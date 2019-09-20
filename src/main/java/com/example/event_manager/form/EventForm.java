@@ -82,7 +82,7 @@ public class EventForm {
 
     taskStatuses =
         taskStatuses.stream()
-            .filter(x -> x.getTaskStatusType().equals("adhoc"))
+                .filter(task -> task.getTaskStatusType().equals("adhoc"))
                 .collect(Collectors.toList());
   }
 
@@ -103,9 +103,9 @@ public class EventForm {
     predefinedList.add(
         predefined.getTasks().stream()
             .map(
-                x ->
+                    name ->
                     TaskStatusForm.builder()
-                        .name(x)
+                            .name(name)
                         .status(false)
                         .taskStatusType(predefined.getName())
                         .build())

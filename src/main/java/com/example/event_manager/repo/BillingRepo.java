@@ -15,11 +15,11 @@ public interface BillingRepo extends JpaRepository<Billing, Long> {
   @Transactional
   @Query(
       "UPDATE Billing b"
-          + " SET b.paided ="
-          + " CASE b.paided"
+              + " SET b.paid ="
+              + " CASE b.paid"
           + " WHEN true THEN false"
           + " WHEN false THEN true"
-          + " else b.paided END"
+              + " else b.paid END"
           + " WHERE b.id = :id")
   void changeState(Long id);
 }
