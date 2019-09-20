@@ -14,6 +14,8 @@ public interface BillingService {
 
   List<BillingForm> findAll();
 
+  void changeState(Long id);
+
   Billing findById(final Long id);
 
   BillingForm billingFormById(final Long id);

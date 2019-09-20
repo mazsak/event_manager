@@ -1,6 +1,13 @@
 package com.example.event_manager.model;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Singular;
+import lombok.ToString;
+
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -10,17 +17,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Singular;
-import lombok.ToString;
+import java.util.Set;
 
 @Entity
 @Table(name = "to_do_predefined")
+@NamedEntityGraph(
+        name = "graph.ToDoPredefined.task",
+        attributeNodes = @NamedAttributeNode(value = "tasks"))
 @Setter
 @Getter
 @ToString
@@ -39,5 +45,5 @@ public class ToDoPredefined {
   @CollectionTable(name = "task", joinColumns = @JoinColumn(name = "id"))
   @Column(name = "description")
   @Singular
-  private List<String> tasks;
+  private Set<String> tasks;
 }

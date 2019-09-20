@@ -1,13 +1,5 @@
 package com.example.event_manager.form;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -17,6 +9,15 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @ToString
 @Getter
@@ -47,8 +48,10 @@ public class EventForm {
 
   private Boolean started;
 
-  @Singular
-  private List<List<TaskStatusForm>> predefineds;
+  private Boolean outdated;
+
+  @Singular(value = "predefinedList")
+  private List<List<TaskStatusForm>> predefinedList;
 
   @NotNull(message = "Select date and time")
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
@@ -66,36 +69,38 @@ public class EventForm {
     final Set<String> namePredefined =
         taskStatuses.stream().map(TaskStatusForm::getTaskStatusType).collect(Collectors.toSet());
     namePredefined.remove("adhoc");
-    predefineds = new ArrayList<>();
+    predefinedList = new ArrayList<>();
 
-    for (final String name : namePredefined) {
-      predefineds.add(
-          taskStatuses.stream()
-              .filter(x -> x.getTaskStatusType().equals(name))
-              .collect(Collectors.toList()));
-    }
+    predefinedList.addAll(
+            namePredefined.stream()
+                    .map(
+                            name ->
+                                    taskStatuses.stream()
+                                            .filter(task -> name.equals(task.getTaskStatusType()))
+                                            .collect(Collectors.toList()))
+                    .collect(Collectors.toList()));
 
-    setTaskStatuses(
+    taskStatuses =
         taskStatuses.stream()
             .filter(x -> x.getTaskStatusType().equals("adhoc"))
-            .collect(Collectors.toList()));
+                .collect(Collectors.toList());
   }
 
   public void makeToOneList() {
     if (taskStatuses == null) {
       taskStatuses = new ArrayList<>();
     }
-    if (predefineds != null && !predefineds.isEmpty()) {
-      predefineds.forEach(taskStatuses::addAll);
-      predefineds.clear();
+    if (predefinedList != null && !predefinedList.isEmpty()) {
+      predefinedList.forEach(taskStatuses::addAll);
+      predefinedList.clear();
     }
   }
 
   public void addToDoPredefined(final ToDoPredefinedForm predefined) {
-    if (predefineds == null) {
-      predefineds = new ArrayList<>();
+    if (predefinedList == null) {
+      predefinedList = new ArrayList<>();
     }
-    predefineds.add(
+    predefinedList.add(
         predefined.getTasks().stream()
             .map(
                 x ->
@@ -105,5 +110,9 @@ public class EventForm {
                         .taskStatusType(predefined.getName())
                         .build())
             .collect(Collectors.toList()));
+  }
+
+  public void eventOutDatedCheck() {
+    outdated = dateTime.isAfter(LocalDateTime.now());
   }
 }

@@ -17,6 +17,9 @@ import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.model.TaskStatus;
 import com.example.event_manager.repo.EventRepo;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Service
 @RequiredArgsConstructor
@@ -40,23 +43,16 @@ public class EventServiceImpl implements EventService {
 
   public void saveEventForm(final EventForm eventForm) {
     if (eventForm.getBillings() == null) {
-      eventForm.setBillings(new ArrayList<BillingForm>());
+      eventForm.setBillings(new ArrayList<>());
     }
     final List<TaskStatusForm> list = new ArrayList<>();
     final List<BillingForm> billingFormList = new ArrayList<>();
     eventForm
         .getTaskStatuses()
-        .forEach(
-            x -> {
-              list.add(taskStatusService.saveAndReturn(x));
-            });
+            .forEach(taskStatusForm -> list.add(taskStatusService.saveAndReturn(taskStatusForm)));
     eventForm
         .getBillings()
-        .forEach((
-            x -> {
-              billingFormList.add(billingService.saveAndReturn(x));
-            }
-        ));
+            .forEach((billingForm -> billingFormList.add(billingService.saveAndReturn(billingForm))));
     eventForm.setTaskStatuses(list);
     eventForm.setBillings(billingFormList);
     save(eventMapper.toEntity(eventForm));
@@ -94,8 +90,7 @@ public class EventServiceImpl implements EventService {
 
   @Override
   public Map<String, List<TaskStatusForm>> preapreTasksForEvent(final EventForm event) {
-    return event.getTaskStatuses().stream()
-        .collect(groupingBy(TaskStatusForm::getTaskStatusType));
+    return event.getTaskStatuses().stream().collect(groupingBy(TaskStatusForm::getTaskStatusType));
   }
 
   @Override
@@ -122,12 +117,10 @@ public class EventServiceImpl implements EventService {
     final Event event = findById(eventId);
     event.getTaskStatuses().add(taskStatusMapper.toPOJO(returnedTS));
     save(event);
-
   }
 
   @Override
-  public Map<String, List<Event>>
-  getEventsPartition() {
+  public Map<String, List<Event>> getEventsPartition() {
     final Map<String, List<Event>> nameToListMap = new HashMap<>();
 
     nameToListMap.put(
@@ -144,25 +137,30 @@ public class EventServiceImpl implements EventService {
     final Map<String, List<Event>> nameToListMap = new HashMap<>();
     final List<Event> list = eventRepo.searchByNamePlaceTopic(s);
 
-    nameToListMap.put("started",
-        list.stream().filter(x -> x.getStarted())
+    nameToListMap.put(
+            "started",
+            list.stream()
+                    .filter(Event::getStarted)
             .filter(x -> x.getDateTime().isAfter(LocalDateTime.now()))
             .collect(Collectors.toList()));
-    nameToListMap.put("notstarted",
-        list.stream().filter(x -> !x.getStarted())
+    nameToListMap.put(
+            "notstarted",
+            list.stream()
+                    .filter(x -> !x.getStarted())
             .filter(x -> x.getDateTime().isAfter(LocalDateTime.now()))
             .collect(Collectors.toList()));
-    nameToListMap.put("outdated",
-        list.stream().filter(x -> x.getDateTime().isBefore(LocalDateTime.now())).collect(
-            Collectors.toList()));
+    nameToListMap.put(
+            "outdated",
+            list.stream()
+                    .filter(x -> x.getDateTime().isBefore(LocalDateTime.now()))
+                    .collect(Collectors.toList()));
     return nameToListMap;
-
   }
 
   @Override
   public BillingRaportSchema generateBillingRaportSchemaForEvent(final Long id) {
-    final EventWithBillingForm eventWithBillingForm = eventWithBillingMapper
-        .toDto(this.findById(id));
+    final EventWithBillingForm eventWithBillingForm =
+            eventWithBillingMapper.toDto(this.findById(id));
     final List<BillingForm> listOfBilling = eventWithBillingForm.getBillings();
     final BillingsSummary bs = new BillingsSummary(listOfBilling);
     final BillingRaportSchema brs = new BillingRaportSchema();
@@ -170,5 +168,10 @@ public class EventServiceImpl implements EventService {
     brs.setBillings(listOfBilling);
     brs.setBillingsSummary(bs);
     return brs;
+  }
+
+  @Override
+  public void changeStarted(Long id) {
+    eventRepo.changeStarted(id);
   }
 }

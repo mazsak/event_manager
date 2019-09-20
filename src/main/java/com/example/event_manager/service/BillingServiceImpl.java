@@ -36,6 +36,11 @@ public class BillingServiceImpl implements BillingService {
   }
 
   @Override
+  public void changeState(Long id) {
+    billingRepo.changeState(id);
+  }
+
+  @Override
   public Billing findById(final Long id) {
     return billingRepo.findById(id).get();
   }
