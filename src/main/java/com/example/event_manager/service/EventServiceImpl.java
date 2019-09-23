@@ -3,6 +3,7 @@ package com.example.event_manager.service;
 
 import static java.util.stream.Collectors.groupingBy;
 
+import com.example.event_manager.exception.EventNotFoundException;
 import com.example.event_manager.form.BillingForm;
 import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.EventWithBillingForm;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -77,7 +79,12 @@ public class EventServiceImpl implements EventService {
 
   @Override
   public Event findById(final Long id) {
-    return eventRepo.findById(id).get();
+    Optional<Event> event = eventRepo.findById(id);
+    if (!event.isPresent()) {
+      throw new EventNotFoundException();
+    } else {
+      return event.get();
+    }
   }
 
   @Override

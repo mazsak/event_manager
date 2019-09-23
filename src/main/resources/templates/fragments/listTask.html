@@ -1,45 +1,46 @@
-<div th:fragment="listTask(name, tasks, )" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <label><h4 th:text="${key}"></h4></label>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>
-                <label> Number </label>
-            </th>
-            <th>
-                <label> Description </label>
-            </th>
-            <th>
-                <label> Date </label>
-            </th>
-            <th>
-                <label> Person </label>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="task, itemStat : ${event.predefineds.get(__${key}__)}">
-            <input hidden th:field="*{predefineds.get(__${key}__)[__${itemStat.index}__].id}"/>
-            <td>
-                <label th:text="${itemStat.count}"></label>
-            </td>
-            <td>
-                <input class="form-control" type="text" th:id="${'task' + itemStat.index}"
-                       th:field="*{predefineds.get(__${key}__)[__${itemStat.index}__].name}">
-            </td>
-            <td>
-                <input class="form-control" type="datetime-local"
-                       th:field="*{predefineds.get(__${key}__)[__${itemStat.index}__].date}"/>
-            </td>
-            <td>
-                <select class="form-control"
-                        th:field="*{predefineds.get(__${key}__)[__${itemStat.index}__].person}">
-                    <option th:each="personSelect : ${people}"
-                            th:text="${personSelect.name}"
-                            th:value="${personSelect.id}"></option>
-                </select>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div th:fragment="listTask(name, tasks, )" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org">
+  <label><h4 th:text="${key}"></h4></label>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        <label> Number </label>
+      </th>
+      <th>
+        <label> Description </label>
+      </th>
+      <th>
+        <label> Date </label>
+      </th>
+      <th>
+        <label> Person </label>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task, itemStat : ${event.predefineds.get(__${key}__)}">
+      <input hidden th:field="*{predefineds.get(__${key}__)[__${itemStat.index}__].id}"/>
+      <td>
+        <label th:text="${itemStat.count}"></label>
+      </td>
+      <td>
+        <input class="form-control" type="text" th:id="${'task' + itemStat.index}"
+               th:field="*{predefineds.get(__${key}__)[__${itemStat.index}__].name}">
+      </td>
+      <td>
+        <input class="form-control" type="datetime-local"
+               th:field="*{predefineds.get(__${key}__)[__${itemStat.index}__].date}"/>
+      </td>
+      <td>
+        <select class="form-control"
+                th:field="*{predefineds.get(__${key}__)[__${itemStat.index}__].person}">
+          <option th:each="personSelect : ${people}"
+                  th:text="${personSelect.name}"
+                  th:value="${personSelect.id}"></option>
+        </select>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>

@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public class BillingsSummary {
 
-  private long notPaided;
-  private long paided;
-  private double coastOfAllPaided;
-  private double coastOfAllNotPaided;
+  private long notPaid;
+  private long paid;
+  private double coastOfAllPaid;
+  private double coastOfAllNotPaid;
   private final List<BillingForm> billingForms;
 
   public BillingsSummary(final List<BillingForm> billingForms) {
@@ -19,40 +19,40 @@ public class BillingsSummary {
   }
 
   private void calculate() {
-    calculateCoastOfAllPaided();
-    calculateCoastOfAllNotPaided();
-    calculatePaided();
-    calculateNotPaided();
+    calculateCoastOfAllPaid();
+    calculateCoastOfAllNotPaid();
+    calculatePaid();
+    calculateNotPaid();
 
   }
 
-  private void calculateCoastOfAllPaided() {
-    coastOfAllPaided = billingForms
+  private void calculateCoastOfAllPaid() {
+    coastOfAllPaid = billingForms
         .stream()
-        .filter(b -> b.isPaided())
+        .filter(BillingForm::isPaid)
         .mapToDouble(BillingForm::getMoney)
         .sum();
   }
 
-  private void calculateCoastOfAllNotPaided() {
-    coastOfAllNotPaided = billingForms
+  private void calculateCoastOfAllNotPaid() {
+    coastOfAllNotPaid = billingForms
         .stream()
-        .filter(b -> !b.isPaided())
+        .filter(b -> !b.isPaid())
         .mapToDouble(BillingForm::getMoney)
         .sum();
   }
 
-  private void calculateNotPaided() {
-    notPaided = billingForms
+  private void calculateNotPaid() {
+    notPaid = billingForms
         .stream()
-        .filter(b -> !b.isPaided())
+        .filter(b -> !b.isPaid())
         .count();
   }
 
-  private void calculatePaided() {
-    paided = billingForms
+  private void calculatePaid() {
+    paid = billingForms
         .stream()
-        .filter(b -> b.isPaided())
+        .filter(BillingForm::isPaid)
         .count();
   }
 

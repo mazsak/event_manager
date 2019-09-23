@@ -1,63 +1,64 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Add Event</title>
-    <link rel="stylesheet" type="text/css" href="navigation.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="UTF-8">
+  <title>Add Event</title>
+  <link rel="stylesheet" type="text/css" href="navigation.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <div th:replace="/nav :: nav"></div>
 <div style="width: 80%; margin-right: auto; margin-left:auto">
-    <form action="#" th:action="@{event_add}" th:object="${event}" method="post">
-        <table>
-            <tr>
-                <td>Name:</td>
-                <td>
-                    <input type="text" th:field="*{name}"/>
-                </td>
-            </tr>
-            <tr>
-                <td>Topic:</td>
-                <td>
-                    <input type="text" th:field="*{topic}"/>
-                </td>
-            </tr>
-            <tr>
-                <td>Description:</td>
-                <td>
-                    <input type="text" th:field="*{description}"/>
-                </td>
-            </tr>
-            <tr>
-                <td>Place:</td>
-                <td>
-                    <input type="text" th:field="*{place}"/>
-                </td>
-            </tr>
-            <tr>
-                <td>Data:</td>
-                <td>
-                    <input type="datetime-local" th:field="*{dateTime}"/>
-                </td>
-            </tr>
-        </table>
-        <div th:each="predefined : ${predefineds}">
-            <input type="checkbox" th:value="${predefined.id}" th:text="${predefined.name}"
-                   th:field="*{toDoPredefineds}"/>
-        </div>
-        <div id="list_task">
-            <h2>TODO:</h2>
-            <div th:each="task, itemStat : *{adhoc.tasks}">
-                <input type="text" th:name="|adhoc.tasks[${itemStat.index}].name|" th:value="${task.getName()}">
-            </div>
-        </div>
-        <div>
-            <button name="action" value="add"> Add new element list</button>
-            <a href="#" th:href="@{/}"> Cancel </a>
-            <button name="action" value="save"> Save</button>
-        </div>
-    </form>
+  <form action="#" th:action="@{event_add}" th:object="${event}" method="post">
+    <table>
+      <tr>
+        <td>Name:</td>
+        <td>
+          <input type="text" th:field="*{name}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>Topic:</td>
+        <td>
+          <input type="text" th:field="*{topic}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>Description:</td>
+        <td>
+          <input type="text" th:field="*{description}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>Place:</td>
+        <td>
+          <input type="text" th:field="*{place}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>Data:</td>
+        <td>
+          <input type="datetime-local" th:field="*{dateTime}"/>
+        </td>
+      </tr>
+    </table>
+    <div th:each="predefined : ${predefineds}">
+      <input type="checkbox" th:value="${predefined.id}" th:text="${predefined.name}"
+             th:field="*{toDoPredefineds}"/>
+    </div>
+    <div id="list_task">
+      <h2>TODO:</h2>
+      <div th:each="task, itemStat : *{adhoc.tasks}">
+        <input type="text" th:name="|adhoc.tasks[${itemStat.index}].name|"
+               th:value="${task.getName()}">
+      </div>
+    </div>
+    <div>
+      <button name="action" value="add"> Add new element list</button>
+      <a href="#" th:href="@{/}"> Cancel </a>
+      <button name="action" value="save"> Save</button>
+    </div>
+  </form>
 </div>
 </body>
 </html>

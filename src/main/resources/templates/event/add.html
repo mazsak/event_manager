@@ -1,448 +1,458 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Add event</title>
+  <meta charset="UTF-8">
+  <title>Add event</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 </head>
 <nav th:replace="/fragments/nav :: nav"></nav>
 <div class="container" style="margin-top:80px;">
-    <form action="#" th:action="@{/events/add}" th:object="${eventAddEditForm}" method="post">
-        <fieldset>
-            <ul class="list-group list-group-flush">
-                <a id="a_details" data-toggle="collapse" href="#details">
-                    <li class="list-group-item" style="background-color: #f5f9fa">
-                        <h4><label> Details </label></h4>
-                    </li>
-                </a>
-                <input hidden id="input_details" type="checkbox" th:field="*{collapses[0]}"/>
-                <li class="list-group-item ">
-                    <div id="details" class="panel-collapse collapse" th:classappend="*{collapses[0]} ? in">
-                        <div class="panel-body">
-                            <input hidden th:field="*{event.id}"/>
-                            <input hidden th:field="*{event.started}"/>
-                            <input hidden th:field="*{collapses}"/>
-                            <input id="position" hidden th:field="*{position}" th:value="*{position}">
-                            <div th:if="${#fields.hasErrors('event.name')}">
-                                <div class="alert alert-danger" role="alert">
-                                    <p th:errors="*{event.name}"></p>
-                                </div>
-                            </div>
-                            <div th:if="${#fields.hasErrors('event.topic')}">
-                                <div class="alert alert-danger" role="alert">
-                                    <p th:errors="*{event.topic}"></p>
-                                </div>
-                            </div>
-                            <div th:if="${#fields.hasErrors('event.description')}">
-                                <div class="alert alert-danger" role="alert">
-                                    <p th:errors="*{event.description}"></p>
-                                </div>
-                            </div>
-                            <div th:if="${#fields.hasErrors('event.place')}">
-                                <div class="alert alert-danger" role="alert">
-                                    <p th:errors="*{event.place}"></p>
-                                </div>
-                            </div>
-                            <div th:if="${#fields.hasErrors('event.dateTime')}">
-                                <div class="alert alert-danger" role="alert">
-                                    <p th:errors="*{event.dateTime}"></p>
-                                </div>
-                            </div>
-                            <table class="table">
-                                <tr>
-                                    <td><label> Name </label></td>
-                                    <td>
-                                        <input class="form-control" type="text" th:field="*{event.name}"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label> Topic </label></td>
-                                    <td>
-                                        <input class="form-control" type="text" th:field="*{event.topic}"/>
+  <form action="#" th:action="@{/events/add}" th:object="${eventAddEditForm}" method="post">
+    <fieldset>
+      <ul class="list-group list-group-flush">
+        <a id="a_details" data-toggle="collapse" href="#details">
+          <li class="list-group-item" style="background-color: #f5f9fa">
+            <h4><label> Details </label></h4>
+          </li>
+        </a>
+        <input hidden id="input_details" type="checkbox" th:field="*{collapses[0]}"/>
+        <li class="list-group-item ">
+          <div id="details" class="panel-collapse collapse" th:classappend="*{collapses[0]} ? in">
+            <div class="panel-body">
+              <input hidden th:field="*{event.id}"/>
+              <input hidden th:field="*{event.started}"/>
+              <input hidden th:field="*{collapses}"/>
+              <input id="position" hidden th:field="*{position}" th:value="*{position}">
+              <div th:if="${#fields.hasErrors('event.name')}">
+                <div class="alert alert-danger" role="alert">
+                  <p th:errors="*{event.name}"></p>
+                </div>
+              </div>
+              <div th:if="${#fields.hasErrors('event.topic')}">
+                <div class="alert alert-danger" role="alert">
+                  <p th:errors="*{event.topic}"></p>
+                </div>
+              </div>
+              <div th:if="${#fields.hasErrors('event.description')}">
+                <div class="alert alert-danger" role="alert">
+                  <p th:errors="*{event.description}"></p>
+                </div>
+              </div>
+              <div th:if="${#fields.hasErrors('event.place')}">
+                <div class="alert alert-danger" role="alert">
+                  <p th:errors="*{event.place}"></p>
+                </div>
+              </div>
+              <div th:if="${#fields.hasErrors('event.dateTime')}">
+                <div class="alert alert-danger" role="alert">
+                  <p th:errors="*{event.dateTime}"></p>
+                </div>
+              </div>
+              <table class="table">
+                <tr>
+                  <td><label> Name </label></td>
+                  <td>
+                    <input class="form-control" type="text" th:field="*{event.name}"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label> Topic </label></td>
+                  <td>
+                    <input class="form-control" type="text" th:field="*{event.topic}"/>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label> Description </label></td>
-                                    <td>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label> Description </label></td>
+                  <td>
                                 <textarea style="resize: vertical;" class="form-control"
                                           th:field="*{event.description}"></textarea>
-                                    </td>
+                  </td>
 
-                                </tr>
-                                <tr>
-                                    <td><label> Place </label></td>
-                                    <td>
-                                        <input class="form-control" type="text" th:field="*{event.place}"/>
-                                    </td>
+                </tr>
+                <tr>
+                  <td><label> Place </label></td>
+                  <td>
+                    <input class="form-control" type="text" th:field="*{event.place}"/>
+                  </td>
 
-                                </tr>
-                                <tr>
-                                    <td><label> Date </label></td>
-                                    <td>
-                                        <input class="form-control" type="datetime-local"
-                                               th:field="*{event.dateTime}"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                </tr>
+                <tr>
+                  <td><label> Date </label></td>
+                  <td>
+                    <input class="form-control" type="datetime-local"
+                           th:field="*{event.dateTime}"/>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class="list-group list-group-flush">
+        <a id="a_list_predefined" data-toggle="collapse" href="#list_predefined">
+          <li class="list-group-item" style="background-color: #f5f9fa">
+            <h4><label> List predefined </label></h4>
+          </li>
+        </a>
+        <input hidden id="input_list_predefined" type="checkbox" th:field="*{collapses[1]}"/>
+        <li class="list-group-item">
+          <div id="list_predefined" class="panel-collapse collapse"
+               th:classappend="*{collapses[1]} ? in">
+            <div class="panel-body">
+              <th:block th:with="colCount=${4}">
+                <div
+                    th:each="r : ${#numbers.sequence(0, eventAddEditForm.predefinedNameList.size(), colCount)}"
+                    class="row">
+                  <div th:each="c : ${#numbers.sequence(0, colCount - 1)}"
+                       th:if="${r + c &lt; eventAddEditForm.predefinedNameList.size()}"
+                       class="col-sm-3">
+                    <button onclick="savePosition('a_list_predefined')"
+                            style="width: 100%; height: 100px; margin-bottom: 5px; margin-top: 5px;"
+                            class="btn btn-secondary"
+                            name="addPredefined"
+                            data-toggle="tooltip"
+                            data-placement="right"
+                            th:id="${eventAddEditForm.predefinedNameList.get(r + c).id}"
+                            th:value="${eventAddEditForm.predefinedNameList.get(r + c).id}">
+                      <label
+                          th:text="${eventAddEditForm.predefinedNameList.get(r + c).name}"></label>
+                    </button>
+                  </div>
+                </div>
+              </th:block>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class="list-group list-group-flush"
+          th:if="${eventAddEditForm.event.predefineds != null && !eventAddEditForm.event.predefineds.isEmpty()}">
+        <a id="a_predefined_tasks" data-toggle="collapse" href="#predefined_task">
+          <li class="list-group-item" style="background-color: #f5f9fa">
+            <h4><label> Predefined tasks </label></h4>
+          </li>
+        </a>
+        <input hidden id="input_predefined_tasks" type="checkbox" th:field="*{collapses[2]}"/>
+        <li class="list-group-item">
+          <div id="predefined_task" class="panel-collapse collapse"
+               th:classappend="*{collapses[2]} ? in">
+            <div class="panel-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"
+                    th:each="list, itemStatList : ${eventAddEditForm.event.predefineds}">
+                  <div>
+                    <label><h4 th:text="${list[0].taskStatusType}"></h4></label>
+                    <button onclick="savePosition('a_predefined_tasks')" class="btn btn-danger"
+                            name="removePredefined"
+                            th:value="${itemStatList.index}"><i
+                        class="fa fa-trash-o" aria-hidden="true"></i></button>
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th>
+                          <label> Number </label>
+                        </th>
+                        <th>
+                          <label> Description </label>
+                        </th>
+                        <th>
+                          <label> Date </label>
+                        </th>
+                        <th>
+                          <label> Person </label>
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="task, itemStat : ${list}">
+                        <input hidden
+                               th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].id}"/>
+                        <input hidden
+                               th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].taskStatusType}"/>
+                        <input hidden
+                               th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].status}"/>
+                        <td>
+                          <label th:text="${itemStat.count}"></label>
+                        </td>
+                        <td>
+                          <input class="form-control" type="text"
+                                 th:id="${'task' + itemStat.index}"
+                                 th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].name}">
+                        </td>
+                        <td>
+                          <input class="form-control" type="datetime-local"
+                                 th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].date}"/>
+                        </td>
+                        <td>
+                          <select class="form-control"
+                                  th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].person}">
+                            <option th:each="personSelect : ${eventAddEditForm.people}"
+                                    th:text="${personSelect.name}"
+                                    th:value="${personSelect.id}"
+                            ></option>
+                          </select>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </li>
-            </ul>
-            <ul class="list-group list-group-flush">
-                <a id="a_list_predefined" data-toggle="collapse" href="#list_predefined">
-                    <li class="list-group-item" style="background-color: #f5f9fa">
-                        <h4><label> List predefined </label></h4>
-                    </li>
-                </a>
-                <input hidden id="input_list_predefined" type="checkbox" th:field="*{collapses[1]}"/>
-                <li class="list-group-item">
-                    <div id="list_predefined" class="panel-collapse collapse"
-                         th:classappend="*{collapses[1]} ? in">
-                        <div class="panel-body">
-                            <th:block th:with="colCount=${4}">
-                                <div th:each="r : ${#numbers.sequence(0, eventAddEditForm.predefinedNameList.size(), colCount)}"
-                                     class="row">
-                                    <div th:each="c : ${#numbers.sequence(0, colCount - 1)}"
-                                         th:if="${r + c &lt; eventAddEditForm.predefinedNameList.size()}"
-                                         class="col-sm-3">
-                                        <button onclick="savePosition('a_list_predefined')"
-                                                style="width: 100%; height: 100px; margin-bottom: 5px; margin-top: 5px;"
-                                                class="btn btn-secondary"
-                                                name="addPredefined"
-                                                data-toggle="tooltip"
-                                                data-placement="right"
-                                                th:id="${eventAddEditForm.predefinedNameList.get(r + c).id}"
-                                                th:value="${eventAddEditForm.predefinedNameList.get(r + c).id}">
-                                            <label th:text="${eventAddEditForm.predefinedNameList.get(r + c).name}"></label>
-                                        </button>
-                                    </div>
-                                </div>
-                            </th:block>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <ul class="list-group list-group-flush"
-                th:if="${eventAddEditForm.event.predefineds != null && !eventAddEditForm.event.predefineds.isEmpty()}">
-                <a id="a_predefined_tasks" data-toggle="collapse" href="#predefined_task">
-                    <li class="list-group-item" style="background-color: #f5f9fa">
-                        <h4><label> Predefined tasks </label></h4>
-                    </li>
-                </a>
-                <input hidden id="input_predefined_tasks" type="checkbox" th:field="*{collapses[2]}"/>
-                <li class="list-group-item">
-                    <div id="predefined_task" class="panel-collapse collapse"
-                         th:classappend="*{collapses[2]} ? in">
-                        <div class="panel-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"
-                                    th:each="list, itemStatList : ${eventAddEditForm.event.predefineds}">
-                                    <div>
-                                        <label><h4 th:text="${list[0].taskStatusType}"></h4></label>
-                                        <button onclick="savePosition('a_predefined_tasks')" class="btn btn-danger"
-                                                name="removePredefined"
-                                                th:value="${itemStatList.index}"><i
-                                                class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th>
-                                                    <label> Number </label>
-                                                </th>
-                                                <th>
-                                                    <label> Description </label>
-                                                </th>
-                                                <th>
-                                                    <label> Date </label>
-                                                </th>
-                                                <th>
-                                                    <label> Person </label>
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr th:each="task, itemStat : ${list}">
-                                                <input hidden
-                                                       th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].id}"/>
-                                                <input hidden
-                                                       th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].taskStatusType}"/>
-                                                <input hidden
-                                                       th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].status}"/>
-                                                <td>
-                                                    <label th:text="${itemStat.count}"></label>
-                                                </td>
-                                                <td>
-                                                    <input class="form-control" type="text"
-                                                           th:id="${'task' + itemStat.index}"
-                                                           th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].name}">
-                                                </td>
-                                                <td>
-                                                    <input class="form-control" type="datetime-local"
-                                                           th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].date}"/>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control"
-                                                            th:field="*{event.predefineds[__${itemStatList.index}__][__${itemStat.index}__].person}">
-                                                        <option th:each="personSelect : ${eventAddEditForm.people}"
-                                                                th:text="${personSelect.name}"
-                                                                th:value="${personSelect.id}"
-                                                        ></option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <ul class="list-group list-group-flush">
-                <a id="a_adhoc" data-toggle="collapse" href="#adhoc">
-                    <li class="list-group-item" style="background-color: #f5f9fa">
-                        <h4><label> Adhoc </label></h4>
-                    </li>
-                </a>
-                <input hidden id="input_adhoc" type="checkbox" th:field="*{collapses[3]}"/>
-                <li class="list-group-item">
-                    <div id="adhoc" class="panel-collapse collapse" th:classappend="*{collapses[3]} ? in">
-                        <div class="panel-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        <label> Number </label>
-                                    </th>
-                                    <th>
-                                        <label> Description </label>
-                                    </th>
-                                    <th>
-                                        <label> Date </label>
-                                    </th>
-                                    <th>
-                                        <label> Person </label>
-                                    </th>
-                                    <th>
-                                        <label> Delete </label>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="task, itemStat : ${eventAddEditForm.event.taskStatuses}">
-                                    <input hidden th:field="*{event.taskStatuses[__${itemStat.index}__].id}"/>
-                                    <input hidden th:field="*{event.taskStatuses[__${itemStat.index}__].status}"/>
-                                    <input hidden
-                                           th:field="*{event.taskStatuses[__${itemStat.index}__].taskStatusType}"/>
-                                    <td>
-                                        <label th:text="${itemStat.count}"></label>
-                                    </td>
-                                    <td>
-                                        <input class="form-control" type="text"
-                                               th:id="${'task' + itemStat.index}"
-                                               th:field="*{event.taskStatuses[__${itemStat.index}__].name}">
-                                    </td>
-                                    <td>
-                                        <input class="form-control" type="datetime-local"
-                                               th:field="*{event.taskStatuses[__${itemStat.index}__].date}"/>
-                                    </td>
-                                    <td>
-                                        <select class="form-control"
-                                                th:field="*{event.taskStatuses[__${itemStat.index}__].person}">
-                                            <option th:each="personSelect : ${eventAddEditForm.people}"
-                                                    th:text="${personSelect.name}"
-                                                    th:value="${personSelect.id}"></option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <button onclick="savePosition('a_adhoc')" class="btn btn-danger"
-                                                name="removeAdhoc"
-                                                th:value="${itemStat.index}"><i
-                                                class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                    </td>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class="list-group list-group-flush">
+        <a id="a_adhoc" data-toggle="collapse" href="#adhoc">
+          <li class="list-group-item" style="background-color: #f5f9fa">
+            <h4><label> Adhoc </label></h4>
+          </li>
+        </a>
+        <input hidden id="input_adhoc" type="checkbox" th:field="*{collapses[3]}"/>
+        <li class="list-group-item">
+          <div id="adhoc" class="panel-collapse collapse" th:classappend="*{collapses[3]} ? in">
+            <div class="panel-body">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>
+                    <label> Number </label>
+                  </th>
+                  <th>
+                    <label> Description </label>
+                  </th>
+                  <th>
+                    <label> Date </label>
+                  </th>
+                  <th>
+                    <label> Person </label>
+                  </th>
+                  <th>
+                    <label> Delete </label>
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task, itemStat : ${eventAddEditForm.event.taskStatuses}">
+                  <input hidden th:field="*{event.taskStatuses[__${itemStat.index}__].id}"/>
+                  <input hidden th:field="*{event.taskStatuses[__${itemStat.index}__].status}"/>
+                  <input hidden
+                         th:field="*{event.taskStatuses[__${itemStat.index}__].taskStatusType}"/>
+                  <td>
+                    <label th:text="${itemStat.count}"></label>
+                  </td>
+                  <td>
+                    <input class="form-control" type="text"
+                           th:id="${'task' + itemStat.index}"
+                           th:field="*{event.taskStatuses[__${itemStat.index}__].name}">
+                  </td>
+                  <td>
+                    <input class="form-control" type="datetime-local"
+                           th:field="*{event.taskStatuses[__${itemStat.index}__].date}"/>
+                  </td>
+                  <td>
+                    <select class="form-control"
+                            th:field="*{event.taskStatuses[__${itemStat.index}__].person}">
+                      <option th:each="personSelect : ${eventAddEditForm.people}"
+                              th:text="${personSelect.name}"
+                              th:value="${personSelect.id}"></option>
+                    </select>
+                  </td>
+                  <td>
+                    <button onclick="savePosition('a_adhoc')" class="btn btn-danger"
+                            name="removeAdhoc"
+                            th:value="${itemStat.index}"><i
+                        class="fa fa-trash-o" aria-hidden="true"></i></button>
+                  </td>
 
-                                    <div th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].name')}">
-                                        <div class="alert alert-danger" role="alert">
-                                            <p th:errors="*{event.taskStatuses[__${itemStat.index}__].name}"></p>
-                                        </div>
-                                    </div>
-                                    <div th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].person')}">
-                                    <div class="alert alert-danger" role="alert">
-                                        <p th:errors="*{event.taskStatuses[__${itemStat.index}__].person}"></p>
-                                    </div>
-                                    </div>
-                                    <div th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].date')}">
-                                        <div class="alert alert-danger" role="alert">
-                                            <p th:errors="*{event.taskStatuses[__${itemStat.index}__].date}"></p>
-                                        </div>
-                                    </div>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td colspan="4">
-                                        <button id="button_add_task" onclick="savePosition('a_adhoc')"
-                                                class="btn btn-primary" name="action" value="addAdhoc"> Add new
-                                            element
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                  <div
+                      th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].name')}">
+                    <div class="alert alert-danger" role="alert">
+                      <p th:errors="*{event.taskStatuses[__${itemStat.index}__].name}"></p>
                     </div>
-                </li>
-            </ul>
-            <ul class="list-group list-group-flush">
-                <a id="a_billing" data-toggle="collapse" href="#billing">
-                    <li class="list-group-item" style="background-color: #f5f9fa">
-                        <h4><label> Billing </label></h4>
-                    </li>
-                </a>
-                <input hidden id="input_billing" type="checkbox" th:field="*{collapses[4]}"/>
-                <li class="list-group-item">
-                    <div id="billing" class="panel-collapse collapse" th:classappend="*{collapses[4]} ? in">
-                        <div class="panel-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        <label>Number</label>
-                                    </th>
-                                    <th>
-                                        <label> Comapny name </label>
-                                    </th>
-                                    <th>
-                                        <label> Expense </label>
-                                    </th>
-                                    <th>
-                                        <label> is Paided? </label>
-                                    </th>
-                                    <th>
-                                        <label> Person assign to </label>
-                                    </th>
-                                    <th>
-                                        <label> Delete </label>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="billing, itemStat : ${eventAddEditForm.event.billings}">
-                                    <input hidden th:field="*{event.billings[__${itemStat.index}__].id}"/>
-                                    <td>
-                                        <label th:text="${itemStat.count}"></label>
-                                    </td>
-                                    <td>
-                                        <input class="form-control" type="text"
-                                               th:id="${'billing' + itemStat.index}"
-                                               th:field="*{event.billings[__${itemStat.index}__].companyName}">
-                                    </td>
-                                    <td>
-                                        <input class="form-control" type="number" step ="0.01"
-                                               th:field="*{event.billings[__${itemStat.index}__].money}">
-                                    </td>
-                                    <td>
-                                        <input class="form-control" type="text"
-                                               th:field="*{event.billings[__${itemStat.index}__].paided}">
-                                    </td>
-                                    <td>
-                                        <input class="form-control" type="text"
-                                               th:field="*{event.billings[__${itemStat.index}__].personAssigned}">
-                                    </td>
-                                    <td>
-                                        <button onclick="savePosition('a_billing')" class="btn btn-danger"
-                                                name="removeBilling"
-                                                th:value="${itemStat.index}"><i
-                                                class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                    </td>
-                                    <div th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].companyName')}">
-                                    <div class="alert alert-danger" role="alert">
-                                        <p th:errors="*{event.billings[__${itemStat.index}__].companyName}"></p>
-                                    </div>
-                                </div>
-                                    <div th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].money')}">
-                                        <div class="alert alert-danger" role="alert">
-                                            <p th:errors="*{event.billings[__${itemStat.index}__].money}"></p>
-                                        </div>
-                                    </div>
-                                    <div th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].paided')}">
-                                        <div class="alert alert-danger" role="alert">
-                                            <p th:errors="*{event.billings[__${itemStat.index}__].paided}"></p>
-                                        </div>
-                                    </div>
-                                    <div th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].personAssigned')}">
-                                        <div class="alert alert-danger" role="alert">
-                                            <p th:errors="*{event.billings[__${itemStat.index}__].personAssigned}"></p>
-                                        </div>
-                                    </div>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td colspan="4">
-                                        <button id="button_add_billing" onclick="savePosition('a_billing')"
-                                                class="btn btn-primary" name="action" value="addBilling"> Add new
-                                            element
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                  </div>
+                  <div
+                      th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].person')}">
+                    <div class="alert alert-danger" role="alert">
+                      <p th:errors="*{event.taskStatuses[__${itemStat.index}__].person}"></p>
                     </div>
-                </li>
-            </ul>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <div>
-                        <div class="right">
-                            <a class="btn btn-primary" href="#" th:href="@{/events/all}"> Cancel </a>
-                            <button class="btn btn-success" name="action" value="save"> Save</button>
-                        </div>
+                  </div>
+                  <div
+                      th:if="${#fields.hasErrors('event.taskStatuses[' + itemStat.index + '].date')}">
+                    <div class="alert alert-danger" role="alert">
+                      <p th:errors="*{event.taskStatuses[__${itemStat.index}__].date}"></p>
                     </div>
-                </li>
-            </ul>
-        </fieldset>
-    </form>
+                  </div>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td colspan="4">
+                    <button id="button_add_task" onclick="savePosition('a_adhoc')"
+                            class="btn btn-primary" name="action" value="addAdhoc"> Add new
+                      element
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class="list-group list-group-flush">
+        <a id="a_billing" data-toggle="collapse" href="#billing">
+          <li class="list-group-item" style="background-color: #f5f9fa">
+            <h4><label> Billing </label></h4>
+          </li>
+        </a>
+        <input hidden id="input_billing" type="checkbox" th:field="*{collapses[4]}"/>
+        <li class="list-group-item">
+          <div id="billing" class="panel-collapse collapse" th:classappend="*{collapses[4]} ? in">
+            <div class="panel-body">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>
+                    <label>Number</label>
+                  </th>
+                  <th>
+                    <label> Comapny name </label>
+                  </th>
+                  <th>
+                    <label> Expense </label>
+                  </th>
+                  <th>
+                    <label> is Paid? </label>
+                  </th>
+                  <th>
+                    <label> Person assign to </label>
+                  </th>
+                  <th>
+                    <label> Delete </label>
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="billing, itemStat : ${eventAddEditForm.event.billings}">
+                  <input hidden th:field="*{event.billings[__${itemStat.index}__].id}"/>
+                  <td>
+                    <label th:text="${itemStat.count}"></label>
+                  </td>
+                  <td>
+                    <input class="form-control" type="text"
+                           th:id="${'billing' + itemStat.index}"
+                           th:field="*{event.billings[__${itemStat.index}__].companyName}">
+                  </td>
+                  <td>
+                    <input class="form-control" type="number" step="0.01"
+                           th:field="*{event.billings[__${itemStat.index}__].money}">
+                  </td>
+                  <td>
+                    <input class="form-control" type="text"
+                           th:field="*{event.billings[__${itemStat.index}__].isPaid}">
+                  </td>
+                  <td>
+                    <input class="form-control" type="text"
+                           th:field="*{event.billings[__${itemStat.index}__].personAssigned}">
+                  </td>
+                  <td>
+                    <button onclick="savePosition('a_billing')" class="btn btn-danger"
+                            name="removeBilling"
+                            th:value="${itemStat.index}"><i
+                        class="fa fa-trash-o" aria-hidden="true"></i></button>
+                  </td>
+                  <div
+                      th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].companyName')}">
+                    <div class="alert alert-danger" role="alert">
+                      <p th:errors="*{event.billings[__${itemStat.index}__].companyName}"></p>
+                    </div>
+                  </div>
+                  <div th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].money')}">
+                    <div class="alert alert-danger" role="alert">
+                      <p th:errors="*{event.billings[__${itemStat.index}__].money}"></p>
+                    </div>
+                  </div>
+                  <div
+                      th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].paid')}">
+                    <div class="alert alert-danger" role="alert">
+                      <p th:errors="*{event.billings[__${itemStat.index}__].isPaid}"></p>
+                    </div>
+                  </div>
+                  <div
+                      th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].personAssigned')}">
+                    <div class="alert alert-danger" role="alert">
+                      <p th:errors="*{event.billings[__${itemStat.index}__].personAssigned}"></p>
+                    </div>
+                  </div>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td colspan="4">
+                    <button id="button_add_billing" onclick="savePosition('a_billing')"
+                            class="btn btn-primary" name="action" value="addBilling"> Add new
+                      element
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div>
+            <div class="right">
+              <a class="btn btn-primary" href="#" th:href="@{/events/all}"> Cancel </a>
+              <button class="btn btn-success" name="action" value="save"> Save</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </fieldset>
+  </form>
 </div>
 <script>
-    var details = !$("#input_details").prop("checked");
-    var listPredefined = !$("#input_list_predefined").prop("checked");
-    var predefinedTasks = !$("#input_predefined_tasks").prop("checked");
-    var adhoc = !$("#input_adhoc").prop("checked");
-    var billing = !$("#input_billing").prop("checked");
-    var temscroll = $("#position").prop("value");
-    $("#a_details").on("click", function () {
-        $("#input_details").prop("checked", details);
-        details = !details;
-    })
-    $("#a_list_predefined").on("click", function () {
-        $("#input_list_predefined").prop("checked", listPredefined);
-        listPredefined = !listPredefined;
-    })
-    $("#a_predefined_tasks").on("click", function () {
-        $("#input_predefined_tasks").prop("checked", predefinedTasks);
-        predefinedTasks = !predefinedTasks;
-    })
-    $("#a_adhoc").on("click", function () {
-        $("#input_adhoc").prop("checked", adhoc);
-        adhoc = !adhoc;
-    })
-    $("#a_billing").on("click", function () {
-        $("#input_billing").prop("checked", billing);
-        billing = !billing;
-    })
+  var details = !$("#input_details").prop("checked");
+  var listPredefined = !$("#input_list_predefined").prop("checked");
+  var predefinedTasks = !$("#input_predefined_tasks").prop("checked");
+  var adhoc = !$("#input_adhoc").prop("checked");
+  var billing = !$("#input_billing").prop("checked");
+  var temscroll = $("#position").prop("value");
+  $("#a_details").on("click", function () {
+    $("#input_details").prop("checked", details);
+    details = !details;
+  });
+  $("#a_list_predefined").on("click", function () {
+    $("#input_list_predefined").prop("checked", listPredefined);
+    listPredefined = !listPredefined;
+  });
+  $("#a_predefined_tasks").on("click", function () {
+    $("#input_predefined_tasks").prop("checked", predefinedTasks);
+    predefinedTasks = !predefinedTasks;
+  });
+  $("#a_adhoc").on("click", function () {
+    $("#input_adhoc").prop("checked", adhoc);
+    adhoc = !adhoc;
+  });
+  $("#a_billing").on("click", function () {
+    $("#input_billing").prop("checked", billing);
+    billing = !billing;
+  });
 
-    function savePosition(id) {
-        $("#position").prop("value", document.getElementById(id).offsetTop - 80);
-    }
+  function savePosition(id) {
+    $("#position").prop("value", document.getElementById(id).offsetTop - 80);
+  }
 
-    window.scrollTo(0, temscroll);
+  window.scrollTo(0, temscroll);
 
 </script>
 </body>
