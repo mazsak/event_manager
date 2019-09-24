@@ -1,5 +1,13 @@
 package com.example.event_manager.model;
 
+import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,15 +16,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.Collection;
 
 @Entity
 @Table(name = "AppUser")
@@ -27,6 +26,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements Serializable, UserDetails {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

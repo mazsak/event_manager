@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,7 +28,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+
 public class EventForm {
+
+  @PersistenceUnit
+  EntityManagerFactory entityManagerFactory;
 
   private Long id;
 
@@ -114,4 +121,14 @@ public class EventForm {
   public void eventOutDatedCheck() {
     outdated = dateTime.isAfter(LocalDateTime.now());
   }
+
+  public void deleteBillingsById(List<Long> ids) {
+    billings = billings
+        .stream()
+        .filter(billing -> !ids.contains(billing.getId()))
+        .collect(Collectors.toList());
+  }
+
+
+
 }

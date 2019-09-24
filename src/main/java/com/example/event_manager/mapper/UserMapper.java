@@ -5,4 +5,6 @@ import com.example.event_manager.model.User;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper extends BasicMapper<User, UserForm> {}
+public interface UserMapper extends BasicMapper<User, UserForm> {
+
+}

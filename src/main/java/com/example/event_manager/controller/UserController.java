@@ -2,6 +2,7 @@ package com.example.event_manager.controller;
 
 import com.example.event_manager.form.UserForm;
 import com.example.event_manager.service.UserService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.validation.Valid;
 
 @RequestMapping("user")
 @Controller
@@ -31,10 +30,10 @@ public class UserController {
 
   @PostMapping(value = "/register", params = "sign_up")
   public String signUp(
-          @ModelAttribute("user") @Valid final UserForm user,
-          final BindingResult bindingResult,
-          final Model model,
-          final RedirectAttributes redirectAttributes) {
+      @ModelAttribute("user") @Valid final UserForm user,
+      final BindingResult bindingResult,
+      final Model model,
+      final RedirectAttributes redirectAttributes) {
     if (bindingResult.hasErrors()) {
       model.addAttribute("user", user);
       model.addAttribute("userNavBar", userService.getPrincipalSimple());
@@ -48,7 +47,7 @@ public class UserController {
         return "security/register";
       } else {
         redirectAttributes.addFlashAttribute(
-                "message", "Your account has been successfully created. You can log in");
+            "message", "Your account has been successfully created. You can log in");
         return "redirect:/user/login";
       }
     }

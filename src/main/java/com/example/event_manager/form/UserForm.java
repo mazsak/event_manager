@@ -1,5 +1,7 @@
 package com.example.event_manager.form;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -7,9 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @ToString
 @Getter
@@ -19,6 +18,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class UserForm {
+
   private Long id;
 
   @NotNull

@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class BillingForm implements Comparable<BillingForm> {
 
   private Long id;
@@ -36,7 +38,7 @@ public class BillingForm implements Comparable<BillingForm> {
 
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-  private LocalDateTime dateOfCreation = LocalDateTime.now();
+  private LocalDateTime dateOfCreation;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime dateOfEdition;

@@ -3,6 +3,9 @@ package com.example.event_manager.controller;
 import com.example.event_manager.form.ToDoPredefinedForm;
 import com.example.event_manager.service.ToDoPredefinedService;
 import com.example.event_manager.service.UserService;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("predefineds")
@@ -82,9 +81,9 @@ public class PredefinedController {
 
   @PostMapping(value = "/add", params = "action=save")
   public String save(
-          @ModelAttribute("predefined") @Valid final ToDoPredefinedForm predefined,
-          final BindingResult bindingResult,
-          final Model model) {
+      @ModelAttribute("predefined") @Valid final ToDoPredefinedForm predefined,
+      final BindingResult bindingResult,
+      final Model model) {
     if (bindingResult.hasErrors()) {
       model.addAttribute("predefined", predefined);
       model.addAttribute("user", userService.getPrincipalSimple());
@@ -92,7 +91,7 @@ public class PredefinedController {
       return "/predefined/add";
     } else {
       predefined.setTasks(
-              predefined.getTasks().stream().filter(x -> !x.equals("")).collect(Collectors.toList()));
+          predefined.getTasks().stream().filter(x -> !x.equals("")).collect(Collectors.toList()));
       toDoPredefinedService.save(predefined);
       return "redirect:/predefineds/all";
     }

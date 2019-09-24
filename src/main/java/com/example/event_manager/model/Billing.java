@@ -10,9 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +29,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Billing {
 
   @Id
@@ -52,5 +55,9 @@ public class Billing {
   @Enumerated(EnumType.STRING)
   private BillingType billingType;
 
-
+//  @PreUpdate
+//  public void preUpdate() {
+//    System.out.println("UPDATE");
+//    dateOfEdition = LocalDateTime.now();
+//  }
 }

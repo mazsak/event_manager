@@ -10,10 +10,19 @@ import org.springframework.web.context.request.WebRequest;
 public class ExceptionController {
 
   @ExceptionHandler(value = EventNotFoundException.class)
-  public String handleError(final WebRequest request, final Model model, final Exception exception) {
+  public String handleError(final WebRequest request, final Model model,
+      final Exception exception) {
     model.addAttribute("exception", "Can't find element what you looking for");
-    final String url = ((ServletWebRequest) request).getRequest().getRequestURI();
-    model.addAttribute("url", url);
+    StringBuffer urlBuffer = ((ServletWebRequest) request).getRequest().getRequestURL();
+    model.addAttribute("url", urlBuffer.toString());
+    return "error";
+  }
+
+  @ExceptionHandler(value = InvalidRequestException.class)
+  public String invalidRequest(WebRequest request, Model model, Exception exception) {
+    model.addAttribute("exception", "Bad request");
+    StringBuffer urlBuffer = ((ServletWebRequest) request).getRequest().getRequestURL();
+    model.addAttribute("url", urlBuffer.toString());
     return "error";
   }
 }

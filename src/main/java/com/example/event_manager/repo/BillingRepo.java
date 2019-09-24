@@ -21,4 +21,5 @@ public interface BillingRepo extends JpaRepository<Billing, Long> {
           + " else b.confirmed END"
           + " WHERE b.id = :id")
   void changeState(Long id);
+
 }

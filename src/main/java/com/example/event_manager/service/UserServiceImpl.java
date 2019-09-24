@@ -46,12 +46,12 @@ public class UserServiceImpl extends BasicServiceImpI<User, UserForm, UserRepo, 
 
   @Override
   public boolean update(final UserForm user) {
-      final User preincipl =
-              (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-      if (user.getLogin().equals(preincipl.getLogin())) {
+    final User preincipl =
+        (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    if (user.getLogin().equals(preincipl.getLogin())) {
       user.setPassword(passwordEncoder.encode(user.getPassword()));
       return super.save(user);
-      } else {
+    } else {
       if (!repo.existsByLogin(user.getLogin())) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return super.save(user);
@@ -65,7 +65,8 @@ public class UserServiceImpl extends BasicServiceImpI<User, UserForm, UserRepo, 
   public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
     User user = new User();
     try {
-      user = repo.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("User with that login have not been find in database"));
+      user = repo.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException(
+          "User with that login have not been find in database"));
     } catch (final Exception e) {
       e.printStackTrace();
     }

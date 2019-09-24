@@ -49,4 +49,6 @@ public interface EventRepo extends JpaRepository<Event, Long> {
           + " else e.started END"
           + " WHERE e.id = :id")
   void changeStarted(Long id);
+
+
 }
