@@ -1,85 +1,86 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico"/>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico"/>
 
-    <title>Navbar Template for Bootstrap</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+  <title>Navbar Template for Bootstrap</title>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 </head>
 <body>
 <div class="container">
-    <h1>Edit Task</h1>
-    <hr>
-    <form action="#" th:action="@{editTask/save}" th:object="${task}" method="post">
-        <div class="row">
-            <form class="form-horizontal" role="form">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Task name:</label>
-                    <div class="col-lg-8">
-                        <input class="form-control" type="text" th:field="*{name}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Is done?:</label>
-                    <div class="col-lg-8">
-                        <div>
-                            <select th:field="*{status}" class="form-control">
-                                <option th:value="true" th:text="Yes"></option>
-                                <option th:value="false" th:text="No"></option>
-                            </select>
-                        </div>
-                        <!--            <input class="form-control" type="text" th:field="*{status}">-->
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Assigned to:</label>
-                    <div class="col-lg-8">
-                        <div th:if="${persons != null and not #lists.isEmpty(persons)}">
-                            <select th:field="*{person}" class="form-control">
-                                <option th:each="personFromList: ${persons}"
-                                        th:value="${personFromList.id}" th:text="${personFromList.name}"></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-lg-3 control-label">Date:</label>
-                        <div class="col-lg-8">
-                            <td>
-                                <input type="datetime-local" th:field="*{date}"
-                                       th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm')}"/>
-                            </td>
-                        </div>
-                    </div>
-                    <input type="hidden" th:field="*{id}">
-                    <!--        <input type="hidden" th:field="*{person.id}">-->
-                    <input type="hidden" th:field="*{taskStatusType}">
-                    <!--        <input type="hidden" th:field="*{person.name}">-->
-                    <!--        <input type="hidden" th:field="*{person.taskStatuses}">-->
-
-                    <!--        <input type="hidden" th:field="*{event.description}">-->
-                    <!--        <input type="hidden" th:field="*{event.topic}">-->
-                    <!--        <input type="hidden" th:field="*{event.place}">-->
-
-
-                    <div class="form-group">
-                        <label class="col-md-3 control-label"></label>
-                        <div class="col-md-8">
-                            <input type="submit" class="btn btn-primary" value="Save Changes">
-                            <span></span>
-                            <input type="reset" class="btn btn-default" value="Cancel">
-                        </div>
-                    </div>
-            </form>
+  <h1>Edit Task</h1>
+  <hr>
+  <form action="#" th:action="@{editTask/save}" th:object="${task}" method="post">
+    <div class="row">
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Task name:</label>
+          <div class="col-lg-8">
+            <input class="form-control" type="text" th:field="*{name}">
+          </div>
         </div>
-    </form>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Is done?:</label>
+          <div class="col-lg-8">
+            <div>
+              <select th:field="*{status}" class="form-control">
+                <option th:value="true" th:text="Yes"></option>
+                <option th:value="false" th:text="No"></option>
+              </select>
+            </div>
+            <!--            <input class="form-control" type="text" th:field="*{status}">-->
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Assigned to:</label>
+          <div class="col-lg-8">
+            <div th:if="${persons != null and not #lists.isEmpty(persons)}">
+              <select th:field="*{person}" class="form-control">
+                <option th:each="personFromList: ${persons}"
+                        th:value="${personFromList.id}" th:text="${personFromList.name}"></option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Date:</label>
+            <div class="col-lg-8">
+              <td>
+                <input type="datetime-local" th:field="*{date}"
+                       th:text="${#dates.format(date, 'yyyy-MM-dd HH:mm')}"/>
+              </td>
+            </div>
+          </div>
+          <input type="hidden" th:field="*{id}">
+          <!--        <input type="hidden" th:field="*{person.id}">-->
+          <input type="hidden" th:field="*{taskStatusType}">
+          <!--        <input type="hidden" th:field="*{person.name}">-->
+          <!--        <input type="hidden" th:field="*{person.taskStatuses}">-->
+
+          <!--        <input type="hidden" th:field="*{event.description}">-->
+          <!--        <input type="hidden" th:field="*{event.topic}">-->
+          <!--        <input type="hidden" th:field="*{event.place}">-->
+
+
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="submit" class="btn btn-primary" value="Save Changes">
+              <span></span>
+              <input type="reset" class="btn btn-default" value="Cancel">
+            </div>
+          </div>
+      </form>
+    </div>
+  </form>
 
 </div>
 </div>

@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <title>Add event</title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
@@ -20,7 +22,7 @@
             <h4><label> Details </label></h4>
           </li>
         </a>
-        <input hidden id="input_details" type="checkbox" th:field="*{collapses[0]}" />
+        <input hidden id="input_details" type="checkbox" th:field="*{collapses[0]}"/>
         <li class="list-group-item ">
           <div id="details" class="panel-collapse collapse" th:classappend="*{collapses[0]} ? in">
             <div class="panel-body">
@@ -43,8 +45,8 @@
                 <tr>
                   <td><label> Description </label></td>
                   <td>
-                                <p  class="form-control"
-                                          th:text="*{description}"></p>
+                    <p class="form-control"
+                       th:text="*{description}"></p>
                   </td>
                 </tr>
                 <tr>
@@ -57,11 +59,11 @@
                   <td><label> Date </label></td>
                   <td>
                     <p class="form-control"
-                           th:text="*{dateTime}"/>
+                       th:text="*{dateTime}"/>
                   </td>
                 </tr>
               </table>
-          </div>
+            </div>
         </li>
       </ul>
       <ul class="list-group list-group-flush"
@@ -71,15 +73,17 @@
             <h4><label> Predefined tasks </label></h4>
           </li>
         </a>
-        <input hidden id="input_predefined_tasks" type="checkbox" th:field="*{collapses[2]}" />
+        <input hidden id="input_predefined_tasks" type="checkbox" th:field="*{collapses[2]}"/>
         <li class="list-group-item">
-          <div id="predefined_task" class="panel-collapse collapse" th:classappend="*{collapses[2]} ? in">
+          <div id="predefined_task" class="panel-collapse collapse"
+               th:classappend="*{collapses[2]} ? in">
             <div class="panel-body">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item" th:each="list, itemStatList : ${event.predefineds}">
                   <div>
                     <label><h4 th:text="${list[0].taskStatusType}"></h4></label>
-                    <button onclick="savePosition('a_predefined_tasks')" class="btn btn-danger" name="predefined_remove"
+                    <button onclick="savePosition('a_predefined_tasks')" class="btn btn-danger"
+                            name="predefined_remove"
                             th:value="${itemStatList.index}"><i
                         class="fa fa-trash-o" aria-hidden="true"></i></button>
                     <table class="table">
@@ -145,7 +149,7 @@
             <h4><label> Adhoc </label></h4>
           </li>
         </a>
-        <input hidden id="input_adhoc" type="checkbox" th:field="*{collapses[3]}" />
+        <input hidden id="input_adhoc" type="checkbox" th:field="*{collapses[3]}"/>
         <li class="list-group-item">
           <div id="adhoc" class="panel-collapse collapse" th:classappend="*{collapses[3]} ? in">
             <div class="panel-body">
@@ -203,7 +207,7 @@
             <h4><label> Billing </label></h4>
           </li>
         </a>
-        <input hidden id="input_billing" type="checkbox" th:field="*{collapses[4]}" />
+        <input hidden id="input_billing" type="checkbox" th:field="*{collapses[4]}"/>
         <li class="list-group-item">
           <div id="billing" class="panel-collapse collapse" th:classappend="*{collapses[4]} ? in">
             <div class="panel-body">
@@ -220,7 +224,7 @@
                     <label> Expense </label>
                   </th>
                   <th>
-                    <label> is Paided? </label>
+                    <label> is Paid? </label>
                   </th>
                   <th>
                     <label> Person assign to </label>
@@ -245,7 +249,7 @@
                   </td>
                   <td>
                     <label class="form-control" type="text"
-                           th:text="*{billings[__${itemStat.index}__].paided}">
+                           th:text="*{billings[__${itemStat.index}__].paid}">
                   </td>
                   <td>
                     <label class="form-control" type="text"
@@ -281,29 +285,29 @@
   $("#a_details").on("click", function () {
     $("#input_details").prop("checked", details);
     details = !details;
-  })
+  });
   $("#a_list_predefined").on("click", function () {
     $("#input_list_predefined").prop("checked", listPredefined);
     listPredefined = !listPredefined;
-  })
+  });
   $("#a_predefined_tasks").on("click", function () {
     $("#input_predefined_tasks").prop("checked", predefinedTasks);
     predefinedTasks = !predefinedTasks;
-  })
+  });
   $("#a_adhoc").on("click", function () {
     $("#input_adhoc").prop("checked", adhoc);
     adhoc = !adhoc;
-  })
+  });
   $("#a_billing").on("click", function () {
     $("#input_billing").prop("checked", billing);
     billing = !billing;
-  })
+  });
 
-  function savePosition(id){
+  function savePosition(id) {
     $("#position").prop("value", document.getElementById(id).offsetTop - 80);
   }
 
-  window.scrollTo(0,temscroll);
+  window.scrollTo(0, temscroll);
 
 </script>
 </body>

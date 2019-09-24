@@ -29,10 +29,9 @@ public class Billing {
   private Long id;
   private String companyName;
   private double money;
-  private boolean paided;
+  private boolean paid;
   private String personAssigned;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-  private LocalDateTime paidedTime = LocalDateTime.now();
-
+  private LocalDateTime paidTime = LocalDateTime.now();
 }

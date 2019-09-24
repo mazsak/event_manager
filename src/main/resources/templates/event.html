@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Start</title>
-    <link rel="stylesheet" type="text/css" href="navigation.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="UTF-8">
+  <title>Start</title>
+  <link rel="stylesheet" type="text/css" href="navigation.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 <div th:replace="/nav :: nav"></div>
 <div style="width: 80%;margin-right: auto; margin-left:auto">
-    <div style="background-color: aqua">
-        <div>
-            <h1 style="text-align: center;" th:text="${event.name}"></h1>
-            <div th:if="${isDone}">
-                <a href="#" th:href="@{/event_edit?id=} + ${event.id}"> Edit </a>
-            </div>
-            <div th:unless="${isDone}">
+  <div style="background-color: aqua">
+    <div>
+      <h1 style="text-align: center;" th:text="${event.name}"></h1>
+      <div th:if="${isDone}">
+        <a href="#" th:href="@{/event_edit?id=} + ${event.id}"> Edit </a>
+      </div>
+      <div th:unless="${isDone}">
 
-            </div>
-            <p> Topic: <span th:text="${event.topic}"></span></p>
-            <p> Description: <span th:text="${event.description}"></span></p>
-            <p> Place: <span th:text="${event.place}"></span></p>
-            <p> Date: <span th:text="${event.dateTime}"></span></p>
-        </div>
-        <div>
-            <h2>TODO</h2>
-            <ul class="next_left" th:each="toDo : ${event.toDos}">
-                <h3 th:text="${toDo.name}"></h3>
-                <li th:each="task : ${toDo.tasks}">
-                    <p th:if="${task.status}">
-                        <a href="#" style="background-color: #6cf552"
-                           th:href="@{/task_change?id=} + ${task.id} + '&idEvent=' + ${event.id}"
-                           th:text="${task.name}"></a>
-                    </p>
-                    <p th:unless="${task.status}">
-                        <a href="#" style="background-color: brown"
-                           th:href="@{/task_change?id=} + ${task.id} + '&idEvent=' + ${event.id}"
-                           th:text="${task.name}"></a>
-                    </p>
-                </li>
-            </ul>
-
-        </div>
+      </div>
+      <p> Topic: <span th:text="${event.topic}"></span></p>
+      <p> Description: <span th:text="${event.description}"></span></p>
+      <p> Place: <span th:text="${event.place}"></span></p>
+      <p> Date: <span th:text="${event.dateTime}"></span></p>
     </div>
+    <div>
+      <h2>TODO</h2>
+      <ul class="next_left" th:each="toDo : ${event.toDos}">
+        <h3 th:text="${toDo.name}"></h3>
+        <li th:each="task : ${toDo.tasks}">
+          <p th:if="${task.status}">
+            <a href="#" style="background-color: #6cf552"
+               th:href="@{/task_change?id=} + ${task.id} + '&idEvent=' + ${event.id}"
+               th:text="${task.name}"></a>
+          </p>
+          <p th:unless="${task.status}">
+            <a href="#" style="background-color: brown"
+               th:href="@{/task_change?id=} + ${task.id} + '&idEvent=' + ${event.id}"
+               th:text="${task.name}"></a>
+          </p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
 </div>
 </body>
 </html>

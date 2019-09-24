@@ -99,7 +99,7 @@
       </fo:table-cell>
       <fo:table-cell xsl:use-attribute-sets="tableBorder">
         <fo:block>
-          <xsl:value-of select="paided"/>
+          <xsl:value-of select="paid"/>
         </fo:block>
       </fo:table-cell>
       <fo:table-cell xsl:use-attribute-sets="tableBorder">
@@ -109,7 +109,7 @@
       </fo:table-cell>
       <fo:table-cell xsl:use-attribute-sets="tableBorder">
         <fo:block>
-          <xsl:value-of select="paidedTime"/>
+          <xsl:value-of select="paidTime"/>
         </fo:block>
       </fo:table-cell>
     </fo:table-row>
@@ -118,23 +118,23 @@
     <fo:table-row>
       <fo:table-cell xsl:use-attribute-sets="tableBorder">
         <fo:block>
-          <xsl:value-of select="notPaided"/>
+          <xsl:value-of select="notPaid"/>
         </fo:block>
       </fo:table-cell>
 
       <fo:table-cell xsl:use-attribute-sets="tableBorder">
         <fo:block>
-          <xsl:value-of select="paided"/>
+          <xsl:value-of select="paid"/>
         </fo:block>
       </fo:table-cell>
       <fo:table-cell xsl:use-attribute-sets="tableBorder">
         <fo:block>
-          <xsl:value-of select="coastOfAllPaided"/>
+          <xsl:value-of select="coastOfAllPaid"/>
         </fo:block>
       </fo:table-cell>
       <fo:table-cell xsl:use-attribute-sets="tableBorder">
         <fo:block>
-          <xsl:value-of select="coastOfAllNotPaided"/>
+          <xsl:value-of select="coastOfAllNotPaid"/>
         </fo:block>
       </fo:table-cell>
     </fo:table-row>

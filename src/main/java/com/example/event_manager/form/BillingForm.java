@@ -27,11 +27,11 @@ public class BillingForm {
   @Min(value = 0, message = "expense > 0")
   private double money;
   @NotNull(message = "status not null")
-  private boolean paided;
+  private boolean paid;
   @Size(min = 3, max = 255, message = "Person must be assigned")
   private String personAssigned;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-  private LocalDateTime paidedTime = LocalDateTime.now();
+  private LocalDateTime paidTime = LocalDateTime.now();
 
 }
