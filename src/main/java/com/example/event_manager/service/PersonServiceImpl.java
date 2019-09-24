@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PersonServiceImpl
-        extends BasicServiceImpI<Person, PersonForm, PersonRepo, PersonMapper, Long>
-        implements PersonService {
+    extends BasicServiceImpI<Person, PersonForm, PersonRepo, PersonMapper, Long>
+    implements PersonService {
 
   public PersonServiceImpl(final PersonRepo personRepo, final PersonMapper mapper) {
     super(personRepo, mapper);

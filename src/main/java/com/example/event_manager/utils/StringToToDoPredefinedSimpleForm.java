@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class StringToToDoPredefinedSimpleForm
-        implements Converter<String, ToDoPredefinedSimpleForm> {
+    implements Converter<String, ToDoPredefinedSimpleForm> {
 
   private final ToDoPredefinedService toDoPredefinedService;
 

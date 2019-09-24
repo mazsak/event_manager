@@ -22,6 +22,7 @@
     <spring.flyway.version>5.2.4</spring.flyway.version>
     <com.thoughtworks.xstream.version>1.4.11.1</com.thoughtworks.xstream.version>
     <org.apache.xmlgraphics.version>2.3</org.apache.xmlgraphics.version>
+    <org.apache.poi.version>4.0.1</org.apache.poi.version>
   </properties>
 
   <dependencies>
@@ -66,6 +67,18 @@
       <artifactId>mapstruct-jdk8</artifactId>
       <version>${org.mapstruct.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>${org.apache.poi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>${org.apache.poi.version}</version>
+    </dependency>
+
+
     <dependency>
       <groupId>com.thoughtworks.xstream</groupId>
       <artifactId>xstream</artifactId>

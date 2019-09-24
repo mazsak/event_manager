@@ -329,7 +329,7 @@
                     <label> Expense </label>
                   </th>
                   <th>
-                    <label> is Paid? </label>
+                    <label> is Confirmed? </label>
                   </th>
                   <th>
                     <label> Person assign to </label>
@@ -348,7 +348,7 @@
                   <td>
                     <input class="form-control" type="text"
                            th:id="${'billing' + itemStat.index}"
-                           th:field="*{event.billings[__${itemStat.index}__].companyName}">
+                           th:field="*{event.billings[__${itemStat.index}__].title}">
                   </td>
                   <td>
                     <input class="form-control" type="number" step="0.01"
@@ -356,7 +356,7 @@
                   </td>
                   <td>
                     <input class="form-control" type="text"
-                           th:field="*{event.billings[__${itemStat.index}__].paid}">
+                           th:field="*{event.billings[__${itemStat.index}__].confirmed}">
                   </td>
                   <td>
                     <input class="form-control" type="text"
@@ -369,9 +369,9 @@
                             class="fa fa-trash-o" aria-hidden="true"></i></button>
                   </td>
                   <div
-                          th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].companyName')}">
+                          th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].title')}">
                     <div class="alert alert-danger" role="alert">
-                      <p th:errors="*{event.billings[__${itemStat.index}__].companyName}"></p>
+                      <p th:errors="*{event.billings[__${itemStat.index}__].title}"></p>
                     </div>
                   </div>
                   <div th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].money')}">
@@ -380,9 +380,9 @@
                     </div>
                   </div>
                   <div
-                          th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].paid')}">
+                          th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].confirmed')}">
                     <div class="alert alert-danger" role="alert">
-                      <p th:errors="*{event.billings[__${itemStat.index}__].paid}"></p>
+                      <p th:errors="*{event.billings[__${itemStat.index}__].confirmed}"></p>
                     </div>
                   </div>
                   <div

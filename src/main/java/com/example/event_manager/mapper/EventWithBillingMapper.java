@@ -5,4 +5,6 @@ import com.example.event_manager.model.Event;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = BillingMapper.class)
-public interface EventWithBillingMapper extends BasicMapper<Event, EventWithBillingForm> {}
+public interface EventWithBillingMapper extends BasicMapper<Event, EventWithBillingForm> {
+
+}

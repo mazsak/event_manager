@@ -6,4 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ToDoPredefinedSimpleMapper
-    extends BasicMapper<ToDoPredefined, ToDoPredefinedSimpleForm> {}
+    extends BasicMapper<ToDoPredefined, ToDoPredefinedSimpleForm> {
+
+}
