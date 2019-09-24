@@ -2,11 +2,13 @@ package com.example.event_manager.controller;
 
 import com.example.event_manager.form.BillingForm;
 import com.example.event_manager.form.EventAddEditForm;
+import com.example.event_manager.form.EventDetailsForm;
 import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.form.ToDoPredefinedForm;
 import com.example.event_manager.form.ToDoPredefinedSimpleForm;
 import com.example.event_manager.model.BillingRaportSchema;
+import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.service.BillingRaportService;
 import com.example.event_manager.service.BillingService;
@@ -17,6 +19,7 @@ import com.example.event_manager.service.ToDoPredefinedService;
 import lombok.AllArgsConstructor;
 import org.apache.fop.apps.FOPException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,7 +54,7 @@ public class EventController {
   private final ToDoPredefinedService toDoPredefinedService;
   private final BillingService billingService;
 
-  @GetMapping(value = "billingsRaport", produces = "application/pdf")
+  @GetMapping(value = "billingsReport", produces = MediaType.APPLICATION_PDF_VALUE)
   public ResponseEntity<byte[]> billings(@RequestParam final Long id)
       throws TransformerException, IOException, FOPException {
     BillingRaportSchema brs = eventService.generateBillingRaportSchemaForEvent(id);
@@ -59,7 +62,7 @@ public class EventController {
     return new ResponseEntity<>(pdfInByteArray, HttpStatus.OK);
   }
 
-    @GetMapping("/details/{id}/delete")
+  @GetMapping("/details/{id}/delete")
   public String eventDelete(@PathVariable final Long id) {
     eventService.delete(id);
 
@@ -68,7 +71,7 @@ public class EventController {
 
   @GetMapping("/started/{id}")
   public String eventChangeStarted(@PathVariable final Long id) {
-      eventService.changeStarted(id);
+    eventService.changeStarted(id);
 
     return "redirect:/events/details/" + id;
   }
@@ -77,9 +80,14 @@ public class EventController {
   public String eventDetails(final Model model, @PathVariable final Long id) {
     final EventForm event = eventService.eventFormById(id);
     event.separationTasksOnList();
-      event.eventOutDatedCheck();
+    event.eventOutDatedCheck();
 
-    model.addAttribute("event", event);
+    model.addAttribute(
+            "eventDetails",
+            EventDetailsForm.builder()
+                    .event(event)
+                    .summary(new BillingsSummary(event.getBillings()))
+                    .build());
 
     return "/event/details";
   }

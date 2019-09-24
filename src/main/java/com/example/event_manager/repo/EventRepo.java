@@ -25,8 +25,8 @@ public interface EventRepo extends JpaRepository<Event, Long> {
 
   List<Event> findAllByDateTimeIsAfterAndStartedIsFalse(LocalDateTime localDateTime);
 
-  @Query(
-          "SELECT e FROM Event e WHERE e.name LIKE %:name% OR e.place LIKE %:name% OR e.topic LIKE %:name%")
+    @Query(
+            "SELECT e FROM Event e WHERE e.name LIKE %:name% OR e.place LIKE %:name% OR e.topic LIKE %:name%")
   List<Event> searchByNamePlaceTopic(@Param("name") String name);
 
   @Modifying

@@ -2,6 +2,7 @@ package com.example.event_manager.service;
 
 import com.example.event_manager.form.BillingForm;
 import com.example.event_manager.model.Billing;
+
 import java.util.List;
 
 public interface BillingService {
@@ -9,6 +10,8 @@ public interface BillingService {
   boolean save(final BillingForm billing);
 
   BillingForm saveAndReturn(BillingForm billingForm);
+
+  List<BillingForm> saveAndReturnList(List<BillingForm> billings);
 
   void delete(final Long id);
 
@@ -19,5 +22,4 @@ public interface BillingService {
   Billing findById(final Long id);
 
   BillingForm billingFormById(final Long id);
-
 }

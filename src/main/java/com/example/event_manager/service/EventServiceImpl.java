@@ -1,8 +1,5 @@
 package com.example.event_manager.service;
 
-
-import static java.util.stream.Collectors.groupingBy;
-
 import com.example.event_manager.exception.EventNotFoundException;
 import com.example.event_manager.form.BillingForm;
 import com.example.event_manager.form.EventForm;
@@ -21,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,19 +38,9 @@ public class EventServiceImpl implements EventService {
   private final BillingService billingService;
 
   public void saveEventForm(final EventForm eventForm) {
-    if (eventForm.getBillings() == null) {
-      eventForm.setBillings(new ArrayList<>());
-    }
-    final List<TaskStatusForm> list = new ArrayList<>();
-    final List<BillingForm> billingFormList = new ArrayList<>();
-    eventForm
-        .getTaskStatuses()
-            .forEach(taskStatusForm -> list.add(taskStatusService.saveAndReturn(taskStatusForm)));
-    eventForm
-        .getBillings()
-            .forEach((billingForm -> billingFormList.add(billingService.saveAndReturn(billingForm))));
-    eventForm.setTaskStatuses(list);
-    eventForm.setBillings(billingFormList);
+    eventForm.setTaskStatuses(eventForm.getTaskStatuses());
+    eventForm.setBillings(eventForm.getBillings());
+
     save(eventMapper.toEntity(eventForm));
   }
 

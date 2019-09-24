@@ -5,9 +5,10 @@ import com.example.event_manager.mapper.TaskStatusMapper;
 import com.example.event_manager.model.Person;
 import com.example.event_manager.model.TaskStatus;
 import com.example.event_manager.repo.TaskStatusRepo;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,12 @@ public class TaskStatusServiceImpl implements TaskStatusService {
   public TaskStatusForm saveAndReturn(final TaskStatusForm taskStatus) {
     return taskStatusMapper.taskStatusToTaskStatusDto(
         taskStatusRepo.save(taskStatusMapper.toPOJO(taskStatus)));
+  }
+
+  @Override
+  public List<TaskStatusForm> saveAndReturnList(List<TaskStatusForm> taskStatuses) {
+    return taskStatusMapper.toDTOs(
+            taskStatusRepo.saveAll(taskStatusMapper.toEntities(taskStatuses)));
   }
 
   @Override
