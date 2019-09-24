@@ -1,15 +1,5 @@
 package com.example.event_manager.model;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,8 +9,32 @@ import lombok.Singular;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Set;
+
 @Entity
 @Table
+@NamedEntityGraph(
+        name = "graph.Event.elements",
+        attributeNodes = {
+                @NamedAttributeNode(value = "billings"),
+                @NamedAttributeNode(value = "taskStatuses", subgraph = "graph.TaskStatus.person")
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "graph.TaskStatus.person",
+                        attributeNodes = {@NamedAttributeNode("person")})
+        })
 @ToString
 @Getter
 @Setter
@@ -43,16 +57,10 @@ public class Event {
   private LocalDateTime dateTime = LocalDateTime.now();
 
   @Singular
-  @OneToMany(
-      fetch = FetchType.LAZY
-  )
-  private List<TaskStatus> taskStatuses = new ArrayList<>();
+  @OneToMany(fetch = FetchType.LAZY)
+  private Set<TaskStatus> taskStatuses;
 
   @Singular
-  @OneToMany(
-      fetch = FetchType.LAZY
-  )
-  private List<Billing> billings = new ArrayList<>();
-
-
+  @OneToMany(fetch = FetchType.LAZY)
+  private Set<Billing> billings;
 }

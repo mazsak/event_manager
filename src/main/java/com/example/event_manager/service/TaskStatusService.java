@@ -16,6 +16,8 @@ public interface TaskStatusService {
 
   TaskStatusForm taskStatusFormById(final Long id);
 
+  void changeState(Long id);
+
   void update(TaskStatusForm ts);
 
   TaskStatus findById(final Long id);

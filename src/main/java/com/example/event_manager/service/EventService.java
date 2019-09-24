@@ -4,11 +4,12 @@ import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.model.BillingRaportSchema;
 import com.example.event_manager.model.Event;
+import org.apache.fop.apps.FOPException;
+
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import javax.xml.transform.TransformerException;
-import org.apache.fop.apps.FOPException;
 
 public interface EventService {
 
@@ -39,4 +40,5 @@ public interface EventService {
   BillingRaportSchema generateBillingRaportSchemaForEvent(final Long id)
       throws TransformerException, IOException, FOPException;
 
+  void changeStarted(Long id);
 }

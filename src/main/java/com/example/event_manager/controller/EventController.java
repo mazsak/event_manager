@@ -7,7 +7,6 @@ import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.form.ToDoPredefinedForm;
 import com.example.event_manager.form.ToDoPredefinedSimpleForm;
 import com.example.event_manager.model.BillingRaportSchema;
-import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.service.BillingRaportService;
 import com.example.event_manager.service.BillingService;
@@ -15,14 +14,6 @@ import com.example.event_manager.service.EventService;
 import com.example.event_manager.service.PersonService;
 import com.example.event_manager.service.TaskStatusService;
 import com.example.event_manager.service.ToDoPredefinedService;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import javax.validation.Valid;
-import javax.xml.transform.TransformerException;
 import lombok.AllArgsConstructor;
 import org.apache.fop.apps.FOPException;
 import org.springframework.http.HttpStatus;
@@ -39,6 +30,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @RequestMapping("events")
 @Controller
 @AllArgsConstructor
@@ -51,7 +51,6 @@ public class EventController {
   private final ToDoPredefinedService toDoPredefinedService;
   private final BillingService billingService;
 
-
   @GetMapping(value = "billingsRaport", produces = "application/pdf")
   public ResponseEntity<byte[]> billings(@RequestParam final Long id)
       throws TransformerException, IOException, FOPException {
@@ -60,38 +59,41 @@ public class EventController {
     return new ResponseEntity<>(pdfInByteArray, HttpStatus.OK);
   }
 
-  @GetMapping("details")
-  public String detailsEvent(final Model model, @RequestParam final Long id) {
-    final EventForm event = eventService.eventFormById(id);
-    final Map<String, List<TaskStatusForm>> map = eventService.preapreTasksForEvent(event);
-    model.addAttribute("tasks", map);
-    model.addAttribute("event", event);
-    model.addAttribute("billings", event.getBillings());
-    model.addAttribute("billingsSummary", new BillingsSummary(event.getBillings()));
-    return "/event/details";
+    @GetMapping("/details/{id}/delete")
+  public String eventDelete(@PathVariable final Long id) {
+    eventService.delete(id);
+
+    return "redirect:/events/all";
+  }
+
+  @GetMapping("/started/{id}")
+  public String eventChangeStarted(@PathVariable final Long id) {
+      eventService.changeStarted(id);
+
+    return "redirect:/events/details/" + id;
   }
 
   @GetMapping("/details/{id}")
   public String eventDetails(final Model model, @PathVariable final Long id) {
     final EventForm event = eventService.eventFormById(id);
     event.separationTasksOnList();
+      event.eventOutDatedCheck();
 
     model.addAttribute("event", event);
-    if (event.getPredefineds() == null) {
-      event.setPredefineds(new ArrayList<>());
-    }
-    if (event.getPredefineds().isEmpty()) {
-      model.addAttribute("predefinedList", toDoPredefinedService.findAllSimple());
-    } else {
-      model.addAttribute(
-          "predefinedList",
-          toDoPredefinedService.findAllByNameNotInSimple(
-              event.getPredefineds().stream()
-                  .map(e -> e.get(0).getTaskStatusType())
-                  .collect(Collectors.toList())));
-    }
-    model.addAttribute("people", personService.findAll());
+
     return "/event/details";
+  }
+
+  @GetMapping("/details/{id}/status")
+  public String eventDetailsChangeTaskStatus(
+      final Model model,
+      @PathVariable final Long id,
+      @RequestParam(value = "index", required = false) final String index,
+      @RequestParam(value = "element", required = false) final String element) {
+    if (element.equals("billing")) billingService.changeState(Long.valueOf(index));
+    else taskStatusService.changeState(Long.valueOf(index));
+
+    return "redirect:/events/details/" + id;
   }
 
   @GetMapping("/add")
@@ -119,17 +121,17 @@ public class EventController {
   public String edit(final Model model, @PathVariable final Long id) {
     final EventForm event = eventService.eventFormById(id);
     event.separationTasksOnList();
-    if (event.getPredefineds() == null) {
-      event.setPredefineds(new ArrayList<>());
+    if (event.getPredefinedList() == null) {
+      event.setPredefinedList(new ArrayList<>());
     }
 
     List<ToDoPredefinedSimpleForm> predefinedSimpleForms;
-    if (event.getPredefineds().isEmpty()) {
+    if (event.getPredefinedList().isEmpty()) {
       predefinedSimpleForms = toDoPredefinedService.findAllSimple();
     } else {
       predefinedSimpleForms =
           toDoPredefinedService.findAllByNameNotInSimple(
-              event.getPredefineds().stream()
+                  event.getPredefinedList().stream()
                   .map(e -> e.get(0).getTaskStatusType())
                   .collect(Collectors.toList()));
     }
@@ -228,8 +230,8 @@ public class EventController {
       @RequestParam("removePredefined") final String indexPredefined,
       @ModelAttribute EventAddEditForm eventAddEditForm) {
     List<TaskStatusForm> predefinedRemove =
-        eventAddEditForm.getEvent().getPredefineds().get(Integer.parseInt(indexPredefined));
-    eventAddEditForm.getEvent().getPredefineds().remove(predefinedRemove);
+            eventAddEditForm.getEvent().getPredefinedList().get(Integer.parseInt(indexPredefined));
+    eventAddEditForm.getEvent().getPredefinedList().remove(predefinedRemove);
     eventAddEditForm = updateData(eventAddEditForm);
 
     model.addAttribute("eventAddEditForm", eventAddEditForm);
@@ -237,8 +239,10 @@ public class EventController {
   }
 
   @PostMapping(value = "add", params = "action=save")
-  public String save(@ModelAttribute("eventAddEditForm") @Valid EventAddEditForm eventAddEditForm,
-      BindingResult bindingResult, Model model) {
+  public String save(
+      @ModelAttribute("eventAddEditForm") @Valid EventAddEditForm eventAddEditForm,
+      BindingResult bindingResult,
+      Model model) {
     if (bindingResult.hasErrors()) {
       eventAddEditForm = updateData(eventAddEditForm);
 
@@ -265,8 +269,8 @@ public class EventController {
   }
 
   @GetMapping(value = "all", params = "search")
-  public String search(@RequestParam(value = "query", required = false) final String query,
-      final Model model) {
+  public String search(
+      @RequestParam(value = "query", required = false) final String query, final Model model) {
 
     final Map<String, List<Event>> nameToListMap = this.eventService.searchByNamePlaceTopic(query);
 
@@ -279,18 +283,16 @@ public class EventController {
 
   private EventAddEditForm updateData(EventAddEditForm eventAddEditForm) {
     eventAddEditForm.setPeople(personService.findAll());
-    if (CollectionUtils.isEmpty(eventAddEditForm.getEvent().getPredefineds())) {
+    if (CollectionUtils.isEmpty(eventAddEditForm.getEvent().getPredefinedList())) {
       eventAddEditForm.setPredefinedNameList(toDoPredefinedService.findAllSimple());
     } else {
       eventAddEditForm.setPredefinedNameList(
           toDoPredefinedService.findAllByNameNotInSimple(
-              eventAddEditForm.getEvent().getPredefineds().stream()
+                  eventAddEditForm.getEvent().getPredefinedList().stream()
                   .map(x -> x.get(0).getTaskStatusType())
                   .collect(Collectors.toList())));
     }
 
     return eventAddEditForm;
   }
-
-
 }
