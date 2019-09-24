@@ -1,0 +1,2 @@
+INSERT INTO app_user(LOGIN, PASSWORD) VALUES ('SoftwareHut','$2a$10$MhGBSIquWZwhji8I9rePxuIjxem.7aiWijfKJuZSlest9wv8qPJlW');
+INSERT INTO app_user(LOGIN, PASSWORD) VALUES ('FaceBook','$2a$10$ERERks24twccUIUjoCABsex3XPWpKBq9/y05slKgDazs/4l7a6jmu');

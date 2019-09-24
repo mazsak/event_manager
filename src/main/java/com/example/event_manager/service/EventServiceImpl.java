@@ -10,25 +10,27 @@ import com.example.event_manager.mapper.EventWithBillingMapper;
 import com.example.event_manager.mapper.EventWithoutNestedStuffMapper;
 import com.example.event_manager.model.Event;
 import com.example.event_manager.repo.EventRepo;
-import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class EventServiceImpl
-    extends BasicServiceImpI<Event, EventForm, EventRepo, EventMapper, Long>
-    implements EventService {
+        extends BasicServiceImpI<Event, EventForm, EventRepo, EventMapper, Long>
+        implements EventService {
 
   private final EventWithBillingMapper eventWithBillingMapper;
   private final EventWithoutNestedStuffMapper eventWithoutNestedStuffMapper;
 
   public EventServiceImpl(
-      final EventRepo eventRepo,
-      final EventMapper mapper,
-      final EventWithBillingMapper eventWithBillingMapper,
-      final EventWithoutNestedStuffMapper eventWithoutNestedStuffMapper) {
+          final EventRepo eventRepo,
+          final EventMapper mapper,
+          final EventWithBillingMapper eventWithBillingMapper,
+          final EventWithoutNestedStuffMapper eventWithoutNestedStuffMapper) {
     super(eventRepo, mapper);
     this.eventWithBillingMapper = eventWithBillingMapper;
     this.eventWithoutNestedStuffMapper = eventWithoutNestedStuffMapper;
@@ -36,131 +38,130 @@ public class EventServiceImpl
 
   @Override
   public AllEventsForm searchByNamePlaceTopic(
-      final String query, final Pageable pagingS, final Pageable pagingN, final Pageable pagingO) {
+          final String query, final Pageable pagingS, final Pageable pagingN, final Pageable pagingO) {
     final Page<Event> started =
-        repo.searchStarted(query.toLowerCase(), LocalDateTime.now(), pagingS);
+            repo.searchStarted(query.toLowerCase(), LocalDateTime.now(), pagingS);
     final Page<Event> notStarted =
-        repo.searchNotStarted(query.toLowerCase(), LocalDateTime.now(), pagingN);
+            repo.searchNotStarted(query.toLowerCase(), LocalDateTime.now(), pagingN);
     final Page<Event> outdated =
-        repo.searchOutdated(query.toLowerCase(), LocalDateTime.now(), pagingO);
+            repo.searchOutdated(query.toLowerCase(), LocalDateTime.now(), pagingO);
     return AllEventsForm.builder()
-        .started(
-            GroupForm.builder()
-                .groupName(GroupName.STARTED)
-                .pageOfEvents(
-                    PageableExecutionUtils.getPage(
-                        eventWithoutNestedStuffMapper.mapToDTOList(started.getContent()),
-                        pagingS,
-                        started::getTotalElements))
-                .pageNumberOfCurrentGroup(started.getNumber())
-                .pageSizeOfCurrentGroup(started.getSize())
-                .pageNumberOfSecondGroup(notStarted.getNumber())
-                .pageSizeOfSecondGroup(notStarted.getSize())
-                .pageNumberOfThirdGroup(outdated.getNumber())
-                .pageSizeOfThirdGroup(outdated.getSize())
-                .query(query)
-                .sortHowEnum(SortHowEnum.NAME_ASC)
-                .build())
-        .notStarted(
-            GroupForm.builder()
-                .groupName(GroupName.NOTSTARTED)
-                .pageOfEvents(
-                    PageableExecutionUtils.getPage(
-                        eventWithoutNestedStuffMapper.mapToDTOList(notStarted.getContent()),
-                        pagingN,
-                        notStarted::getTotalElements))
-                .pageNumberOfCurrentGroup(notStarted.getNumber())
-                .pageSizeOfCurrentGroup(notStarted.getSize())
-                .pageNumberOfSecondGroup(started.getNumber())
-                .pageSizeOfSecondGroup(started.getSize())
-                .pageNumberOfThirdGroup(outdated.getNumber())
-                .pageSizeOfThirdGroup(outdated.getSize())
-                .query(query)
-                .sortHowEnum(SortHowEnum.NAME_ASC)
-                .build())
-        .outdated(
-            GroupForm.builder()
-                .groupName(GroupName.OUTDATED)
-                .pageOfEvents(
-                    PageableExecutionUtils.getPage(
-                        eventWithoutNestedStuffMapper.mapToDTOList(outdated.getContent()),
-                        pagingO,
-                        outdated::getTotalElements))
-                .pageNumberOfCurrentGroup(outdated.getNumber())
-                .pageSizeOfCurrentGroup(outdated.getSize())
-                .pageNumberOfSecondGroup(started.getNumber())
-                .pageSizeOfSecondGroup(started.getSize())
-                .pageNumberOfThirdGroup(notStarted.getNumber())
-                .pageSizeOfThirdGroup(notStarted.getSize())
-                .query(query)
-                .sortHowEnum(SortHowEnum.NAME_ASC)
-                .build())
-        .query(query)
+            .started(
+                    GroupForm.builder()
+                            .groupName(GroupName.STARTED)
+                            .pageOfEvents(
+                                    PageableExecutionUtils.getPage(
+                                            eventWithoutNestedStuffMapper.mapToDTOList(started.getContent()),
+                                            pagingS,
+                                            started::getTotalElements))
+                            .pageNumberOfCurrentGroup(started.getNumber())
+                            .pageSizeOfCurrentGroup(started.getSize())
+                            .pageNumberOfSecondGroup(notStarted.getNumber())
+                            .pageSizeOfSecondGroup(notStarted.getSize())
+                            .pageNumberOfThirdGroup(outdated.getNumber())
+                            .pageSizeOfThirdGroup(outdated.getSize())
+                            .query(query)
+                            .sortHowEnum(SortHowEnum.NAME_ASC)
+                            .build())
+            .notStarted(
+                    GroupForm.builder()
+                            .groupName(GroupName.NOTSTARTED)
+                            .pageOfEvents(
+                                    PageableExecutionUtils.getPage(
+                                            eventWithoutNestedStuffMapper.mapToDTOList(notStarted.getContent()),
+                                            pagingN,
+                                            notStarted::getTotalElements))
+                            .pageNumberOfCurrentGroup(notStarted.getNumber())
+                            .pageSizeOfCurrentGroup(notStarted.getSize())
+                            .pageNumberOfSecondGroup(started.getNumber())
+                            .pageSizeOfSecondGroup(started.getSize())
+                            .pageNumberOfThirdGroup(outdated.getNumber())
+                            .pageSizeOfThirdGroup(outdated.getSize())
+                            .query(query)
+                            .sortHowEnum(SortHowEnum.NAME_ASC)
+                            .build())
+            .outdated(
+                    GroupForm.builder()
+                            .groupName(GroupName.OUTDATED)
+                            .pageOfEvents(
+                                    PageableExecutionUtils.getPage(
+                                            eventWithoutNestedStuffMapper.mapToDTOList(outdated.getContent()),
+                                            pagingO,
+                                            outdated::getTotalElements))
+                            .pageNumberOfCurrentGroup(outdated.getNumber())
+                            .pageSizeOfCurrentGroup(outdated.getSize())
+                            .pageNumberOfSecondGroup(started.getNumber())
+                            .pageSizeOfSecondGroup(started.getSize())
+                            .pageNumberOfThirdGroup(notStarted.getNumber())
+                            .pageSizeOfThirdGroup(notStarted.getSize())
+                            .query(query)
+                            .sortHowEnum(SortHowEnum.NAME_ASC)
+                            .build())
+            .query(query)
         .build();
   }
 
-
   @Override
   public AllEventsForm getPartition(
-      final Pageable pagingS, final Pageable pagingN, final Pageable pagingO) {
+          final Pageable pagingS, final Pageable pagingN, final Pageable pagingO) {
     final Page<Event> started =
-        repo.findAllByDateTimeIsAfterAndStartedIsTrue(LocalDateTime.now(), pagingS);
+            repo.findAllByDateTimeIsAfterAndStartedIsTrue(LocalDateTime.now(), pagingS);
     final Page<Event> notStarted =
-        repo.findAllByDateTimeIsAfterAndStartedIsFalse(LocalDateTime.now(), pagingN);
+            repo.findAllByDateTimeIsAfterAndStartedIsFalse(LocalDateTime.now(), pagingN);
     final Page<Event> outdated = repo.findAllByDateTimeIsBefore(LocalDateTime.now(), pagingO);
     return AllEventsForm.builder()
-        .started(
-            GroupForm.builder()
-                .groupName(GroupName.STARTED)
-                .pageOfEvents(
-                    PageableExecutionUtils.getPage(
-                        eventWithoutNestedStuffMapper.mapToDTOList(started.getContent()),
-                        pagingS,
-                        started::getTotalElements))
-                .pageNumberOfCurrentGroup(started.getNumber())
-                .pageSizeOfCurrentGroup(started.getSize())
-                .pageNumberOfSecondGroup(notStarted.getNumber())
-                .pageSizeOfSecondGroup(notStarted.getSize())
-                .pageNumberOfThirdGroup(outdated.getNumber())
-                .pageSizeOfThirdGroup(outdated.getSize())
-                .query("")
-                .sortHowEnum(SortHowEnum.NAME_ASC)
-                .build())
-        .notStarted(
-            GroupForm.builder()
-                .groupName(GroupName.NOTSTARTED)
-                .pageOfEvents(
-                    PageableExecutionUtils.getPage(
-                        eventWithoutNestedStuffMapper.mapToDTOList(notStarted.getContent()),
-                        pagingN,
-                        notStarted::getTotalElements))
-                .pageNumberOfCurrentGroup(notStarted.getNumber())
-                .pageSizeOfCurrentGroup(notStarted.getSize())
-                .pageNumberOfSecondGroup(started.getNumber())
-                .pageSizeOfSecondGroup(started.getSize())
-                .pageNumberOfThirdGroup(outdated.getNumber())
-                .pageSizeOfThirdGroup(outdated.getSize())
-                .query("")
-                .sortHowEnum(SortHowEnum.NAME_ASC)
-                .build())
-        .outdated(
-            GroupForm.builder()
-                .groupName(GroupName.OUTDATED)
-                .pageOfEvents(
-                    PageableExecutionUtils.getPage(
-                        eventWithoutNestedStuffMapper.mapToDTOList(outdated.getContent()),
-                        pagingO,
-                        outdated::getTotalElements))
-                .pageNumberOfCurrentGroup(outdated.getNumber())
-                .pageSizeOfCurrentGroup(outdated.getSize())
-                .pageNumberOfSecondGroup(started.getNumber())
-                .pageSizeOfSecondGroup(started.getSize())
-                .pageNumberOfThirdGroup(notStarted.getNumber())
-                .pageSizeOfThirdGroup(notStarted.getSize())
-                .query("")
-                .sortHowEnum(SortHowEnum.NAME_ASC)
-                .build())
-        .build();
+            .started(
+                    GroupForm.builder()
+                            .groupName(GroupName.STARTED)
+                            .pageOfEvents(
+                                    PageableExecutionUtils.getPage(
+                                            eventWithoutNestedStuffMapper.mapToDTOList(started.getContent()),
+                                            pagingS,
+                                            started::getTotalElements))
+                            .pageNumberOfCurrentGroup(started.getNumber())
+                            .pageSizeOfCurrentGroup(started.getSize())
+                            .pageNumberOfSecondGroup(notStarted.getNumber())
+                            .pageSizeOfSecondGroup(notStarted.getSize())
+                            .pageNumberOfThirdGroup(outdated.getNumber())
+                            .pageSizeOfThirdGroup(outdated.getSize())
+                            .query("")
+                            .sortHowEnum(SortHowEnum.NAME_ASC)
+                            .build())
+            .notStarted(
+                    GroupForm.builder()
+                            .groupName(GroupName.NOTSTARTED)
+                            .pageOfEvents(
+                                    PageableExecutionUtils.getPage(
+                                            eventWithoutNestedStuffMapper.mapToDTOList(notStarted.getContent()),
+                                            pagingN,
+                                            notStarted::getTotalElements))
+                            .pageNumberOfCurrentGroup(notStarted.getNumber())
+                            .pageSizeOfCurrentGroup(notStarted.getSize())
+                            .pageNumberOfSecondGroup(started.getNumber())
+                            .pageSizeOfSecondGroup(started.getSize())
+                            .pageNumberOfThirdGroup(outdated.getNumber())
+                            .pageSizeOfThirdGroup(outdated.getSize())
+                            .query("")
+                            .sortHowEnum(SortHowEnum.NAME_ASC)
+                            .build())
+            .outdated(
+                    GroupForm.builder()
+                            .groupName(GroupName.OUTDATED)
+                            .pageOfEvents(
+                                    PageableExecutionUtils.getPage(
+                                            eventWithoutNestedStuffMapper.mapToDTOList(outdated.getContent()),
+                                            pagingO,
+                                            outdated::getTotalElements))
+                            .pageNumberOfCurrentGroup(outdated.getNumber())
+                            .pageSizeOfCurrentGroup(outdated.getSize())
+                            .pageNumberOfSecondGroup(started.getNumber())
+                            .pageSizeOfSecondGroup(started.getSize())
+                            .pageNumberOfThirdGroup(notStarted.getNumber())
+                            .pageSizeOfThirdGroup(notStarted.getSize())
+                            .query("")
+                            .sortHowEnum(SortHowEnum.NAME_ASC)
+                            .build())
+            .build();
   }
 
 

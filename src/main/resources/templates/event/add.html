@@ -12,7 +12,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 </head>
-<nav th:replace="/fragments/nav :: nav"></nav>
+<nav th:replace="/fragments/nav :: nav(user = ${user})"></nav>
 <div class="container" style="margin-top:80px;">
   <form action="#" th:action="@{/events/add}" th:object="${eventAddEditForm}" method="post">
     <fieldset>
