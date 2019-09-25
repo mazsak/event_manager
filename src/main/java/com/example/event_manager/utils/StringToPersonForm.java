@@ -14,6 +14,6 @@ public class StringToPersonForm implements Converter<String, PersonForm> {
 
   @Override
   public PersonForm convert(final String arg0) {
-    return personService.PersonFormById(Long.valueOf(arg0));
+    return personService.findById(Long.valueOf(arg0));
   }
 }

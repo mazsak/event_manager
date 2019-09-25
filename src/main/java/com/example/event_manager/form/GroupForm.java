@@ -2,7 +2,6 @@ package com.example.event_manager.form;
 
 import com.example.event_manager.enums.GroupName;
 import com.example.event_manager.enums.SortHowEnum;
-import com.example.event_manager.model.Event;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +19,7 @@ import org.springframework.data.domain.Page;
 public class GroupForm {
 
   private GroupName groupName;
-  private Page<Event> pageOfEvents;
+  private Page<EventWithoutNestedStuff> pageOfEvents;
   private SortHowEnum sortHowEnum;
   private int pageNumberOfCurrentGroup;
   private int pageSizeOfCurrentGroup;

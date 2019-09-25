@@ -12,19 +12,12 @@ import com.example.event_manager.form.ToDoPredefinedForm;
 import com.example.event_manager.form.ToDoPredefinedSimpleForm;
 import com.example.event_manager.model.BillingRaportSchema;
 import com.example.event_manager.model.BillingsSummary;
-import com.example.event_manager.service.BillingRaportService;
+import com.example.event_manager.service.BillingReportService;
 import com.example.event_manager.service.BillingService;
 import com.example.event_manager.service.EventService;
 import com.example.event_manager.service.PersonService;
 import com.example.event_manager.service.TaskStatusService;
 import com.example.event_manager.service.ToDoPredefinedService;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.validation.Valid;
-import javax.xml.transform.TransformerException;
 import lombok.AllArgsConstructor;
 import org.apache.fop.apps.FOPException;
 import org.springframework.data.domain.PageRequest;
@@ -43,6 +36,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequestMapping("events")
 @Controller
 @AllArgsConstructor
@@ -51,15 +52,15 @@ public class EventController {
   private final PersonService personService;
   private final EventService eventService;
   private final TaskStatusService taskStatusService;
-  private final BillingRaportService billingRaportService;
+    private final BillingReportService billingReportService;
   private final ToDoPredefinedService toDoPredefinedService;
   private final BillingService billingService;
 
   @GetMapping(value = "billingsReport", produces = MediaType.APPLICATION_PDF_VALUE)
   public ResponseEntity<byte[]> billings(@RequestParam final Long id)
       throws TransformerException, IOException, FOPException {
-    final BillingRaportSchema brs = eventService.generateBillingRaportSchemaForEvent(id);
-    final byte[] pdfInByteArray = billingRaportService.convertBillingRaportSchemaToByteStream(brs);
+      final BillingRaportSchema brs = eventService.generateBillingReportSchemaForEvent(id);
+      final byte[] pdfInByteArray = billingReportService.convertBillingReportSchemaToByteStream(brs);
     return new ResponseEntity<>(pdfInByteArray, HttpStatus.OK);
   }
 
@@ -79,7 +80,7 @@ public class EventController {
 
   @GetMapping("/details/{id}")
   public String eventDetails(final Model model, @PathVariable final Long id) {
-    final EventForm event = eventService.eventFormById(id);
+    final EventForm event = eventService.findById(id);
     event.separationTasksOnList();
     event.eventOutDatedCheck();
 
@@ -131,7 +132,7 @@ public class EventController {
 
   @GetMapping("/add/{id}")
   public String edit(final Model model, @PathVariable final Long id) {
-    final EventForm event = eventService.eventFormById(id);
+    final EventForm event = eventService.findById(id);
     event.separationTasksOnList();
     if (event.getPredefinedList() == null) {
       event.setPredefinedList(new ArrayList<>());
@@ -263,7 +264,7 @@ public class EventController {
       return "event/add";
     } else {
       eventAddEditForm.getEvent().makeToOneList();
-      eventService.saveEventForm(eventAddEditForm.getEvent());
+      eventService.save(eventAddEditForm.getEvent());
       return "redirect:/events/all";
     }
   }
