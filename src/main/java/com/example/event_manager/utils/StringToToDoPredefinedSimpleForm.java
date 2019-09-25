@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class StringToToDoPredefinedForm implements Converter<String, ToDoPredefinedSimpleForm> {
+public class StringToToDoPredefinedSimpleForm
+        implements Converter<String, ToDoPredefinedSimpleForm> {
 
   private final ToDoPredefinedService toDoPredefinedService;
 
