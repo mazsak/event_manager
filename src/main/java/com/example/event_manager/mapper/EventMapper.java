@@ -22,11 +22,8 @@ public interface EventMapper {
 
   Billing toEntity(BillingForm billingForm);
 
-
   @Mapping(target = "taskStatuses", resultType = ArrayList.class)
   EventForm fromEntity(Event event);
-
-
 }
 
 

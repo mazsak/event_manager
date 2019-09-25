@@ -7,11 +7,11 @@ import lombok.Getter;
 @Getter
 public class BillingsSummary {
 
+  private final List<BillingForm> billingForms;
   private long notPaid;
   private long paid;
   private double coastOfAllPaid;
   private double coastOfAllNotPaid;
-  private final List<BillingForm> billingForms;
 
   public BillingsSummary(final List<BillingForm> billingForms) {
     this.billingForms = billingForms;
@@ -55,6 +55,4 @@ public class BillingsSummary {
         .filter(BillingForm::isPaid)
         .count();
   }
-
-
 }

@@ -1,15 +1,13 @@
 package com.example.event_manager.service;
 
+import com.example.event_manager.form.AllEventsForm;
 import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.model.BillingRaportSchema;
 import com.example.event_manager.model.Event;
-import org.apache.fop.apps.FOPException;
-
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.springframework.data.domain.Pageable;
 
 public interface EventService {
 
@@ -33,12 +31,12 @@ public interface EventService {
 
   void saveAdhocTaskToEvent(TaskStatusForm taskStatusForm, Long eventId);
 
-  Map<String, List<Event>> getEventsPartition();
-
-  Map<String, List<Event>> searchByNamePlaceTopic(String s);
+  AllEventsForm searchByNamePlaceTopic(String s, Pageable pagingS, Pageable pagingN,
+      Pageable pagingO);
 
   BillingRaportSchema generateBillingRaportSchemaForEvent(final Long id)
-      throws TransformerException, IOException, FOPException;
+      ;
 
   void changeStarted(Long id);
+  AllEventsForm getPartition(Pageable pagingS, Pageable pagingN, Pageable pagingO);
 }

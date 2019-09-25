@@ -33,5 +33,4 @@ public class BillingForm {
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime paidTime = LocalDateTime.now();
-
 }

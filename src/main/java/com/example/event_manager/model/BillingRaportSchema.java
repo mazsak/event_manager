@@ -14,5 +14,4 @@ public class BillingRaportSchema {
   private String eventName;
   private List<BillingForm> billings;
   private BillingsSummary billingsSummary;
-
 }
