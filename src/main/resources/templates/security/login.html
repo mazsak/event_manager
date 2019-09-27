@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
+</head>
+<body>
+<nav th:replace="/fragments/nav :: nav(user = ${user})"></nav>
+<div style="width:40%;margin-right: auto; margin-left: auto; margin-top:12%;">
+    <form role="form" data-toggle="validator" action="#" th:action="@{/user/login}" method="post">
+        <fieldset>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" style="background-color: #f5f9fa">
+                    <h4><label> Login </label></h4>
+                </li>
+                <li class="list-group-item">
+                    <div th:if="${isRedirected}">
+                        <div class="alert alert-success" role="alert">
+                            <p >You have been logged out :]</p>
+                        </div>
+                    </div>
+                    <!--/*@thymesVar id="message" type="String"*/-->
+                    <div th:if="${message}">
+                        <div class="alert alert-success" role="alert">
+                            <p th:text="${message}"></p>
+                        </div>
+                    </div>
+
+                    <div th:if="${isError}">
+                        <div class="alert alert-danger" role="alert">
+                            <p>You have entered an invalid username or password</p>
+                        </div>
+                    </div>
+                    <table class="table" style="width:80%;margin-left: auto;margin-right: auto;">
+                        <tbody>
+                        <tr>
+                            <th><label>Login</label></th>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="username" placeholder="myLogin" th:value="${username}" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label>Password</label></th>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control" type="password" name="password" placeholder="Password" th:value="${password}" required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div>
+                        <button type="submit" class="btn btn-success"> Sign in</button>
+                    </div>
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

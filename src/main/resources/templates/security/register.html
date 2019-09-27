@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav th:replace="/fragments/nav :: nav(user = ${userNavBar})"></nav>
+<div style="width:40%;margin-right: auto; margin-left: auto; margin-top:12%;">
+  <form role="form" data-toggle="validator" action="#" th:action="@{/user/register}"
+        th:object="${user}" method="post">
+    <fieldset>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" style="background-color: #f5f9fa">
+          <h4><label> Register </label></h4>
+        </li>
+        <li class="list-group-item">
+          <div th:if="${#fields.hasErrors('login')}">
+            <div class="alert alert-danger" role="alert">
+              <p th:errors="*{login}"></p>
+            </div>
+          </div>
+          <div th:if="${#fields.hasErrors('password')}">
+            <div class="alert alert-danger" role="alert">
+              <p th:errors="*{password}"></p>
+            </div>
+          </div>
+          <table class="table" style="width:80%;margin-left: auto;margin-right: auto;">
+            <tbody>
+            <tr>
+              <th><label>Login</label></th>
+              <td>
+                <div class="form-group">
+                  <input placeholder="mylogin" class="form-control" type="text" th:field="*{login}"
+                         required>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th><label>Password</label></th>
+              <td>
+                <div class="form-group">
+                    <input type="password" data-minlength="8" class="form-control" id="inputPassword"
+                           placeholder="Password" required th:field="*{password}">
+                  <div class="help-block">Minimum of 8 characters</div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </li>
+      </ul>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div>
+            <div class="right">
+              <a class="btn btn-primary" href="#" th:href="@{/events/all}"> Cancel </a>
+              <button type="submit" class="btn btn-success" name="sign_up"> Sign up</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </fieldset>
+  </form>
+
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="predefined" type="com.example.event_manager.form.ToDoPredefinedForm"*/-->
 <head>
   <meta charset="UTF-8">
   <title>Add List Predefined</title>
@@ -13,13 +14,30 @@
 
 </head>
 <body>
-<nav th:replace="/fragments/nav :: nav"></nav>
+<!--/*@thymesVar id="user" type="com.example.event_manager.form.UserForm"*/-->
+<nav th:replace="/fragments/nav :: nav(user = ${user})"></nav>
 <div class="container" style="margin-top:80px;">
   <form action="#" th:action="@{/predefineds/add}" th:object="${predefined}" method="post">
     <fieldset>
       <input hidden th:field="*{id}"/>
       <div>
         <ul class="list-group list-group-flush">
+          <div th:if="${#fields.hasErrors('name')}">
+            <div class="alert alert-danger" role="alert">
+              <p th:errors="*{name}"></p>
+            </div>
+          </div>
+          <div th:if="${#fields.hasErrors('tasks')}">
+            <div class="alert alert-danger" role="alert">
+              <p th:errors="*{tasks}"></p>
+            </div>
+          </div>
+          <div th:each="task, state : *{tasks}" th:if="${#fields.hasErrors('tasks['+ state.index +']')}">
+            <div class="alert alert-danger" role="alert">
+              <p th:text="${'Task ' + state.count + ':'}"></p>
+              <p th:errors="*{tasks[__${state.index}__]}"></p>
+            </div>
+          </div>
           <li class="list-group-item">
             <label> Name </label>
             <input class="form-control" type="text" th:field="*{name}"/>

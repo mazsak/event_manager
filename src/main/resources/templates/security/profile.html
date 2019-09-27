@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.login}"></title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>
+</head>
+<body>
+<nav th:replace="/fragments/nav :: nav(user = ${user})"></nav>
+<div style="width:40%;margin-right: auto; margin-left: auto; margin-top:12%;">
+    <form role="form" data-toggle="validator" action="#" th:action="@{/user/edit}" th:object="${user}" method="post">
+        <fieldset>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" style="background-color: #f5f9fa">
+                    <h4><label> Profile </label></h4>
+                </li>
+                <li class="list-group-item">
+                    <div th:if="${doesUsernameExists}">
+                        <div class="alert alert-danger" role="alert">
+                            <p>You have entered an username that already exists. Please choose a different one</p>
+                        </div>
+                    </div>
+                    <table class="table" style="width:80%;margin-left: auto;margin-right: auto;">
+                        <tbody>
+                        <input hidden th:field="*{id}">
+                        <tr>
+                            <th><label>Login</label></th>
+                            <td>
+                                <div class="form-group">
+                                    <input placeholder="mylogin" class="form-control" type="text" th:field="*{login}"
+                                           required>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label>Password</label></th>
+                            <td>
+                                <div class="form-group">
+                                    <input type="password" data-minlength="8" class="form-control" id="inputPassword"
+                                           placeholder="Password" required th:field="*{password}">
+                                    <div class="help-block">Minimum of 8 characters</div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div style="float: left; margin-right: 20px;">
+                        <button type="submit" class="btn btn-primary"> Edit
+                        </button>
+                    </div>
+                    <p class="text-danger">Be careful you will be logged out form the account after performing this
+                        action</p>
+                </li>
+            </ul>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

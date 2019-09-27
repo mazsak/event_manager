@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="eventDetails" type="com.example.event_manager.form.EventDetailsForm"*/-->
+<!--/*@thymesVar id="user" type="com.example.event_manager.form.UserSimpleForm"*/-->
 <head>
     <meta charset="UTF-8">
     <title th:text="${eventDetails.event.name}"></title>
@@ -11,7 +12,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 </head>
-<nav th:replace="/fragments/nav :: nav"></nav>
+<nav th:replace="/fragments/nav :: nav(user = ${user})"></nav>
 <div class="container" style="margin-top:80px;">
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
@@ -21,7 +22,7 @@
                 th:text="${eventDetails.event.name}"></h2>
         </li>
     </ul>
-    <ul class="list-group list-group-flush">
+    <ul th:if="${user.login != null}" class="list-group list-group-flush">
         <li class="list-group-item">
             <div class="right">
                 <a class="btn" th:classappend="${eventDetails.event.started} ? btn-danger : btn-success" href="#"
@@ -30,7 +31,8 @@
                 <a class="btn btn-primary" href="#"
                    th:if="${eventDetails.event.outdated}"
                    th:href="@{/events/add/__${eventDetails.event.id}__}"> Edit </a>
-                <a class="btn btn-danger" href="#" onclick="showAlertDelete()"> Delete </a>
+                <a class="btn btn-danger" href="#" th:onclick="'showAlertDelete('+ ${eventDetails.event.id} +')'"> Delete </a>
+
             </div>
         </li>
     </ul>
@@ -189,7 +191,7 @@
         </li>
     </ul>
     <ul class="list-group list-group-flush"
-        th:if="${eventDetails.event.billings != null && !eventDetails.event.billings.isEmpty()}">
+        th:if="${eventDetails.event.billings != null && !eventDetails.event.billings.isEmpty() && user.login != null}">
         <a id="a_billing" data-toggle="collapse" href="#billing">
             <li class="list-group-item" style="background-color: #f5f9fa">
                 <h4><label> Billing </label></h4>
@@ -300,10 +302,10 @@
         }
     }
 
-    function showAlertDelete() {
+    function showAlertDelete(index) {
         var r = confirm("Delete an event?");
         if (r == true) {
-            location.href = location.href + "/delete";
+            location.href = location.href.split('/',1)[0] + "/events/delete/" + index;
         }
     }
 

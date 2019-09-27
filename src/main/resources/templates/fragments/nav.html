@@ -1,15 +1,13 @@
-<nav th:fragment="nav" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<nav th:fragment="nav(user)" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
      class="navbar navbar-fixed-top"
      style="background: linear-gradient(to left, #ffd773, #e6e8e8); border-color: gray; margin-bottom: 500rem">
+  <!--/*@thymesVar id="user" type="com.example.event_manager.form.UserSimpleForm"*/-->
   <a class="navbar-brand" href="#" th:href="@{/events/all}">Event Manager</a>
   <ul class="nav navbar-nav">
     <li>
-      <a class="navbar-link" href="#" th:href="@{/events/all}"> Event </a>
-    </li>
-    <li>
       <a class="navbar-link" href="#" th:href="@{/predefineds/all}"> List predefined </a>
     </li>
-    <li class="dropdown">
+    <li th:if="${user.login != null}" class="dropdown">
       <a class="dropdown-toggle navbar-link" href="#" type="button" data-toggle="dropdown"> Add
         <span class="caret"></span></a>
       <ul class="dropdown-menu">
@@ -18,6 +16,29 @@
         </li>
         <li>
           <a href="#" th:href="@{/events/add}"> Event </a>
+        </li>
+      </ul>
+        </li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right" style="margin-right: 5px;">
+    <li>
+      <a th:unless="${user.login != null}" href="#" th:href="@{/user/register}"><span class="glyphicon glyphicon-book"></span> Sign
+        Up</a>
+    </li>
+    <li>
+      <a th:unless="${user.login != null}" href="#" th:href="@{/user/login}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+    </li>
+    <li th:if="${user.login != null}" class="dropdown">
+      <a class="dropdown-toggle navbar-link" href="#" type="button" data-toggle="dropdown" >
+        <label th:text="${user.login}" ></label>
+        <i class="glyphicon glyphicon-user"></i>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="#" th:href="@{/user/profile}"> Profile </a>
+        </li>
+        <li>
+          <a href="#" th:href="@{/user/logout}"> Log out </a>
         </li>
       </ul>
     </li>
