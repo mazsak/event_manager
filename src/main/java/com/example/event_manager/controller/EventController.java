@@ -10,21 +10,20 @@ import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.form.ToDoPredefinedForm;
 import com.example.event_manager.form.ToDoPredefinedSimpleForm;
-import com.example.event_manager.model.BillingRaportSchema;
-import com.example.event_manager.model.BillingsSummary;
 import com.example.event_manager.service.BillingReportService;
 import com.example.event_manager.service.BillingService;
 import com.example.event_manager.service.EventService;
 import com.example.event_manager.service.PersonService;
 import com.example.event_manager.service.TaskStatusService;
 import com.example.event_manager.service.ToDoPredefinedService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.apache.fop.apps.FOPException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -36,13 +35,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequestMapping("events")
 @Controller
@@ -52,17 +44,10 @@ public class EventController {
   private final PersonService personService;
   private final EventService eventService;
   private final TaskStatusService taskStatusService;
-    private final BillingReportService billingReportService;
+  private final BillingReportService billingReportService;
   private final ToDoPredefinedService toDoPredefinedService;
   private final BillingService billingService;
 
-  @GetMapping(value = "billingsReport", produces = MediaType.APPLICATION_PDF_VALUE)
-  public ResponseEntity<byte[]> billings(@RequestParam final Long id)
-      throws TransformerException, IOException, FOPException {
-      final BillingRaportSchema brs = eventService.generateBillingReportSchemaForEvent(id);
-      final byte[] pdfInByteArray = billingReportService.convertBillingReportSchemaToByteStream(brs);
-    return new ResponseEntity<>(pdfInByteArray, HttpStatus.OK);
-  }
 
   @GetMapping("/details/{id}/delete")
   public String eventDelete(@PathVariable final Long id) {
@@ -88,7 +73,6 @@ public class EventController {
         "eventDetails",
         EventDetailsForm.builder()
             .event(event)
-            .summary(new BillingsSummary(event.getBillings()))
             .build());
 
     return "/event/details";

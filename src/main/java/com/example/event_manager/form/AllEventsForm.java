@@ -19,5 +19,5 @@ public class AllEventsForm {
   private GroupForm notStarted;
   private GroupForm outdated;
 
-  private  String query;
+  private String query;
 }

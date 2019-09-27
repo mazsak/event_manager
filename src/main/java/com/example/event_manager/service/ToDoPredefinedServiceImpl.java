@@ -6,23 +6,22 @@ import com.example.event_manager.mapper.ToDoPredefinedMapper;
 import com.example.event_manager.mapper.ToDoPredefinedSimpleMapper;
 import com.example.event_manager.model.ToDoPredefined;
 import com.example.event_manager.repo.ToDoPredefinedRepo;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ToDoPredefinedServiceImpl
-        extends BasicServiceImpI<
-        ToDoPredefined, ToDoPredefinedForm, ToDoPredefinedRepo, ToDoPredefinedMapper, Long>
-        implements ToDoPredefinedService {
+    extends BasicServiceImpI<
+    ToDoPredefined, ToDoPredefinedForm, ToDoPredefinedRepo, ToDoPredefinedMapper, Long>
+    implements ToDoPredefinedService {
 
   private final ToDoPredefinedSimpleMapper toDoPredefinedSimpleMapper;
 
   public ToDoPredefinedServiceImpl(
-          final ToDoPredefinedRepo toDoPredefinedRepo,
-          final ToDoPredefinedMapper mapper,
-          final ToDoPredefinedSimpleMapper toDoPredefinedSimpleMapper) {
+      final ToDoPredefinedRepo toDoPredefinedRepo,
+      final ToDoPredefinedMapper mapper,
+      final ToDoPredefinedSimpleMapper toDoPredefinedSimpleMapper) {
     super(toDoPredefinedRepo, mapper);
     this.toDoPredefinedSimpleMapper = toDoPredefinedSimpleMapper;
   }
@@ -35,7 +34,7 @@ public class ToDoPredefinedServiceImpl
   @Override
   public List<ToDoPredefinedForm> findAllAndSortByName() {
     return repo.findAllByOrderByNameAsc().stream()
-            .map(mapper::mapToDTO)
+        .map(mapper::mapToDTO)
         .collect(Collectors.toList());
   }
 

@@ -1,8 +1,9 @@
 package com.example.event_manager.form;
 
+import com.example.event_manager.model.BillingType;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,25 +13,43 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@ToString
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class BillingForm {
+@AllArgsConstructor
+@ToString
+public class BillingForm implements Comparable<BillingForm> {
 
   private Long id;
-
-  @Size(min = 3, max = 255, message = "Comapny name length between 3 and 255")
-  private String companyName;
+  @Size(min = 3, max = 255, message = "Title length between 3 and 255")
+  private String title;
   @Min(value = 0, message = "expense > 0")
-  private double money;
-  @NotNull(message = "status not null")
-  private boolean paid;
-  @Size(min = 3, max = 255, message = "Person must be assigned")
-  private String personAssigned;
+  private BigDecimal money;
+
+  @Getter
+  @Setter
+  private boolean confirmed;
+  private boolean deleted;
+  private PersonForm personAssigned;
+  private BillingType billingType;
+
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-  private LocalDateTime paidTime = LocalDateTime.now();
+  private LocalDateTime dateOfCreation = LocalDateTime.now();
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+  private LocalDateTime dateOfEdition;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+  private LocalDateTime dateOfConfirm;
+
+
+  @Override
+  public int compareTo(BillingForm o) {
+    if (getDateOfCreation() == null || o.getDateOfCreation() == null) {
+      return 0;
+    }
+    return getDateOfCreation().compareTo(o.getDateOfCreation());
+  }
 }

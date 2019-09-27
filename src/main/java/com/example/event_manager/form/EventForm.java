@@ -1,5 +1,13 @@
 package com.example.event_manager.form;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -9,15 +17,6 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @ToString
 @Getter
@@ -72,18 +71,18 @@ public class EventForm {
     predefinedList = new ArrayList<>();
 
     predefinedList.addAll(
-            namePredefined.stream()
-                    .map(
-                            name ->
-                                    taskStatuses.stream()
-                                            .filter(task -> name.equals(task.getTaskStatusType()))
-                                            .collect(Collectors.toList()))
-                    .collect(Collectors.toList()));
+        namePredefined.stream()
+            .map(
+                name ->
+                    taskStatuses.stream()
+                        .filter(task -> name.equals(task.getTaskStatusType()))
+                        .collect(Collectors.toList()))
+            .collect(Collectors.toList()));
 
     taskStatuses =
         taskStatuses.stream()
-                .filter(task -> task.getTaskStatusType().equals("adhoc"))
-                .collect(Collectors.toList());
+            .filter(task -> task.getTaskStatusType().equals("adhoc"))
+            .collect(Collectors.toList());
   }
 
   public void makeToOneList() {
@@ -103,9 +102,9 @@ public class EventForm {
     predefinedList.add(
         predefined.getTasks().stream()
             .map(
-                    name ->
+                name ->
                     TaskStatusForm.builder()
-                            .name(name)
+                        .name(name)
                         .status(false)
                         .taskStatusType(predefined.getName())
                         .build())

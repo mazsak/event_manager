@@ -5,4 +5,6 @@ import com.example.event_manager.model.TaskStatus;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = PersonMapper.class)
-public interface TaskStatusMapper extends BasicMapper<TaskStatus, TaskStatusForm> {}
+public interface TaskStatusMapper extends BasicMapper<TaskStatus, TaskStatusForm> {
+
+}

@@ -1,18 +1,17 @@
 package com.example.event_manager.service;
 
 import com.example.event_manager.mapper.BasicMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 @RequiredArgsConstructor
-public class BasicServiceImpI<
-        CLASS,
-        CLASS_FORM,
-        CLASS_REPO extends JpaRepository<CLASS, ID>,
-        CLASS_MAPPER extends BasicMapper<CLASS, CLASS_FORM>,
-        ID>
+public abstract class BasicServiceImpI<
+    CLASS,
+    CLASS_FORM,
+    CLASS_REPO extends JpaRepository<CLASS, ID>,
+    CLASS_MAPPER extends BasicMapper<CLASS, CLASS_FORM>,
+    ID>
     implements BasicService<CLASS_FORM, ID> {
 
   protected final CLASS_REPO repo;

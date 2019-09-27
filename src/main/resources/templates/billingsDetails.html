@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="jumbotron">
+  <form action="#" th:action="@{/events/add}" th:object="${accountForm}" method="post">
+
+    <input hidden th:field="*{eventId}"/>
+    <table class="table" xmlns:th="http://www.w3.org/1999/xhtml">
+      <thead>
+      <tr>
+        <th>
+          <label> Title </label>
+        </th>
+        <th>
+          <label> Type </label>
+        </th>
+        <th>
+          <label> Date of creation </label>
+        </th>
+        <th>
+          <label> Money </label>
+        </th>
+        <th>
+          <label> Date of Edition </label>
+        </th>
+        <th>
+          <label> is confirmed? </label>
+        </th>
+        <th>
+          <label> Date of confirm </label>
+        </th>
+        <th>
+          <label> Person assign to </label>
+        </th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="billing, itemStat : ${accountForm.billingFormList}">
+        <input hidden th:field="*{billingFormList[__${itemStat.index}__].id}"/>
+        <td>
+          <input class="form-control" type="text"
+                 th:id="${'billing' + itemStat.index}"
+                 th:field="*{billingFormList[__${itemStat.index}__].title}">
+        </td>
+        <td>
+          <input class="form-control" type="text"
+                 th:id="${'billing' + itemStat.index}"
+                 th:field="*{billingFormList[__${itemStat.index}__].billingType}">
+        </td>
+        <td>
+          <input class="form-control" type="datetime-local"
+                 th:field="*{billingFormList[__${itemStat.index}__].dateOfCreation}"/>
+        </td>
+        <td>
+          <input class="form-control" type="number" step="0.01"
+                 th:field="*{billingFormList[__${itemStat.index}__].money}">
+        </td>
+        <td>
+          <input class="form-control" type="datetime-local"
+                 th:field="*{billingFormList[__${itemStat.index}__].dateOfEdition}"/>
+        </td>
+        <td>
+          <input class="form-control" type="text"
+                 th:field="*{billingFormList[__${itemStat.index}__].confirmed}">
+        </td>
+        <td>
+          <input class="form-control" type="datetime-local"
+                 th:field="*{billingFormList[__${itemStat.index}__].dateOfConfirm}"/>
+        </td>
+        <td>
+          <input class="form-control" type="text"
+                 th:field="*{billingFormList[__${itemStat.index}__].personAssigned.name}">
+        </td>
+        <td>
+          <!--            <button th:href="${'/details/delete?eventId=/' + *{eventId} + '/?billingId=/' + *{billingFormList[__${itemStat.index}__].id}}"-->
+          <!--                    class="btn btn-danger" name="removeBilling"><i class="fa fa-trash-o" aria-hidden="true"></i></button>-->
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+<div class="jumbotron">
+  <form action="#" th:action="@{/billings/details/report/filter}" th:object="${billingFilter}" method="post">
+    <table class="table">
+      <input hidden th:field="*{eventId}"/>
+      <thead>
+    <tr>
+      <th scope="col">Type</th>
+      <th scope="col">Creation Date</th>
+<!--      <th scope="col">Confirm Date</th>-->
+<!--      <th scope="col">Date of Edition</th>-->
+      <th scope="col">Is confirmed?</th>
+      <th scope="col">Person assigned</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>
+      <div class="form-check">
+        <input class="form-check-input" th:field= "*{billingType}" type="radio" name="exampleRadios" id="exampleRadios1" value="all" checked>
+        <label class="form-check-label" for="exampleRadios1">
+        All
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" th:field= "*{billingType}" type="radio" name="exampleRadios" id="exampleRadios2" value="INCOMING">
+        <label class="form-check-label" for="exampleRadios2">
+          Incoming
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" th:field= "*{billingType}" type="radio" name="exampleRadios" id="exampleRadios3" value="OUTLAY">
+        <label class="form-check-label" for="exampleRadios3">
+          OUTLAY
+        </label>
+      </div>
+      </td>
+      <td>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>
+                <label>Start</label>
+                <input type="datetime-local" th:value="*{dateCreationStart}" th:field="*{dateCreationStart}" id="dateCreationStart"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>End</label>
+                <input type="datetime-local" th:value="*{dateCreationEnd}" th:field="*{dateCreationEnd}" id="dateCreationEnd"/>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    <td>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" th:field= "*{confirmed}" name="confirmedTrue" id="confirmedTrue" value="1" checked>
+      <label class="form-check-label" for="exampleRadios1">
+        Yes
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" th:field= "*{confirmed}" name="confirmedFalse" id="confirmedFalse" value="0">
+      <label class="form-check-label" for="exampleRadios2">
+        No
+      </label>
+    </div>
+    </td>
+      <td>
+        <div class="form-group blu-margin">
+          <select class="form-control" id="dropOperator" th:field="*{personName}" >
+            <option value="0">select person</option>
+            <option th:each="person : ${persons}" th:value="${person.name}" th:text="${person.name}"></option>
+            <!--th:field="${person.id}" --->
+          </select>
+        </div>
+      </td>
+  <td>
+    <button name="action" type="submit" class="btn btn-success">Generate</button>
+  </td>
+    </tr>
+    </tbody>
+  </table>
+  </form>
+</div>
+</body>
+</html>
+
+
+

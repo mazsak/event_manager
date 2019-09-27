@@ -6,10 +6,11 @@ import com.example.event_manager.model.Billing;
 import com.example.event_manager.repo.BillingRepo;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class BillingServiceImpl
-        extends BasicServiceImpI<Billing, BillingForm, BillingRepo, BillingMapper, Long>
-        implements BillingService {
+    extends BasicServiceImpI<Billing, BillingForm, BillingRepo, BillingMapper, Long>
+    implements BillingService {
 
   public BillingServiceImpl(final BillingRepo billingRepo, final BillingMapper mapper) {
     super(billingRepo, mapper);

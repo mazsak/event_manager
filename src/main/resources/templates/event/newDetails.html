@@ -15,7 +15,7 @@
     <td colspan="2"> No Billings Available</td>
   </tr>
   <tr th:each="billing : ${billings}">
-    <td><span th:text="${billing.companyName}">Company name </span></td>
+    <td><span th:text="${billing.title}">Company name </span></td>
     <td><span th:text="${billing.money}">Expense </span></td>
     <!--    <td><span th:text="${billing.paided}">is Paided? </span></td>-->
     <td><span th:text="${billing.money}">Person assign to</span></td>

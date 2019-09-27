@@ -1,15 +1,15 @@
 package com.example.event_manager.service;
 
-import com.example.event_manager.model.BillingRaportSchema;
-import org.apache.fop.apps.FOPException;
-
-import javax.xml.transform.TransformerException;
+import com.example.event_manager.form.BillingFilter;
+import com.example.event_manager.form.BillingForm;
 import java.io.IOException;
+import java.util.List;
+
 
 public interface BillingReportService {
 
-  String generateXmlForBillingReportSchema(BillingRaportSchema brs);
+  List<BillingForm> filterBillingFormList(List<BillingForm> oldBillingForm,
+      BillingFilter billingFilter);
 
-  byte[] convertBillingReportSchemaToByteStream(BillingRaportSchema brs)
-      throws IOException, FOPException, TransformerException;
+  byte[] generateSheetForBillings(List<BillingForm> billingForms) throws IOException;
 }

@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(
     componentModel = "spring",
     uses = {TaskStatusMapper.class, BillingMapper.class})
-public interface EventMapper extends BasicMapper<Event, EventForm> {}
+public interface EventMapper extends BasicMapper<Event, EventForm> {
+
+}
