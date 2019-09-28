@@ -21,7 +21,7 @@ public class UserController {
   private final UserService userService;
 
   @GetMapping("/register")
-  public String register(final Model model) {
+  public String register(final Model model, final RedirectAttributes redirectAttributes) {
     model.addAttribute("userNavBar", userService.getPrincipalSimple());
     model.addAttribute("user", new UserForm());
 
@@ -43,8 +43,9 @@ public class UserController {
       if (!userService.save(user)) {
         model.addAttribute("user", user);
         model.addAttribute("userNavBar", userService.getPrincipalSimple());
-
-        return "security/register";
+        redirectAttributes.addFlashAttribute(
+            "registerError", "That username is taken. Try another.");
+        return "redirect:/user/register";
       } else {
         redirectAttributes.addFlashAttribute(
             "message", "Your account has been successfully created. You can log in");

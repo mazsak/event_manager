@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("predefineds")
+@RequestMapping("predefined")
 @AllArgsConstructor
 public class PredefinedController {
 
@@ -27,7 +28,17 @@ public class PredefinedController {
 
   @GetMapping("/all")
   public String all(final Model model) {
-    model.addAttribute("predefineds", toDoPredefinedService.findAllAndSortByName());
+    model.addAttribute("predefined", toDoPredefinedService.findAllAndSortByName(PageRequest.of(0, 10)));
+    model.addAttribute("user", userService.getPrincipalSimple());
+
+    return "predefined/list";
+  }
+
+  @GetMapping("/all/{page}")
+  public String previous(final Model model, @PathVariable final String page) {
+    model.addAttribute(
+            "predefined",
+            toDoPredefinedService.findAllAndSortByName(PageRequest.of(Integer.parseInt(page), 10)));
     model.addAttribute("user", userService.getPrincipalSimple());
 
     return "predefined/list";
@@ -36,7 +47,7 @@ public class PredefinedController {
   @GetMapping("/delete/{id}")
   public String delete(@PathVariable final String id) {
     toDoPredefinedService.delete(Long.valueOf(id));
-    return "redirect:/predefineds/all";
+    return "redirect:/predefined/all";
   }
 
   @GetMapping("/add")
@@ -93,7 +104,7 @@ public class PredefinedController {
       predefined.setTasks(
           predefined.getTasks().stream().filter(x -> !x.equals("")).collect(Collectors.toList()));
       toDoPredefinedService.save(predefined);
-      return "redirect:/predefineds/all";
+      return "redirect:/predefined/all";
     }
   }
 }

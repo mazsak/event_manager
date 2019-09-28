@@ -31,6 +31,16 @@
               <p th:errors="*{password}"></p>
             </div>
           </div>
+          <div th:if="${registerError}">
+            <div class="alert alert-danger" role="alert">
+              <p th:text="${registerError}"></p>
+            </div>
+            <div th:if="${message}">
+              <div class="alert alert-danger" role="alert">
+                <p th:text="${message}"></p>
+              </div>
+            </div>
+          </div>
           <table class="table" style="width:80%;margin-left: auto;margin-right: auto;">
             <tbody>
             <tr>

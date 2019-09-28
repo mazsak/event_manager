@@ -1,46 +1,111 @@
-<nav th:fragment="nav(user)" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-     class="navbar navbar-fixed-top"
-     style="background: linear-gradient(to left, #ffd773, #e6e8e8); border-color: gray; margin-bottom: 500rem">
+<nav th:fragment="nav(user)" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org"
+     class="navbar navbar-default navbar-fixed-top"
+     style="background: linear-gradient(to right,#FC2756,#101010,#3F95F2);
+; border-color: gray; margin-bottom: 500rem">
   <!--/*@thymesVar id="user" type="com.example.event_manager.form.UserSimpleForm"*/-->
-  <a class="navbar-brand" href="#" th:href="@{/events/all}">Event Manager</a>
-  <ul class="nav navbar-nav">
-    <li>
-      <a class="navbar-link" href="#" th:href="@{/predefineds/all}"> List predefined </a>
-    </li>
-    <li th:if="${user.login != null}" class="dropdown">
-      <a class="dropdown-toggle navbar-link" href="#" type="button" data-toggle="dropdown"> Add
-        <span class="caret"></span></a>
-      <ul class="dropdown-menu">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a style="color: #fffffd" class="navbar-brand" href="#" th:href="@{/events/all}">Event Manager</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
         <li>
-          <a href="#" th:href="@{/predefineds/add}"> List predefined </a>
+          <a style="color: #fffffd" class="navbar-link" href="#" th:href="@{/predefined/all}"> List predefined </a>
         </li>
-        <li>
-          <a href="#" th:href="@{/events/add}"> Event </a>
+        <li th:if="${user.login != null}" class="dropdown">
+          <a style="color: #fffffd" class="dropdown-toggle navbar-link" href="#" type="button" data-toggle="dropdown"> Add
+            <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a style="color: #000000"href="#" th:href="@{/predefined/add}"> List predefined </a>
+            </li>
+            <li>
+              <a style="color: #000000" href="#" th:href="@{/events/add}"> Event </a>
+            </li>
+          </ul>
         </li>
       </ul>
-        </li>
-  </ul>
-  <ul class="nav navbar-nav navbar-right" style="margin-right: 5px;">
-    <li>
-      <a th:unless="${user.login != null}" href="#" th:href="@{/user/register}"><span class="glyphicon glyphicon-book"></span> Sign
-        Up</a>
-    </li>
-    <li>
-      <a th:unless="${user.login != null}" href="#" th:href="@{/user/login}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-    </li>
-    <li th:if="${user.login != null}" class="dropdown">
-      <a class="dropdown-toggle navbar-link" href="#" type="button" data-toggle="dropdown" >
-        <label th:text="${user.login}" ></label>
-        <i class="glyphicon glyphicon-user"></i>
-      </a>
-      <ul class="dropdown-menu">
+      <ul class="nav navbar-nav navbar-right" style="margin-right: 5px;">
         <li>
-          <a href="#" th:href="@{/user/profile}"> Profile </a>
+          <a style="color: #fffffd" th:unless="${user.login != null}" href="#" th:href="@{/user/register}"><span
+              class="glyphicon glyphicon-book"></span> Sign
+            Up</a>
         </li>
         <li>
-          <a href="#" th:href="@{/user/logout}"> Log out </a>
+          <a style="color: #fffffd" th:unless="${user.login != null}" href="#" th:href="@{/user/login}"><span
+              class="glyphicon glyphicon-log-in"></span> Login</a>
+        </li>
+        <li th:if="${user.login != null}" class="dropdown">
+          <a style="color: #fffffd" class="dropdown-toggle navbar-link" href="#" type="button" data-toggle="dropdown">
+            <label th:text="${user.login}"></label>
+            <i class="glyphicon glyphicon-user"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a style="color: #000000" href="#" th:href="@{/user/profile}"> Profile </a>
+            </li>
+            <li>
+              <a style="color: #000000" href="#" th:href="@{/user/logout}"> Log out </a>
+            </li>
+          </ul>
         </li>
       </ul>
-    </li>
-  </ul>
+    </div>
+  </div>
 </nav>
+
+<!--<nav class="navbar navbar-default">-->
+<!--  <div class="container-fluid">-->
+<!--    &lt;!&ndash; Brand and toggle get grouped for better mobile display &ndash;&gt;-->
+<!--    <div class="navbar-header">-->
+<!--      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">-->
+<!--        <span class="sr-only">Toggle navigation</span>-->
+<!--        <span class="icon-bar"></span>-->
+<!--        <span class="icon-bar"></span>-->
+<!--        <span class="icon-bar"></span>-->
+<!--      </button>-->
+<!--      <a class="navbar-brand" href="#">Event Manager</a>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Collect the nav links, forms, and other content for toggling &ndash;&gt;-->
+<!--    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
+<!--      <ul class="nav navbar-nav">-->
+<!--        <li><a href="#">Link</a></li>-->
+<!--        <li class="dropdown">-->
+<!--          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
+<!--          <ul class="dropdown-menu">-->
+<!--            <li><a href="#">Action</a></li>-->
+<!--            <li><a href="#">Another action</a></li>-->
+<!--            <li><a href="#">Something else here</a></li>-->
+<!--            <li role="separator" class="divider"></li>-->
+<!--            <li><a href="#">Separated link</a></li>-->
+<!--            <li role="separator" class="divider"></li>-->
+<!--            <li><a href="#">One more separated link</a></li>-->
+<!--          </ul>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--      <ul class="nav navbar-nav navbar-right">-->
+<!--        <li><a href="#">Link</a></li>-->
+<!--        <li class="dropdown">-->
+<!--          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
+<!--          <ul class="dropdown-menu">-->
+<!--            <li><a href="#">Action</a></li>-->
+<!--            <li><a href="#">Another action</a></li>-->
+<!--            <li><a href="#">Something else here</a></li>-->
+<!--            <li role="separator" class="divider"></li>-->
+<!--            <li><a href="#">Separated link</a></li>-->
+<!--          </ul>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>&lt;!&ndash; /.navbar-collapse &ndash;&gt;-->
+<!--  </div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
+<!--</nav>-->

@@ -1,49 +1,69 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="hasPrevious" type="org.springframework.data.domain.Page<com.example.event_manager.form.ToDoPredefinedForm>"*/-->
 <head>
-  <meta charset="UTF-8">
-  <title>List Predefined</title>
-
-  <link rel="stylesheet" type="text/css" href="navigation.css">
-  <link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>List Predefined</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <nav th:replace="/fragments/nav :: nav(user = ${user})"></nav>
 <div class="tabbable tabs-left container" style="margin-top:80px;">
-  <ul class="nav nav-tabs">
-    <li th:each="predefined, state : ${predefineds}" th:classappend="${state.index == 0} ? active">
-      <a href="#" th:href="@{'#' + ${predefined.id}}" data-toggle="tab" ><b>
-        <h4 th:text="${predefined.name}"></h4>
-      </b></a>
-    </li>
-    <li>
-      <a href="#" th:if="${user.login != null}" th:href="@{add}"><h4> Add list </h4></a>
-    </li>
-  </ul>
-  <div class="tab-content">
-    <div class="tab-pane fade" th:each="predefined, state : ${predefineds}" th:id="${predefined.id}" th:classappend="${state.index == 0} ? 'active in'" >
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item" th:if="${user.login != null}" >
-          <a href="#" th:href="@{add/__${predefined.id}__}" class="btn btn-primary"> Edit </a>
-          <a href="#" th:href="@{delete/__${predefined.id}__}" class="btn btn-danger">
-            Delete </a>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item" th:if="${predefined.hasPrevious()}">
+                        <a href="#" class="btn" th:href="@{/predefined/all/__${predefined.number - 1}__}">Previous</a>
+                    </li>
+                    <th:block th:each="i: ${#numbers.sequence(0, predefined.getTotalPages() - 1)}">
+                        <li class="page-item">
+                            <a href="#" class="btn"
+                               th:classappend="*{predefined.number == __${i}__} ? 'active'"
+                               th:text="${i+1}" th:href="@{/predefined/all/__${i}__}"></a>
+                        </li>
+                    </th:block>
+                    <li class="page-item" th:if="${predefined.hasNext()}">
+                        <a href="#" class="btn" th:href="@{/predefined/all/__${predefined.number + 1}__}">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </li>
-        <li class="list-group-item"><label>Tasks</label>
-          <table class="table">
-            <tbody>
-            <tr th:each="task : ${predefined.tasks}">
-              <td th:text="${task}"></td>
-            </tr>
-            </tbody>
-          </table>
+    </ul>
+    <ul class="nav nav-tabs">
+        <li style="width: 10%;" th:each="list, state : ${predefined}"
+            th:classappend="${state.index == 0} ? 'active'">
+            <a href="#" th:href="@{'#' + ${state.index}}" data-toggle="tab"><b>
+                <h4 style="display:block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                    data-toggle="tooltip" th:title="${list.name}" th:text="${list.name}"></h4>
+            </b></a>
         </li>
-      </ul>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade" th:each="list, state : ${predefined}" th:id="${state.index}"
+             th:classappend="${state.index == 0} ? 'active in'">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:if="${user.login != null}">
+                    <a href="#" th:href="@{/predefined/add/__${list.id}__}" class="btn btn-primary"> Edit </a>
+                    <a href="#" th:href="@{/predefined/delete/__${list.id}__}" class="btn btn-danger">
+                        Delete </a>
+                </li>
+                <li class="list-group-item"><label>Tasks</label>
+                    <table class="table">
+                        <tbody>
+                        <tr th:each="task : ${list.tasks}">
+                            <td th:text="${task}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </div>
 </body>
 </html>

@@ -115,11 +115,12 @@
                        th:if="${r + c &lt; eventAddEditForm.predefinedNameList.size()}"
                        class="col-sm-3">
                     <button onclick="savePosition('a_list_predefined')"
-                            style="width: 100%; height: 100px; margin-bottom: 5px; margin-top: 5px;"
+                            style="width: 100%; height: 100px; margin-bottom: 5px; margin-top: 5px; display:block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
                             class="btn btn-secondary"
                             name="addPredefined"
                             data-toggle="tooltip"
                             data-placement="right"
+                            th:title="${eventAddEditForm.predefinedNameList.get(r + c).name}"
                             th:id="${eventAddEditForm.predefinedNameList.get(r + c).id}"
                             th:value="${eventAddEditForm.predefinedNameList.get(r + c).id}">
                       <label

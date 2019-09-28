@@ -6,14 +6,18 @@ import com.example.event_manager.mapper.ToDoPredefinedMapper;
 import com.example.event_manager.mapper.ToDoPredefinedSimpleMapper;
 import com.example.event_manager.model.ToDoPredefined;
 import com.example.event_manager.repo.ToDoPredefinedRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.support.PageableExecutionUtils;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ToDoPredefinedServiceImpl
     extends BasicServiceImpI<
-    ToDoPredefined, ToDoPredefinedForm, ToDoPredefinedRepo, ToDoPredefinedMapper, Long>
+        ToDoPredefined, ToDoPredefinedForm, ToDoPredefinedRepo, ToDoPredefinedMapper, Long>
     implements ToDoPredefinedService {
 
   private final ToDoPredefinedSimpleMapper toDoPredefinedSimpleMapper;
@@ -36,6 +40,15 @@ public class ToDoPredefinedServiceImpl
     return repo.findAllByOrderByNameAsc().stream()
         .map(mapper::mapToDTO)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public Page<ToDoPredefinedForm> findAllAndSortByName(final Pageable pageable) {
+    final Page<ToDoPredefined> toDoPredefined = repo.findAllByOrderByNameAsc(pageable);
+    return PageableExecutionUtils.getPage(
+        mapper.mapToDTOList(toDoPredefined.getContent()),
+        pageable,
+        toDoPredefined::getTotalElements);
   }
 
   @Override
