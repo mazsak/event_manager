@@ -44,7 +44,8 @@ public class UserController {
       if (!userService.save(user)) {
         model.addAttribute("user", user);
         model.addAttribute("userNavBar", userService.getPrincipalSimple());
-
+        redirectAttributes.addFlashAttribute(
+            "registerError", "That username is taken. Try another.");
         return "security/register";
       } else {
         redirectAttributes.addFlashAttribute(

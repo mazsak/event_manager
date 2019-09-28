@@ -23,10 +23,10 @@
     <div>
       <form action="#" th:action="@{all}" th:object="${events}" method="get">
         <div class="input-group">
-          <input class="form-control" type="search"
-                 placeholder="Search for event" th:field = "*{query}">
+          <input class="form-control input-lg" type="search"
+                 placeholder="Search by name, location, topic" th:field = "*{query}">
           <span class="input-group-btn">
-            <button class="btn btn-success" name="search">Search</button>
+            <button class="btn btn-primary btn-lg" name="search">Search event</button>
           </span>
         </div>
       </form>

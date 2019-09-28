@@ -34,7 +34,7 @@ public class EventForm {
   private String name;
 
   @NotNull
-  @Size(min = 3, max = 255, message = "Description length must be between 3 and 255")
+  @Size(min = 3, max = 500, message = "Description length must be between 3 and 500")
   private String description;
 
   @NotNull
