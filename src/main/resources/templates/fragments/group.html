@@ -4,10 +4,21 @@
     <div th:fragment="group(name,events)"
          th:if="${events != null and !events.pageOfEvents.isEmpty()}"
          class="card"
-         style="margin-top: 80px;">
+         style="margin-top: 60px;">
         <ul class="list-group list-group-flush">
             <li class="list-group-item" style="background-color: #f5f9fa">
                 <h4><label th:text="${name}"></label></h4>
+<!--                 <div>-->
+<!--                     <form action="#" name="myform" id ="myform" th:action="@{/events/all}" th:object="${events}" method="get">-->
+
+<!--                         <select id="sel_id" name="sel_name"  onchange="submitform();">-->
+<!--                             <option value="5">5</option>-->
+<!--                             <option value="10">10 </option>-->
+<!--                             <option value="20">20 </option>-->
+<!--                         </select>-->
+
+<!--                     </form>-->
+<!--                </div>-->
             </li>
 
             <form action="#" th:action="@{/events/all}" th:object="${events}" method="get">
@@ -21,7 +32,7 @@
                     <input hidden type="number" name="pageNumberOfThirdGroup" th:value="*{pageNumberOfThirdGroup}"/>
                     <input hidden type="number" name="pageSizeOfThirdGroup" th:value="*{pageSizeOfThirdGroup}"/>
                     <input hidden type="text" name="query" th:value="*{query}">
-                    <table class="table ">
+                    <table class="table table-responsive">
                         <thead>
                         <tr>
                             <th>
@@ -105,6 +116,10 @@
             function detailView(id) {
                 location.href = location.href.split('/', 1)[0] + "/events/details/" + id;
             }
+            // function submitform()
+            // {
+            //     document.myform.submit();
+            // }
         </script>
     </div>
 </div>

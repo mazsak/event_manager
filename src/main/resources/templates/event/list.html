@@ -12,6 +12,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+  <style>
+    #dude {
+      font-family: 'Lato', sans-serif;
+    }
+  </style>
 
 
 </head>
@@ -32,12 +38,14 @@
       </form>
     </div>
   </div>
+  <div id="dude">
   <div
       th:replace="/fragments/group :: group(name='In progress', events = ${events.started})"></div>
   <div
-      th:replace="/fragments/group :: group(name='Not Started', events = ${events.notStarted})"></div>
+      th:replace="/fragments/group :: group(name='Not started', events = ${events.notStarted})"></div>
   <div
       th:replace="/fragments/group :: group(name='Outdated', events = ${events.outdated})"></div>
+  </div>
 </div>
 <script>
   $(window).scroll(function() {

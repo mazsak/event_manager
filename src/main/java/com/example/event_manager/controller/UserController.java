@@ -22,7 +22,7 @@ public class UserController {
   private final UserService userService;
 
   @GetMapping("/register")
-  public String register(final Model model) {
+  public String register(final Model model, final RedirectAttributes redirectAttributes) {
     model.addAttribute("userNavBar", userService.getPrincipalSimple());
     model.addAttribute("user", new UserForm());
 
@@ -46,7 +46,7 @@ public class UserController {
         model.addAttribute("userNavBar", userService.getPrincipalSimple());
         redirectAttributes.addFlashAttribute(
             "registerError", "That username is taken. Try another.");
-        return "security/register";
+        return "redirect:/user/register";
       } else {
         redirectAttributes.addFlashAttribute(
                 "message", "Your account has been successfully created. You can log in");

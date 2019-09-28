@@ -268,9 +268,9 @@ public class EventController {
 
   @GetMapping(value = "all")
   public String all(final Model model) {
-    final Pageable pagingS = PageRequest.of(0, 5);
-    final Pageable pagingN = PageRequest.of(0, 5);
-    final Pageable pagingO = PageRequest.of(0, 5);
+    final Pageable pagingS = PageRequest.of(0, 6);
+    final Pageable pagingN = PageRequest.of(0, 6);
+    final Pageable pagingO = PageRequest.of(0, 6);
     model.addAttribute("events", eventService.getPartition(pagingS, pagingN, pagingO));
     model.addAttribute("user", userService.getPrincipalSimple());
 
@@ -279,9 +279,9 @@ public class EventController {
 
   @GetMapping(value = "all", params = "search")
   public String search(final Model model, @ModelAttribute final AllEventsForm allEventsForm) {
-    final Pageable pagingS = PageRequest.of(0, 5);
-    final Pageable pagingN = PageRequest.of(0, 5);
-    final Pageable pagingO = PageRequest.of(0, 5);
+    final Pageable pagingS = PageRequest.of(0, 6);
+    final Pageable pagingN = PageRequest.of(0, 6);
+    final Pageable pagingO = PageRequest.of(0, 6);
     model.addAttribute(
             "events",
         eventService.searchByNamePlaceTopic(allEventsForm.getQuery(), pagingS, pagingN, pagingO));
