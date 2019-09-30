@@ -20,15 +20,15 @@ public class BillingReportServiceImpl implements BillingReportService {
 
   @Value("classpath:static/newStyle.xsl")
   Resource styleXslResource;
-
   private static final int TITLE_IDX = 0;
   private static final int BILLING_TYPE_IDX = 1;
   private static final int DATE_OF_CREATION_IDX = 2;
   private static final int MONEY_IDX = 3;
   private static final int DATE_OF_EDITION_IDX = 4;
   private static final int CONFIRMED_IDX = 5;
-  private static final int DATE_OF_CONFIRM = 6;
+  private static final int DATE_OF_CONFIRM_IDX = 6;
   private static final int PERSON_ASSIGNED_IDX = 7;
+
 
   @Override
   public List<BillingForm> filterBillingFormList(final List<BillingForm> oldBillingForm,
@@ -38,11 +38,11 @@ public class BillingReportServiceImpl implements BillingReportService {
         .filter(bf -> {
           if ("all".equals(billingFilter.getBillingType())) {
             return true;
-          } else if ((BillingType.INCOMING == BillingType.valueOf(billingFilter.getBillingType()))
+          } else if ((BillingType.INCOME == BillingType.valueOf(billingFilter.getBillingType()))
               && BillingType.valueOf(billingFilter.getBillingType()) == bf.getBillingType()) {
             return true;
           } else {
-            return BillingType.OUTLAY == BillingType.valueOf(billingFilter.getBillingType()) &&
+            return BillingType.OUTGO == BillingType.valueOf(billingFilter.getBillingType()) &&
                 BillingType.valueOf(billingFilter.getBillingType()) == bf.getBillingType();
           }
         })
@@ -77,7 +77,7 @@ public class BillingReportServiceImpl implements BillingReportService {
       }
       cell = row.createCell(CONFIRMED_IDX);
       cell.setCellValue(billingForm.isConfirmed());
-      cell = row.createCell(DATE_OF_CONFIRM);
+      cell = row.createCell(DATE_OF_CONFIRM_IDX);
       if (billingForm.getDateOfConfirm() != null) {
         cell.setCellValue(billingForm.getDateOfConfirm().toString());
       }
@@ -103,10 +103,13 @@ public class BillingReportServiceImpl implements BillingReportService {
     cell = row.createCell(5);
     cell.setCellValue("is confirmed? ");
     cell = row.createCell(6);
-    cell.setCellValue("Confirmed");
+    cell.setCellValue("Confirmed date");
     cell = row.createCell(7);
+
     cell.setCellValue("Person");
   }
 }
+
+
 
 

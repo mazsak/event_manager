@@ -10,18 +10,19 @@ import com.example.event_manager.form.EventForm;
 import com.example.event_manager.form.TaskStatusForm;
 import com.example.event_manager.form.ToDoPredefinedForm;
 import com.example.event_manager.form.ToDoPredefinedSimpleForm;
-import com.example.event_manager.service.BillingReportService;
+import com.example.event_manager.model.BillingType;
 import com.example.event_manager.service.BillingService;
 import com.example.event_manager.service.EventService;
 import com.example.event_manager.service.PersonService;
 import com.example.event_manager.service.TaskStatusService;
 import com.example.event_manager.service.ToDoPredefinedService;
+import com.example.event_manager.service.UserService;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import com.example.event_manager.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +47,6 @@ public class EventController {
   private final EventService eventService;
   private final UserService userService;
   private final TaskStatusService taskStatusService;
-    private final BillingReportService billingReportService;
   private final ToDoPredefinedService toDoPredefinedService;
   private final BillingService billingService;
 
@@ -189,7 +189,10 @@ public class EventController {
     if (eventAddEditForm.getEvent().getBillings() == null) {
       eventAddEditForm.getEvent().setBillings(new ArrayList<>());
     }
-    eventAddEditForm.getEvent().getBillings().add(BillingForm.builder().build());
+    eventAddEditForm.getEvent().getBillings()
+        .add(BillingForm.builder().deleted(false).confirmed(false).billingType(
+            BillingType.INCOME).dateOfCreation(LocalDateTime.now())
+            .dateOfEdition(LocalDateTime.now()).personAssigned(personService.findById(1L)).build());
     eventAddEditForm = updateData(eventAddEditForm);
 
     model.addAttribute("eventAddEditForm", eventAddEditForm);
@@ -261,6 +264,8 @@ public class EventController {
       return "event/add";
     } else {
       eventAddEditForm.getEvent().makeToOneList();
+      eventAddEditForm.getEvent()
+          .setBillings(billingService.saveAndReturnList(eventAddEditForm.getEvent().getBillings()));
       eventService.save(eventAddEditForm.getEvent());
       return "redirect:/events/all";
     }
@@ -283,7 +288,7 @@ public class EventController {
     final Pageable pagingN = PageRequest.of(0, 5);
     final Pageable pagingO = PageRequest.of(0, 5);
     model.addAttribute(
-            "events",
+        "events",
         eventService.searchByNamePlaceTopic(allEventsForm.getQuery(), pagingS, pagingN, pagingO));
     model.addAttribute("user", userService.getPrincipalSimple());
     return "event/list";
@@ -291,119 +296,119 @@ public class EventController {
 
   @GetMapping(value = "all", params = "previous")
   public String previous(
-          final Model model,
-          @RequestParam final String sortHowEnum,
-          @RequestParam final String groupName,
-          @RequestParam final String pageNumberOfCurrentGroup,
-          @RequestParam final String pageSizeOfCurrentGroup,
-          @RequestParam final String pageNumberOfSecondGroup,
-          @RequestParam final String pageSizeOfSecondGroup,
-          @RequestParam final String pageNumberOfThirdGroup,
-          @RequestParam final String pageSizeOfThirdGroup,
-          @RequestParam final String query) {
+      final Model model,
+      @RequestParam final String sortHowEnum,
+      @RequestParam final String groupName,
+      @RequestParam final String pageNumberOfCurrentGroup,
+      @RequestParam final String pageSizeOfCurrentGroup,
+      @RequestParam final String pageNumberOfSecondGroup,
+      @RequestParam final String pageSizeOfSecondGroup,
+      @RequestParam final String pageNumberOfThirdGroup,
+      @RequestParam final String pageSizeOfThirdGroup,
+      @RequestParam final String query) {
     model.addAttribute(
-            "events",
-            blocOfCode(
-                    sortHowEnum,
-                    GroupName.valueOf(groupName),
-                    Integer.parseInt(pageNumberOfCurrentGroup) - 1,
-                    Integer.parseInt(pageSizeOfCurrentGroup),
-                    Integer.parseInt(pageNumberOfSecondGroup),
-                    Integer.parseInt(pageSizeOfSecondGroup),
-                    Integer.parseInt(pageNumberOfThirdGroup),
-                    Integer.parseInt(pageSizeOfThirdGroup),
-                    query,
-                    null));
+        "events",
+        blocOfCode(
+            sortHowEnum,
+            GroupName.valueOf(groupName),
+            Integer.parseInt(pageNumberOfCurrentGroup) - 1,
+            Integer.parseInt(pageSizeOfCurrentGroup),
+            Integer.parseInt(pageNumberOfSecondGroup),
+            Integer.parseInt(pageSizeOfSecondGroup),
+            Integer.parseInt(pageNumberOfThirdGroup),
+            Integer.parseInt(pageSizeOfThirdGroup),
+            query,
+            null));
     model.addAttribute("user", userService.getPrincipalSimple());
     return "event/list";
   }
 
   @GetMapping(value = "all", params = "next")
   public String next(
-          final Model model,
-          @RequestParam final String sortHowEnum,
-          @RequestParam final String groupName,
-          @RequestParam final String pageNumberOfCurrentGroup,
-          @RequestParam final String pageSizeOfCurrentGroup,
-          @RequestParam final String pageNumberOfSecondGroup,
-          @RequestParam final String pageSizeOfSecondGroup,
-          @RequestParam final String pageNumberOfThirdGroup,
-          @RequestParam final String pageSizeOfThirdGroup,
-          @RequestParam final String query) {
+      final Model model,
+      @RequestParam final String sortHowEnum,
+      @RequestParam final String groupName,
+      @RequestParam final String pageNumberOfCurrentGroup,
+      @RequestParam final String pageSizeOfCurrentGroup,
+      @RequestParam final String pageNumberOfSecondGroup,
+      @RequestParam final String pageSizeOfSecondGroup,
+      @RequestParam final String pageNumberOfThirdGroup,
+      @RequestParam final String pageSizeOfThirdGroup,
+      @RequestParam final String query) {
     model.addAttribute(
-            "events",
-            blocOfCode(
-                    sortHowEnum,
-                    GroupName.valueOf(groupName),
-                    Integer.parseInt(pageNumberOfCurrentGroup) + 1,
-                    Integer.parseInt(pageSizeOfCurrentGroup),
-                    Integer.parseInt(pageNumberOfSecondGroup),
-                    Integer.parseInt(pageSizeOfSecondGroup),
-                    Integer.parseInt(pageNumberOfThirdGroup),
-                    Integer.parseInt(pageSizeOfThirdGroup),
-                    query,
-                    null));
+        "events",
+        blocOfCode(
+            sortHowEnum,
+            GroupName.valueOf(groupName),
+            Integer.parseInt(pageNumberOfCurrentGroup) + 1,
+            Integer.parseInt(pageSizeOfCurrentGroup),
+            Integer.parseInt(pageNumberOfSecondGroup),
+            Integer.parseInt(pageSizeOfSecondGroup),
+            Integer.parseInt(pageNumberOfThirdGroup),
+            Integer.parseInt(pageSizeOfThirdGroup),
+            query,
+            null));
     model.addAttribute("user", userService.getPrincipalSimple());
     return "event/list";
   }
 
   @GetMapping(value = "all", params = "changePage")
   public String changePage(
-          final Model model,
-          @RequestParam final String sortHowEnum,
-          @RequestParam final String groupName,
-          @RequestParam final String pageNumberOfCurrentGroup,
-          @RequestParam final String pageSizeOfCurrentGroup,
-          @RequestParam final String pageNumberOfSecondGroup,
-          @RequestParam final String pageSizeOfSecondGroup,
-          @RequestParam final String pageNumberOfThirdGroup,
-          @RequestParam final String pageSizeOfThirdGroup,
-          @RequestParam final String query,
-          @RequestParam final String changePage) {
+      final Model model,
+      @RequestParam final String sortHowEnum,
+      @RequestParam final String groupName,
+      @RequestParam final String pageNumberOfCurrentGroup,
+      @RequestParam final String pageSizeOfCurrentGroup,
+      @RequestParam final String pageNumberOfSecondGroup,
+      @RequestParam final String pageSizeOfSecondGroup,
+      @RequestParam final String pageNumberOfThirdGroup,
+      @RequestParam final String pageSizeOfThirdGroup,
+      @RequestParam final String query,
+      @RequestParam final String changePage) {
     model.addAttribute(
-            "events",
-            blocOfCode(
-                    sortHowEnum,
-                    GroupName.valueOf(groupName),
-                    Integer.parseInt(changePage),
-                    Integer.parseInt(pageSizeOfCurrentGroup),
-                    Integer.parseInt(pageNumberOfSecondGroup),
-                    Integer.parseInt(pageSizeOfSecondGroup),
-                    Integer.parseInt(pageNumberOfThirdGroup),
-                    Integer.parseInt(pageSizeOfThirdGroup),
-                    query,
-                    null));
+        "events",
+        blocOfCode(
+            sortHowEnum,
+            GroupName.valueOf(groupName),
+            Integer.parseInt(changePage),
+            Integer.parseInt(pageSizeOfCurrentGroup),
+            Integer.parseInt(pageNumberOfSecondGroup),
+            Integer.parseInt(pageSizeOfSecondGroup),
+            Integer.parseInt(pageNumberOfThirdGroup),
+            Integer.parseInt(pageSizeOfThirdGroup),
+            query,
+            null));
     model.addAttribute("user", userService.getPrincipalSimple());
     return "event/list";
   }
 
   @GetMapping(value = "all", params = "sort")
   public String sort(
-          final Model model,
-          @RequestParam final String sortHowEnum,
-          @RequestParam final String groupName,
-          @RequestParam final String pageNumberOfCurrentGroup,
-          @RequestParam final String pageSizeOfCurrentGroup,
-          @RequestParam final String pageNumberOfSecondGroup,
-          @RequestParam final String pageSizeOfSecondGroup,
-          @RequestParam final String pageNumberOfThirdGroup,
-          @RequestParam final String pageSizeOfThirdGroup,
-          @RequestParam final String query,
-          @RequestParam final String sort) {
+      final Model model,
+      @RequestParam final String sortHowEnum,
+      @RequestParam final String groupName,
+      @RequestParam final String pageNumberOfCurrentGroup,
+      @RequestParam final String pageSizeOfCurrentGroup,
+      @RequestParam final String pageNumberOfSecondGroup,
+      @RequestParam final String pageSizeOfSecondGroup,
+      @RequestParam final String pageNumberOfThirdGroup,
+      @RequestParam final String pageSizeOfThirdGroup,
+      @RequestParam final String query,
+      @RequestParam final String sort) {
 
     model.addAttribute(
-            "events",
-            blocOfCode(
-                    sortHowEnum,
-                    GroupName.valueOf(groupName),
-                    Integer.parseInt(pageNumberOfCurrentGroup),
-                    Integer.parseInt(pageSizeOfCurrentGroup),
-                    Integer.parseInt(pageNumberOfSecondGroup),
-                    Integer.parseInt(pageSizeOfSecondGroup),
-                    Integer.parseInt(pageNumberOfThirdGroup),
-                    Integer.parseInt(pageSizeOfThirdGroup),
-                    query,
-                    sort));
+        "events",
+        blocOfCode(
+            sortHowEnum,
+            GroupName.valueOf(groupName),
+            Integer.parseInt(pageNumberOfCurrentGroup),
+            Integer.parseInt(pageSizeOfCurrentGroup),
+            Integer.parseInt(pageNumberOfSecondGroup),
+            Integer.parseInt(pageSizeOfSecondGroup),
+            Integer.parseInt(pageNumberOfThirdGroup),
+            Integer.parseInt(pageSizeOfThirdGroup),
+            query,
+            sort));
     model.addAttribute("user", userService.getPrincipalSimple());
     return "event/list";
   }
@@ -424,16 +429,16 @@ public class EventController {
   }
 
   private AllEventsForm blocOfCode(
-          final String sortHowEnum,
-          final GroupName groupName,
-          final int pageNumberOfCurrentGroup,
-          final int pageSizeOfCurrentGroup,
-          final int pageNumberOfSecondGroup,
-          final int pageSizeOfSecondGroup,
-          final int pageNumberOfThirdGroup,
-          final int pageSizeOfThirdGroup,
-          final String query,
-          final String sort) {
+      final String sortHowEnum,
+      final GroupName groupName,
+      final int pageNumberOfCurrentGroup,
+      final int pageSizeOfCurrentGroup,
+      final int pageNumberOfSecondGroup,
+      final int pageSizeOfSecondGroup,
+      final int pageNumberOfThirdGroup,
+      final int pageSizeOfThirdGroup,
+      final String query,
+      final String sort) {
     SortHowEnum sortHow = SortHowEnum.valueOf(sortHowEnum);
     if (sort != null) {
       if (sortHowEnum.contains(sort)) {

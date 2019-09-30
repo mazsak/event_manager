@@ -4,6 +4,7 @@ import com.example.event_manager.form.UserForm;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserService extends BasicService<UserForm, Long> {
+
   boolean update(UserForm user);
 
   UserDetails loadUserByUsername(String login);

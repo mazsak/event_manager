@@ -334,14 +334,17 @@
                   <th>
                     <label> Person assign to </label>
                   </th>
-                  <th>
-                    <label> Delete </label>
-                  </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="billing, itemStat : ${eventAddEditForm.event.billings}">
-                  <input hidden th:field="*{event.billings[__${itemStat.index}__].id}"/>
+                  <input hidden th:field="*{event.billings[__${itemStat.index}__].deleted}"/>
+                  <input hidden th:field="*{event.billings[__${itemStat.index}__].dateOfConfirm}"/>
+                  <input hidden th:field="*{event.billings[__${itemStat.index}__].dateOfCreation}"/>
+                  <input hidden th:field="*{event.billings[__${itemStat.index}__].dateOfEdition}"/>
+                  <input hidden th:field="*{event.billings[__${itemStat.index}__].billingType}"/>
+
+
                   <td>
                     <label th:text="${itemStat.count}"></label>
                   </td>
@@ -359,14 +362,14 @@
                            th:field="*{event.billings[__${itemStat.index}__].confirmed}">
                   </td>
                   <td>
-                    <input class="form-control" type="text"
-                           th:field="*{event.billings[__${itemStat.index}__].personAssigned}">
-                  </td>
-                  <td>
-                    <button onclick="savePosition('a_billing')" class="btn btn-danger"
-                            name="removeBilling"
-                            th:value="${itemStat.index}"><i
-                            class="fa fa-trash-o" aria-hidden="true"></i></button>
+                    <select class="form-control"
+                            th:field="*{event.billings[__${itemStat.index}__].personAssigned.name}">
+                      <option th:each="personSelect : ${eventAddEditForm.people}"
+                              th:text="${personSelect.name}"
+                              th:value="${personSelect.id}"></option>
+                    </select>
+<!--                    <input class="form-control" type="text"-->
+<!--                           th:field="*{event.billings[__${itemStat.index}__].personAssigned}">-->
                   </td>
                   <div
                           th:if="${#fields.hasErrors('event.billings[' + itemStat.index + '].title')}">
@@ -395,10 +398,14 @@
                 <tr>
                   <td></td>
                   <td colspan="4">
-                    <button id="button_add_billing" onclick="savePosition('a_billing')"
-                            class="btn btn-primary" name="action" value="addBilling"> Add new
-                      element
-                    </button>
+<!--                    <form th:object= "${eventAddEditForm}" method="get">-->
+                      <a class="btn btn-primary" href="#"
+                         th:href="@{/billings/details/{id}(id=*{event.id})} + '?type=available'" >Details</a>
+<!--                      th:href="@{/events/add/{id}(id=${event.id})}"-->
+<!--                         th:href="@{/events/deleteTaskFromEvent?taskId=} + ${taskStatus.id} + '&eventId' + '=' + ${event.id}"-->
+<!--                         th:href="@{/billings/details/report/all?eventId=} + *{event.id}"-->
+
+<!--                    </form>-->
                   </td>
                 </tr>
                 </tbody>

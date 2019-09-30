@@ -3,10 +3,12 @@ package com.example.event_manager.form;
 import com.example.event_manager.model.BillingType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,7 +38,7 @@ public class BillingForm implements Comparable<BillingForm> {
 
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-  private LocalDateTime dateOfCreation = LocalDateTime.now();
+  private LocalDateTime dateOfCreation;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
   private LocalDateTime dateOfEdition;
@@ -52,4 +54,6 @@ public class BillingForm implements Comparable<BillingForm> {
     }
     return getDateOfCreation().compareTo(o.getDateOfCreation());
   }
+
+
 }

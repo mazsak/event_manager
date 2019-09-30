@@ -14,7 +14,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserSimpleForm {
-    private Long id;
 
-    private String login;
+  private Long id;
+
+  private String login;
 }

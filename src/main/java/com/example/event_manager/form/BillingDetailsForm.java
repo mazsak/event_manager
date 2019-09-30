@@ -10,9 +10,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AccountForm {
+public class BillingDetailsForm {
 
   private Long eventId;
-  private List<BillingForm> billingFormList;
+  private List<PersonForm> people;
+  private List<BillingForm> billingForms;
+
 
 }
