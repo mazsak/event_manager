@@ -105,6 +105,7 @@ public class BillingReportServiceImpl implements BillingReportService {
     cell = row.createCell(6);
     cell.setCellValue("Confirmed date");
     cell = row.createCell(7);
+
     cell.setCellValue("Person");
   }
 }

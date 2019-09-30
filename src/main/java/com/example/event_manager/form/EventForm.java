@@ -3,6 +3,7 @@ package com.example.event_manager.form;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
@@ -27,8 +28,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-
 public class EventForm {
 
   @PersistenceUnit
@@ -130,5 +129,50 @@ public class EventForm {
   }
 
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    EventForm eventForm = (EventForm) o;
+    return Objects.equals(id, eventForm.id) &&
+        Objects.equals(name, eventForm.name) &&
+        Objects.equals(description, eventForm.description) &&
+        Objects.equals(topic, eventForm.topic) &&
+        Objects.equals(place, eventForm.place) &&
+        Objects.equals(started, eventForm.started) &&
+        Objects.equals(outdated, eventForm.outdated) &&
+        Objects.equals(predefinedList, eventForm.predefinedList) &&
+        Objects.equals(dateTime, eventForm.dateTime) &&
+        Objects.equals(taskStatuses, eventForm.taskStatuses) &&
+        Objects.equals(billings, eventForm.billings);
+  }
 
+  @Override
+  public int hashCode() {
+    return Objects
+        .hash(id, name, description, topic, place, started, outdated, predefinedList, dateTime,
+            taskStatuses, billings);
+  }
+  public boolean returnFalseWhenAreTheSame(BillingForm bi) {
+    if(bi==null || bi.getId() == null)
+      return false;
+    for (BillingForm billingForm : billings) {
+      if (billingForm.getId().equals(bi.getId())
+          && billingForm.isConfirmed() == bi.isConfirmed()
+          && billingForm.getMoney().equals(bi.getMoney())
+          && billingForm.getTitle().equals(bi.getTitle())
+          && billingForm.getPersonAssigned().getId().equals(bi.getPersonAssigned().getId())
+          && billingForm.getBillingType().equals(bi.getBillingType())
+          && billingForm.getDateOfCreation().equals(bi.getDateOfCreation())
+          && billingForm.getDateOfConfirm().equals(bi.getDateOfConfirm())) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }

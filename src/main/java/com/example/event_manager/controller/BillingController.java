@@ -101,20 +101,14 @@ public class BillingController {
 
     EventForm eventForm = eventService.findById(billingDetailsForm.getEventId());
 
-//    1- Usun z billingsDetailsForm wszystkie ktore maja odzwierciedlnenie w BD ale nie sa zedytyowane
-//    2- Usun z eventu wszystkie które:
-//      *są w BillingDetailsForm z id
-//      i się różnią
-//
-    //Po tej metodzie usunę z billingDetailsForm wszystkie billingi ktore sa takie same w bazie danych
     billingDetailsForm.setBillingForms(billingDetailsForm
         .getBillingForms()
         .stream()
         .filter(billingForm->
-            !eventForm.getBillings().contains(billingForm))
+            !eventForm.getBillings().contains(billingForm)
+        )
         .collect(Collectors.toList()));
 
-    //W tej metodzie usunę wszystkie billingi w bazie danych ktore zostaly w BillingDetailsForms
     eventForm.deleteBillingsById(billingDetailsForm
         .getBillingForms()
         .stream()
@@ -126,13 +120,6 @@ public class BillingController {
         .stream()
         .forEach(billingForm ->
             billingForm.setDateOfEdition(LocalDateTime.now()));
-//    eventForm.setBillings(
-//        eventForm.getBillings()
-//        .stream()
-//        .forEach(billingForm -> billingForm.setDateOfEdition(LocalDateTime.now())).
-//        );
-
-//    eventForm.setBillings(eventForm.getBillings().stream().fo);
 
     eventService.save(eventForm);
     eventForm.getBillings().addAll(billingDetailsForm.getBillingForms());

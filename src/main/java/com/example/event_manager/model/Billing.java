@@ -2,6 +2,7 @@ package com.example.event_manager.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,8 +30,35 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 public class Billing {
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Billing billing = (Billing) o;
+    return confirmed == billing.confirmed &&
+        deleted == billing.deleted &&
+        Objects.equals(id, billing.id) &&
+        Objects.equals(title, billing.title) &&
+        Objects.equals(money, billing.money) &&
+        Objects.equals(personAssigned, billing.personAssigned) &&
+        Objects.equals(dateOfCreation, billing.dateOfCreation) &&
+        Objects.equals(dateOfEdition, billing.dateOfEdition) &&
+        Objects.equals(dateOfConfirm, billing.dateOfConfirm) &&
+        billingType == billing.billingType;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects
+        .hash(id, title, money, confirmed, deleted, personAssigned, dateOfCreation, dateOfEdition,
+            dateOfConfirm, billingType);
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

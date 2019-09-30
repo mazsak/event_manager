@@ -3,6 +3,7 @@ package com.example.event_manager.form;
 import com.example.event_manager.model.BillingType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 public class BillingForm implements Comparable<BillingForm> {
 
   private Long id;
@@ -54,4 +54,6 @@ public class BillingForm implements Comparable<BillingForm> {
     }
     return getDateOfCreation().compareTo(o.getDateOfCreation());
   }
+
+
 }
