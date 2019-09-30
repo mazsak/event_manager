@@ -21,7 +21,7 @@ UPDATE to_do_predefined SET name =  'Scrum methodology' WHERE id = 2;
 UPDATE to_do_predefined SET name =  'Shopping' WHERE id = 3;
 UPDATE to_do_predefined SET name =  'Managing speaker' WHERE id = 4;
 UPDATE to_do_predefined SET name =  'Decorating the room' WHERE id = 5;
-UPDATE to_do_predefined SET name =  'Prepare food' WHERE id = 6;
+UPDATE to_do_predefined SET name =  'Prepare food with minimum amount of time' WHERE id = 6;
 UPDATE to_do_predefined SET name =  'Event at university of technology' WHERE id = 7;
 
 
