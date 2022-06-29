@@ -21,7 +21,7 @@
     <spring.flyway.version>5.2.4</spring.flyway.version>
     <com.thoughtworks.xstream.version>1.4.11.1</com.thoughtworks.xstream.version>
     <org.apache.xmlgraphics.version>2.3</org.apache.xmlgraphics.version>
-    <org.apache.poi.version>4.0.1</org.apache.poi.version>
+    <org.apache.poi.version>4.1.1</org.apache.poi.version>
   </properties>
 
 	<dependencies>
